@@ -2,7 +2,8 @@
  * Refúgio Sensorial · Motor visual (Canvas 2D)
  *
  * 1) RefugioForma: forma orgânica de ~1.400 pontos de luz que ondula, gira e respira.
- * 2) RefugioNebulosa: céu de estrelas em espiral, uma por dia, com névoa de cor por semana.
+ * 2) RefugioNebulosa: céu de estrelas em espiral, uma por dia, cota com erro: NO script URL provided
+ * m névoa de cor por semana.
  *
  * No app, reimplementar com React Native Skia (Canvas + Points/Circle) e Reanimated
  * (useFrameCallback). A matemática abaixo é a referência. Ver 02-SDD.md, seção "Renderização".
