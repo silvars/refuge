@@ -11,7 +11,7 @@ jobs:
     name: Análise de qualidade
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           fetch-depth: 0 # histórico completo: melhora a relevância da análise
 
@@ -21,14 +21,14 @@ jobs:
 
       - name: Setup Node
         if: ${{ hashFiles('package.json') != '' }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 22
           cache: npm
 
       - name: Instalar dependências
         if: ${{ hashFiles('package.json') != '' }}
-        run: npm ci
+        run: npm ci --ignore-scripts
 
       - name: Testes com cobertura (lcov)
         if: ${{ hashFiles('package.json') != '' }}
@@ -36,6 +36,6 @@ jobs:
 
       - name: SonarQube Scan
         if: ${{ hashFiles('package.json') != '' }}
-        uses: SonarSource/sonarqube-scan-action@v8
+        uses: SonarSource/sonarqube-scan-action@d209202bc7d53ff1cc128f7f907dac145c9d6ae9 # v8
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

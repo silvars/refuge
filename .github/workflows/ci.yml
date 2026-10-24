@@ -10,7 +10,7 @@ jobs:
     name: Lint, typecheck e testes
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
 
       - name: App ainda não existe (pré-Fase 1)
         if: ${{ hashFiles('package.json') == '' }}
@@ -18,14 +18,14 @@ jobs:
 
       - name: Setup Node
         if: ${{ hashFiles('package.json') != '' }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 22
           cache: npm
 
       - name: Instalar dependências
         if: ${{ hashFiles('package.json') != '' }}
-        run: npm ci
+        run: npm ci --ignore-scripts
 
       - name: Lint
         if: ${{ hashFiles('package.json') != '' }}
@@ -41,7 +41,7 @@ jobs:
 
       - name: Guardar relatório de cobertura
         if: ${{ hashFiles('package.json') != '' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: coverage
           path: coverage/
