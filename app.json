@@ -8,7 +8,8 @@
     "scheme": "refugiosensorial",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/expo.icon"
+      "icon": "./assets/expo.icon",
+      "bundleIdentifier": "com.silvars.refugio-sensorial"
     },
     "android": {
       "adaptiveIcon": {
