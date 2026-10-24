@@ -1,0 +1,41 @@
+name: SonarQube Cloud
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  sonar:
+    name: Análise de qualidade
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0 # histórico completo: melhora a relevância da análise
+
+      - name: App ainda não existe (pré-Fase 1)
+        if: ${{ hashFiles('package.json') == '' }}
+        run: echo "Sem package.json ainda — nada a analisar até a Fase 1 do SDD (ver product/refugio-sensorial/02-sdd.md)."
+
+      - name: Setup Node
+        if: ${{ hashFiles('package.json') != '' }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependências
+        if: ${{ hashFiles('package.json') != '' }}
+        run: npm ci
+
+      - name: Testes com cobertura (lcov)
+        if: ${{ hashFiles('package.json') != '' }}
+        run: npm run test --if-present -- --coverage --coverageReporters=lcov
+
+      - name: SonarQube Scan
+        if: ${{ hashFiles('package.json') != '' }}
+        uses: SonarSource/sonarqube-scan-action@v8
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

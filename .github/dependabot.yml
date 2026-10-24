@@ -1,0 +1,38 @@
+version: 2
+
+updates:
+  # App dependencies (ativa sozinho assim que existir package.json, na Fase 1)
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+    versioning-strategy: increase-if-necessary
+    groups:
+      dependencias-menores:
+        update-types:
+          - "minor"
+          - "patch"
+    ignore:
+      # Expo/React Native/React só sobem via `npx expo install` coordenado (ver SDD, seção 2.1)
+      # nunca por PR automático do Dependabot, para não quebrar o alinhamento de versões do SDK.
+      - dependency-name: "expo"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react-native"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react-dom"
+        update-types: ["version-update:semver-major"]
+    commit-message:
+      prefix: "deps"
+
+  # Workflows do GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    commit-message:
+      prefix: "ci"

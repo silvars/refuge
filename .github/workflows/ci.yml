@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    name: Lint, typecheck e testes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: App ainda não existe (pré-Fase 1)
+        if: ${{ hashFiles('package.json') == '' }}
+        run: echo "Sem package.json ainda — nada a validar até a Fase 1 do SDD (ver product/refugio-sensorial/02-sdd.md)."
+
+      - name: Setup Node
+        if: ${{ hashFiles('package.json') != '' }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependências
+        if: ${{ hashFiles('package.json') != '' }}
+        run: npm ci
+
+      - name: Lint
+        if: ${{ hashFiles('package.json') != '' }}
+        run: npm run lint --if-present
+
+      - name: Checar tipos
+        if: ${{ hashFiles('package.json') != '' }}
+        run: npm run typecheck --if-present
+
+      - name: Testes com cobertura
+        if: ${{ hashFiles('package.json') != '' }}
+        run: npm run test --if-present -- --coverage
+
+      - name: Guardar relatório de cobertura
+        if: ${{ hashFiles('package.json') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage/
+          retention-days: 7

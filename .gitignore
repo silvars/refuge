@@ -4,3 +4,21 @@ node_modules/
 __pycache__/
 *.pyc
 .env
+
+# Expo / React Native (a partir da Fase 1)
+.expo/
+.expo-shared/
+dist/
+web-build/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+ios/Pods/
+android/.gradle/
+android/app/build/
+
+# Ferramentas de qualidade
+coverage/
+.sonar/

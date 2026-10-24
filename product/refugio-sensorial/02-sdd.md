@@ -24,29 +24,62 @@
 
 ## 2. Stack
 
-| Camada | Biblioteca | Uso |
-| --- | --- | --- |
-| Base | Expo SDK (versão estável atual), React Native, TypeScript estrito | — |
-| Navegação | expo-router (stack) | Telas e deep links dos lembretes |
-| Estado | zustand (+ persistência própria no SQLite) | Estado de sessão e preferências |
-| Gráficos | @shopify/react-native-skia | Degradês compostos, forma de pontos, Nebulosa, vidro (BackdropBlur) |
-| Animação | react-native-reanimated | Transições de tela/pergunta, interpolação de cor, `useFrameCallback` |
-| Áudio | react-native-audio-api | Motor de som em tempo real |
-| Háptico | expo-haptics | Toques ao responder e ao revelar o clima |
-| Notificações | expo-notifications (somente locais) | Lembretes e mensagens de apoio |
-| Contatos | expo-contacts (`presentContactPickerAsync`) ou módulo nativo do picker | Escolher 1 contato sem ler a agenda |
-| Telefone | libphonenumber-js | Normalização E.164 |
-| Banco | op-sqlite com SQLCipher | Histórico local criptografado |
-| Segredos | expo-secure-store | Chave do banco (Keychain/Keystore) |
-| Biometria | expo-local-authentication | Bloqueio opcional do app |
-| Fontes | expo-font + @expo-google-fonts/urbanist e /roboto | Tipografia |
-| Conteúdo | JSON empacotado (fallback offline) + jsDelivr sobre o repositório público (atualização em background) | Frases e perguntas atualizáveis sem nova versão de loja e sem servidor próprio (ver seção 16) |
-| Conteúdo (cache local) | expo-file-system | Guarda a versão mais recente do conteúdo baixada do CDN |
-| Idioma | i18next + react-i18next | Catálogo de UI e seleção de texto do conteúdo dinâmico por locale |
-| Idioma (detecção) | expo-localization | Locale do aparelho no primeiro uso |
-| Testes | Jest (lógica), React Native Testing Library, Maestro (E2E) | — |
+Versões checadas no registry do npm em **24/10/2026** — ver nota de atualização abaixo antes de instalar.
 
-> Confirmar versões compatíveis com o SDK Expo no momento da criação do projeto. Pinar versões exatas.
+| Camada | Biblioteca | Versão atual | Uso |
+| --- | --- | --- | --- |
+| Base | Expo SDK | 58 (`58.0.19`) | Gerenciado (development build, não Expo Go — ver acima) |
+| Base | react-native | `0.88.0` | Vem pinado pelo Expo SDK 58 |
+| Base | react | `19.3.1` | Vem pinado pelo Expo SDK 58 |
+| Base | typescript | `7.0.2` (estrito) | Compilador novo (porta nativa, bem mais rápido que o 5.x) |
+| Navegação | expo-router | `58.0.26` | Telas e deep links dos lembretes |
+| Estado | zustand | `5.0.16` | Estado de sessão e preferências |
+| Gráficos | @shopify/react-native-skia | `2.14.0` | Degradês compostos, forma de pontos, Nebulosa, vidro (BackdropBlur) |
+| Animação | react-native-reanimated | `4.7.1` | Transições de tela/pergunta, interpolação de cor, `useFrameCallback` |
+| Áudio | react-native-audio-api | `0.13.6` (pré-1.0) | Motor de som em tempo real — validar na Fase 0 antes de confiar (ver saída de emergência acima) |
+| Háptico | expo-haptics | `58.0.7` | Toques ao responder e ao revelar o clima |
+| Notificações | expo-notifications (somente locais) | `58.1.6` | Lembretes e mensagens de apoio |
+| Contatos | expo-contacts (`presentContactPickerAsync`) | `58.0.9` | Escolher 1 contato sem ler a agenda |
+| Telefone | libphonenumber-js | `1.13.15` | Normalização E.164 |
+| Banco | @op-engineering/op-sqlite com SQLCipher | `18.2.5` | Histórico local criptografado |
+| Segredos | expo-secure-store | `58.0.2` | Chave do banco (Keychain/Keystore) |
+| Biometria | expo-local-authentication | `58.0.2` | Bloqueio opcional do app |
+| Fontes | expo-font + @expo-google-fonts/urbanist e /roboto | `58.0.10` | Tipografia |
+| Conteúdo | JSON empacotado (fallback offline) + jsDelivr sobre o repositório público (atualização em background) | — | Frases e perguntas atualizáveis sem nova versão de loja e sem servidor próprio (ver seção 16) |
+| Conteúdo (cache local) | expo-file-system | `58.0.11` | Guarda a versão mais recente do conteúdo baixada do CDN |
+| Idioma | i18next + react-i18next | `26.5.10` / `17.1.8` | Catálogo de UI e seleção de texto do conteúdo dinâmico por locale |
+| Idioma (detecção) | expo-localization | `58.0.5` | Locale do aparelho no primeiro uso |
+| Lint/format | eslint + eslint-config-expo + prettier | `10.13.0` / `58.0.4` / `3.9.10` | Padrão de código, checado no CI (seção 2.1) |
+| Testes | jest + jest-expo | `30.5.2` / `58.0.12` | Testes unitários/componente |
+| Testes | @testing-library/react-native | `14.1.0` | Testes de componente |
+| Testes (E2E) | Maestro CLI | `2.11.0` | Fluxos completos (onboarding, check-in, Porto Seguro) |
+| Build/CI | eas-cli | `25.3.0` | Builds nativos e EAS Update (quando aplicável) |
+
+> **Nota de atualização:** não instale essas versões à mão. Ao criar o projeto na Fase 1, use `npx create-expo-app` seguido de `npx expo install <pacote>` para cada dependência — o Expo resolve automaticamente a versão compatível com o SDK instalado (pode ser diferente do último lançamento do npm). Rode `npx expo install --check` periodicamente para alinhar. Para libs fora do ecossistema Expo (zustand, libphonenumber-js, i18next, etc.), `npm view <pacote> version` ou o Dependabot (seção 2.1) indicam a versão mais nova.
+
+---
+
+## 2.1 Qualidade, CI/CD e segurança de dependências
+
+Repositório público (`github.com/silvars/refuge`) — isso dá acesso gratuito ao SonarQube Cloud e ao GitHub Actions sem custo. Config já commitada no repositório (ativa de verdade a partir da Fase 1, quando existir `package.json`):
+
+| Ferramenta | Arquivo | O que faz |
+| --- | --- | --- |
+| Dependabot | `.github/dependabot.yml` | PR semanal agrupando atualizações menores/patch de `npm` e de `github-actions`; **nunca** abre PR de major de `expo`/`react-native`/`react` automaticamente |
+| CI | `.github/workflows/ci.yml` | lint + checagem de tipos + testes com cobertura em cada push/PR; pula graciosamente até existir `package.json` |
+| SonarQube Cloud | `.github/workflows/sonarqube.yml` + `sonar-project.properties` | Análise de qualidade/segurança (bugs, code smells, vulnerabilidades, cobertura) em cada push/PR via `SonarSource/sonarqube-scan-action@v8` |
+
+**Passos manuais (fora do alcance do agente, precisam da sua conta):**
+1. Criar conta em [sonarcloud.io](https://sonarcloud.io) com login do GitHub, importar o repositório `silvars/refuge`.
+2. Conferir se a organização/`projectKey` geradas batem com `sonar-project.properties` (hoje: `silvars` / `silvars_refuge`); ajustar se o SonarQube Cloud sugerir outra chave.
+3. Gerar um token e salvar como secret `SONAR_TOKEN` em *Settings → Secrets and variables → Actions* do repositório.
+4. (Opcional) Configurar o quality gate para bloquear merge de PR que não passar — adicionar `sonar.qualitygate.wait=true` em `sonar-project.properties` faz o workflow falhar quando o quality gate reprovar.
+
+**Política de atualização de dependências:**
+- Patches e minors (qualquer lib): Dependabot abre PR agrupado semanalmente; CI + Sonar validam antes do merge.
+- Majors de libs comuns (zustand, libphonenumber-js, i18next, etc.): Dependabot propõe, revisão manual antes do merge.
+- Majors de `expo`/`react-native`/`react`: **nunca** via Dependabot — seguir o guia oficial de upgrade do Expo (`npx expo install --check`, changelog do SDK) em um PR dedicado, testado manualmente nas duas plataformas antes do merge.
+- Nenhuma dependência nova entra no projeto sem necessidade clara; preferir o que já está na seção 2 antes de adicionar biblioteca nova.
 
 ---
 
