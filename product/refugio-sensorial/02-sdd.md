@@ -40,7 +40,8 @@
 | Segredos | expo-secure-store | Chave do banco (Keychain/Keystore) |
 | Biometria | expo-local-authentication | Bloqueio opcional do app |
 | Fontes | expo-font + @expo-google-fonts/urbanist e /roboto | Tipografia |
-| Conteúdo | JSON empacotado + EAS Update (OTA) | Frases e perguntas sem nova versão de loja |
+| Conteúdo | JSON empacotado (fallback offline) + jsDelivr sobre o repositório público (atualização em background) | Frases e perguntas atualizáveis sem nova versão de loja e sem servidor próprio (ver seção 16) |
+| Conteúdo (cache local) | expo-file-system | Guarda a versão mais recente do conteúdo baixada do CDN |
 | Idioma | i18next + react-i18next | Catálogo de UI e seleção de texto do conteúdo dinâmico por locale |
 | Idioma (detecção) | expo-localization | Locale do aparelho no primeiro uso |
 | Testes | Jest (lógica), React Native Testing Library, Maestro (E2E) | — |
@@ -92,7 +93,7 @@ src/
     db.ts                     # abertura do SQLite com chave do secure-store
     migracoes.ts
     repositorios.ts
-  conteudo/                   # cópia de ../conteudo/*.json + validação de esquema
+  conteudo/                   # ver seção 16: bundled/ (fallback offline) + index.ts (fachada) + remoto.ts (fetch CDN) + esquema.ts (validação)
   i18n/
     index.ts                 # init do i18next, detecção de locale, troca em runtime
     locales/
@@ -369,7 +370,8 @@ async function abrirMensagem(e164: string, texto: string): Promise<'whatsapp' | 
 | Componente | Check-in: fases bloqueiam toques; voltar preserva resposta; pausa escolhe tipo pelo estado |
 | E2E (Maestro) | Onboarding completo; check-in → resultado → principal; Porto Seguro até abrir app externo; Ajuda a partir de 3 telas; apagar tudo |
 | i18n (Jest) | `textoLocalizado.ts` (fallback para pt-BR quando falta tradução, nunca retorna vazio/null), troca de idioma reflete no `lang` do app, seleção de frases nunca escolhe entrada pendente no idioma ativo |
-| Manual | Som com fone, interrupções por ligação, reduzir movimento, leitor de tela (VoiceOver/TalkBack) nos 4 idiomas, fonte grande, aparelho Android intermediário (fps) |
+| Conteúdo remoto (Jest) | `remoto.ts`: ignora payload com esquema inválido; não sobrescreve local quando `versao` remota não é maior; nunca lança exceção sem rede (offline simulado); `index.ts` nunca bloqueia leitura esperando o fetch |
+| Manual | Som com fone, interrupções por ligação, reduzir movimento, leitor de tela (VoiceOver/TalkBack) nos 4 idiomas, fonte grande, aparelho Android intermediário (fps), abrir o app em modo avião após instalar (conteúdo bundled deve funcionar) |
 
 ---
 
@@ -378,7 +380,7 @@ async function abrirMensagem(e164: string, texto: string): Promise<'whatsapp' | 
 | Fase | Entrega | Pronto quando |
 | --- | --- | --- |
 | **0. Provas de conceito (primeiro!)** | (a) Motor de áudio em `react-native-audio-api` com as 3 camadas e crossfade; (b) Forma de pontos em Skia a 55+ fps | Áudio estável 10 min, sobrevive a ligação e à troca de app; forma fluida no Android intermediário |
-| 1. Fundação + i18n | Projeto Expo, tokens, fontes, FundoClima, Vidro, banco criptografado, store, **infraestrutura de i18n** (i18next, detecção de locale, reestruturação dos `conteudo/*.json` multi-locale, troca de idioma em Ajustes) | Fundo muda por mistura com transição de 2,8 s; trocar o idioma em Ajustes muda a UI inteira na hora |
+| 1. Fundação + i18n + conteúdo dinâmico | Projeto Expo, tokens, fontes, FundoClima, Vidro, banco criptografado, store, **infraestrutura de i18n** (i18next, detecção de locale, reestruturação dos `conteudo/*.json` multi-locale, troca de idioma em Ajustes), **carregador de conteúdo** (`src/conteudo/`: bundled + fetch via jsDelivr + cache em FileSystem, ver seção 16) | Fundo muda por mistura com transição de 2,8 s; trocar o idioma em Ajustes muda a UI inteira na hora; app abre e funciona sem internet usando o conteúdo empacotado |
 | 2. Check-in | Perguntas, embaralhamento, transições, pausa, etiquetas, resultado, háptico — todos os textos via i18n | Fluxo completo grava check-in nos 4 idiomas |
 | 3. Principal + Ajuda | Tela principal, banners (esmaecido, sequência), botão Ajuda global, tela de ajuda | Ajuda acessível em 1 toque de qualquer tela, nos 4 idiomas |
 | 4. Porto Seguro | Mensagem por clima, edição, picker, WhatsApp/SMS, acolhimento, respiro | Envio real para WhatsApp e fallback SMS, mensagem no idioma ativo |
@@ -389,7 +391,7 @@ async function abrirMensagem(e164: string, texto: string): Promise<'whatsapp' | 
 
 **Definição de pronto (cada tela):** valores conferidos com os JSONs; funciona sem som e sem vibração; leitor de tela anuncia o essencial; reduzir movimento respeitado; nenhum dado emocional sai do aparelho; nenhum texto hardcoded fora do i18n.
 
-> A Fase 7 (tradução de conteúdo) pode rodar em paralelo às Fases 2–6 assim que a infraestrutura da Fase 1 estiver pronta — a estrutura técnica não depende do texto final estar pronto, já que todo campo multi-locale tem fallback para pt-BR.
+> A Fase 7 (tradução de conteúdo) pode rodar em paralelo às Fases 2–6 assim que a infraestrutura da Fase 1 estiver pronta — a estrutura técnica não depende do texto final estar pronto, já que todo campo multi-locale tem fallback para pt-BR. Publicar uma tradução nova é só editar o JSON em `product/refugio-sensorial/conteudo/`, subir a versão e dar `git push` (seção 16.4) — não exige nova build do app.
 
 ---
 
@@ -472,3 +474,83 @@ Ver especificação seção 16.3–16.4 para as versões por idioma. No schema, 
 ### 15.5 O que não é i18n
 
 Números de ajuda (CVV/SAMU), regras do motor de clima, pesos, tempos de animação e cores **não variam por idioma** (ver especificação, seção 16.6).
+
+---
+
+## 16. Entrega de conteúdo (sem servidor próprio)
+
+**Problema:** `conteudo/*.json` (perguntas, frases, mensagens, etc.) precisa ser fácil de editar e publicar sem passar por uma nova versão de loja, mas o app **não tem servidor nem banco remoto** (seção 11 da especificação). Solução: usar o próprio repositório Git (público) como fonte estática, com fallback total offline.
+
+### 16.1 As 3 camadas
+
+| Camada | O que é | Quando é usada |
+| --- | --- | --- |
+| **1. Fonte de verdade** | `product/refugio-sensorial/conteudo/*.json`, versionado no Git | Onde você/o agente edita conteúdo |
+| **2. Empacotado no app (bundled)** | Cópia de build-time dentro do app, importada direto pelo JS (`import estados from './conteudo/bundled/estados.json'`) | Sempre disponível, garante que o app funciona **sem internet desde a primeira instalação** |
+| **3. Remoto (CDN gratuito)** | Mesmos arquivos servidos via [jsDelivr](https://www.jsdelivr.com/) apontando para o repositório público: `https://cdn.jsdelivr.net/gh/silvars/refuge@main/product/refugio-sensorial/conteudo/<arquivo>.json` | Checado em background na abertura do app; se tiver versão mais nova, baixa e passa a valer |
+
+Não existe banco de dados nem servidor próprio: o GitHub serve os arquivos crus, o jsDelivr só faz cache/CDN na frente (gratuito, sem conta, sem chave de API).
+
+### 16.2 Fluxo de leitura no app
+
+```
+abrir app
+  → ler conteúdo de: cache local (FileSystem) se existir, senão bundled
+  → renderizar a tela imediatamente com isso (nunca espera rede)
+  → em paralelo, em background: buscar versao de cada JSON no CDN
+      → se versao remota > versao local conhecida:
+          → baixar o JSON novo
+          → validar esquema (idiomas, chaves esperadas, nada de HTML/script)
+          → se válido: salvar em FileSystem e marcar como "versão ativa"
+          → se inválido ou falhar (sem internet, erro 404, JSON quebrado): ignorar silenciosamente, continuar com o que já tinha
+  → próxima abertura do app (ou próxima tela que lê aquele conteúdo) já usa a versão nova
+```
+
+- **Nunca** bloqueia a tela esperando a rede. O fetch é best-effort, silencioso, sem spinner.
+- **Nunca** quebra o app com conteúdo remoto malformado — esquema inválido é descartado, loga localmente (sem enviar a lugar nenhum).
+- Nenhum dado pessoal/emocional é enviado nesse fetch — é um `GET` anônimo de um arquivo público; não conflita com a seção 11 (privacidade) da especificação.
+
+### 16.3 Implementação (`src/conteudo/`)
+
+```
+src/conteudo/
+  bundled/                   # cópia espelhada de product/refugio-sensorial/conteudo/*.json
+  index.ts                   # fachada: getEstados(), getPerguntas(), getFrases(), ... com a cadeia de fallback
+  remoto.ts                  # fetch + comparação de `versao` + gravação em FileSystem
+  esquema.ts                 # validação (zod ou checagem manual das chaves/idiomas esperados)
+```
+
+```ts
+// remoto.ts (esboço)
+const BASE = 'https://cdn.jsdelivr.net/gh/silvars/refuge@main/product/refugio-sensorial/conteudo';
+
+async function atualizarSeNecessario(arquivo: string): Promise<void> {
+  try {
+    const remoto = await fetch(`${BASE}/${arquivo}.json`).then(r => r.json());
+    if (!validaEsquema(arquivo, remoto)) return;
+    const local = await lerVersaoLocal(arquivo);
+    if (compareVersoes(remoto.versao, local) > 0) {
+      await FileSystem.writeAsStringAsync(caminhoLocal(arquivo), JSON.stringify(remoto));
+    }
+  } catch {
+    // offline ou CDN fora do ar: silenciosamente mantém o que já tem
+  }
+}
+```
+
+- `index.ts` expõe `getEstados()` etc. que leem **sempre** do FileSystem se existir, senão do `bundled/`; nunca chamam rede diretamente (quem chama rede é `remoto.ts`, de forma assíncrona e desacoplada da leitura).
+- Script `scripts/sync-conteudo.js` (ou npm script `prebuild`) copia `product/refugio-sensorial/conteudo/*.json` para `src/conteudo/bundled/` antes de cada build — mantém uma única fonte editável (`product/`), sem duplicar manualmente.
+
+### 16.4 Publicar conteúdo novo (runbook)
+
+1. Editar o(s) arquivo(s) em `product/refugio-sensorial/conteudo/`.
+2. Incrementar o campo `"versao"` do(s) arquivo(s) alterado(s) (ex. `"2.0"` → `"2.1"`).
+3. Commit + `git push` para `main`.
+4. (Opcional, acelera a propagação — jsDelivr cacheia por até ~7 dias em `@main`) Purgar o cache: `curl https://purge.jsdelivr.net/gh/silvars/refuge@main/product/refugio-sensorial/conteudo/<arquivo>.json`.
+5. Quem tiver internet recebe o conteúdo novo na próxima abertura do app; sem internet, continua no conteúdo anterior (cache ou bundled) sem erro nenhum.
+
+**Alternativa mais previsível de cache:** apontar para uma **tag/release Git** em vez de `@main` (ex. `@conteudo-2026-10-24`) e mover a tag a cada publicação — evita qualquer espera de cache do jsDelivr, ao custo de mais um passo manual (criar a tag).
+
+### 16.5 Por que não EAS Update aqui
+
+EAS Update (OTA do Expo) atualiza o **bundle JS inteiro** (código + o que estiver importado nele), é a ferramenta certa para correções de bug/lógica sem passar pela loja. Para *só conteúdo*, é mais pesado que o necessário e acopla uma mudança de texto a uma nova versão de bundle. O mecanismo desta seção é independente do EAS Update; os dois podem coexistir (EAS Update para código, CDN de `conteudo/` para texto).
