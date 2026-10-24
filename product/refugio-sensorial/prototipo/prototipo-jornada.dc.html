@@ -1,0 +1,1198 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Refúgio Sensorial — protótipo</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600&amp;family=Roboto:wght@300;400;500&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#0033C6}a:hover{color:#00299E}
+button{cursor:pointer;font-family:'Roboto','Helvetica Neue',Arial,sans-serif}
+button:focus-visible{outline:3px solid #7FA8FF;outline-offset:2px}
+@keyframes breathe{0%,100%{transform:scale(0.82);opacity:0.7}50%{transform:scale(1.08);opacity:1}}
+@keyframes earL{0%,100%{opacity:1;transform:scale(1.1)}50%{opacity:0.25;transform:scale(0.9)}}
+@keyframes earR{0%,100%{opacity:0.25;transform:scale(0.9)}50%{opacity:1;transform:scale(1.1)}}
+@keyframes bar{0%,100%{transform:scaleY(0.35)}50%{transform:scaleY(1)}}
+@keyframes screenIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.screen-in{animation:screenIn 700ms cubic-bezier(0.25,0.6,0.3,1) both}
+@keyframes qinA{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes qinB{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.qin-a{animation:qinA 550ms cubic-bezier(0.25,0.6,0.3,1) both}.qin-b{animation:qinB 550ms cubic-bezier(0.25,0.6,0.3,1) both}
+.oin-a{animation:qinA 800ms cubic-bezier(0.25,0.6,0.3,1) both}.oin-b{animation:qinB 800ms cubic-bezier(0.25,0.6,0.3,1) both}
+@keyframes wA{from{opacity:0;transform:translateY(6px);filter:blur(5px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes wB{from{opacity:0;transform:translateY(6px);filter:blur(5px)}to{opacity:1;transform:none;filter:blur(0)}}
+.w-a{animation:wA 900ms ease both}.w-b{animation:wB 900ms ease both}
+@media (prefers-reduced-motion: reduce){.w-a,.w-b{animation:none}}
+@media (prefers-reduced-motion: reduce){.qin-a,.qin-b,.oin-a,.oin-b{animation:none}}
+@media (prefers-reduced-motion: reduce){.screen-in{animation:none}}
+.breathe{animation:breathe 6s ease-in-out infinite}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.fade-1,.fade-2,.fade-3,.fade-4{opacity:0;animation:fadeUp 1.4s ease forwards}
+.fade-1{animation-delay:0.4s}.fade-2{animation-delay:1.8s}.fade-3{animation-delay:3.2s}.fade-4{animation-delay:4.2s}
+@media (prefers-reduced-motion: reduce){.fade-1,.fade-2,.fade-3,.fade-4{animation:none;opacity:1}}
+@keyframes ripple{0%{transform:scale(0.3);opacity:0}20%{opacity:0.85}100%{transform:scale(1.3);opacity:0}}
+.ripple{animation:ripple 6s cubic-bezier(0.25,0.6,0.35,1) infinite}
+@media (prefers-reduced-motion: reduce){.ripple{animation:none;opacity:0.5}}
+@keyframes guided{0%{transform:scale(0.6)}40%{transform:scale(1.15)}55%{transform:scale(1.15)}100%{transform:scale(0.6)}}
+.guided{animation:guided 11s ease-in-out infinite}
+@keyframes gT{0%{transform:scale(0.6)}36%{transform:scale(1.15)}100%{transform:scale(0.6)}}
+@keyframes gN{0%{transform:scale(0.6)}50%{transform:scale(1.15)}100%{transform:scale(0.6)}}
+@keyframes inT{0%{opacity:0}3%,33%{opacity:1}37%,100%{opacity:0}}
+@keyframes outT{0%,36%{opacity:0}40%,95%{opacity:1}100%{opacity:0}}
+@keyframes inN{0%{opacity:0}4%,46%{opacity:1}50%,100%{opacity:0}}
+@keyframes outN{0%,50%{opacity:0}54%,96%{opacity:1}100%{opacity:0}}
+.guided-t{animation:gT 11s ease-in-out infinite}
+.guided-n{animation:gN 10s ease-in-out infinite}
+.guided-c{animation:gN 8s ease-in-out infinite}
+.label-in-t{animation:inT 11s linear infinite}.label-out-t{animation:outT 11s linear infinite}
+.label-in-n{animation:inN 10s linear infinite}.label-out-n{animation:outN 10s linear infinite}
+.label-in-c{animation:inN 8s linear infinite}.label-out-c{animation:outN 8s linear infinite}
+@media (prefers-reduced-motion: reduce){.guided-t,.guided-n,.guided-c,.label-in-t,.label-in-n,.label-in-c,.label-out-t,.label-out-n,.label-out-c{animation:none}.label-out-t,.label-out-n,.label-out-c{opacity:0}}
+@keyframes guidedIn{0%,55%,100%{opacity:0}5%,35%{opacity:1}}
+@keyframes guidedOut{0%,50%{opacity:0}60%,95%{opacity:1}100%{opacity:0}}
+.label-in{animation:guidedIn 11s linear infinite}
+.label-out{animation:guidedOut 11s linear infinite}
+@media (prefers-reduced-motion: reduce){.guided,.label-in,.label-out{animation:none}.label-out{opacity:0}}
+.ear-l{animation:earL 2.4s ease-in-out infinite}
+.ear-r{animation:earR 2.4s ease-in-out infinite}
+.bar{transform-origin:bottom;animation:bar 1.4s ease-in-out infinite}
+@media (prefers-reduced-motion: reduce){.breathe,.ear-l,.ear-r,.bar{animation:none}}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #0E0E14; font-family: 'Roboto','Helvetica Neue',Arial,sans-serif">
+
+<div aria-hidden="true" style="position: absolute; inset: 0; background: #0E0E14; opacity: {{ bg.neutral }}; transition: opacity 2800ms cubic-bezier(0.45,0,0.25,1)"></div>
+<div aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(165deg,#16253D 0%,#24395A 55%,#48573D 100%); opacity: {{ bg.tempestade }}; transition: opacity 2800ms cubic-bezier(0.45,0,0.25,1)"></div>
+<div aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(165deg,#4B3E72 0%,#7D6699 55%,#B48EA6 100%); opacity: {{ bg.nevoa }}; transition: opacity 2800ms cubic-bezier(0.45,0,0.25,1)"></div>
+<div aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(165deg,#F4EDCB 0%,#E1EDCB 55%,#C6DEBA 100%); opacity: {{ bg.clareira }}; transition: opacity 2800ms cubic-bezier(0.45,0,0.25,1)"></div>
+<div aria-hidden="true" style="position: absolute; inset: 0; background: #3A3A44; opacity: {{ staleOverlay }}; transition: opacity 2800ms cubic-bezier(0.45,0,0.25,1)"></div>
+
+<div style="position: absolute; inset: 0; display: flex; flex-direction: column; color: {{ ink }}; transition: color 1600ms ease">
+
+<sc-if value="{{ show.topbar }}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 20px 20px 0 20px; min-height: 48px">
+<div style="width: 44px; height: 44px">
+<sc-if value="{{ show.back }}" hint-placeholder-val="{{ false }}">
+<button onClick="{{ back }}" aria-label="Voltar" style="width: 44px; height: 44px; border-radius: 999px; border: none; background: transparent; color: {{ ink }}; display: flex; align-items: center; justify-content: center; padding: 0">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+</button>
+</sc-if>
+</div>
+<div style="display: flex; gap: 8px; align-items: center">
+<sc-if value="{{ show.settings }}" hint-placeholder-val="{{ false }}">
+<button onClick="{{ goAjustes }}" aria-label="Ajustes" style="width: 44px; height: 44px; border-radius: 999px; border: none; background: transparent; color: {{ ink }}; display: flex; align-items: center; justify-content: center; padding: 0">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="18" x2="20" y2="18"></line><circle cx="9" cy="6" r="2" fill="currentColor"></circle><circle cx="15" cy="12" r="2" fill="currentColor"></circle><circle cx="8" cy="18" r="2" fill="currentColor"></circle></svg>
+</button>
+</sc-if>
+<button onClick="{{ openHelp }}" aria-label="Preciso de ajuda agora" style="height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid {{ hair }}; background: {{ glass }}; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: {{ ink }}; font-size: 14px; font-weight: 500; display: flex; gap: 8px; align-items: center">
+<span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 999px; background: #E71A3B"></span>
+Ajuda
+</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ show.welcome }}" hint-placeholder-val="{{ true }}">
+<div class="screen-in" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 40px; padding: 0 32px 48px 32px; text-align: center">
+<canvas ref="{{ blobRef }}" aria-hidden="true" style="width: 280px; height: 280px"></canvas>
+<div style="display: flex; flex-direction: column; gap: 16px">
+<h1 style="margin: 0; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 32px; line-height: 1.3; font-weight: 300; letter-spacing: 0.2px; color: #FCFCFC">Um espaço para ser você.<br><span style="color: #C9C7C0">Seu refúgio.</span></h1>
+<p style="margin: 0; font-size: 14px; line-height: 1.5; color: #C9C7C0">O Refúgio não faz diagnóstico nem substitui ajuda profissional.</p>
+</div>
+<button onClick="{{ goContent }}" style="height: 52px; padding: 0 32px; border-radius: 999px; border: 1px solid {{ hair }}; background: {{ glassStrong }}; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: {{ ink }}; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 17px; font-weight: 500">Vamos desacelerar?</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ show.content }}" hint-placeholder-val="{{ false }}">
+<div class="screen-in" style="flex: 1; display: flex; flex-direction: column; gap: 24px; padding: 16px 24px 32px 24px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<p style="margin: 0; font-size: 13px; color: #C9C7C0">Passo 1 de 3</p>
+<h1 style="margin: 0; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 28px; font-weight: 300; color: #FCFCFC; letter-spacing: 0.2px">O que te faz bem ler?</h1>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: #C9C7C0">Escolha uma ou mais. Dá para mudar depois em Ajustes.</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<sc-for list="{{ lineOptions }}" as="opt" hint-placeholder-count="3">
+<button onClick="{{ opt.toggle }}" role="checkbox" aria-checked="{{ opt.pressed }}" style="{{ opt.cardStyle }}">
+<div style="display: flex; flex-direction: column; gap: 4px; text-align: left">
+<span style="font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 18px; font-weight: 500; color: {{ ink }}">{{ opt.title }}</span>
+<span style="font-size: 14px; line-height: 1.4; color: {{ subInk }}">{{ opt.sub }}</span>
+</div>
+<span style="{{ opt.checkStyle }}">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"></path></svg>
+</span>
+</button>
+</sc-for>
+</div>
+<div style="flex: 1"></div>
+<button onClick="{{ goSound }}" style="height: 52px; border-radius: 999px; border: 1px solid {{ hair }}; background: {{ glassStrong }}; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: {{ ink }}; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 17px; font-weight: 500">Continuar</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ show.sound }}" hint-placeholder-val="{{ false }}">
+<div class="screen-in" style="flex: 1; display: flex; flex-direction: column; gap: 24px; padding: 16px 24px 32px 24px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<p style="margin: 0; font-size: 13px; color: #C9C7C0">Passo 2 de 3</p>
+<h1 style="margin: 0; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 28px; font-weight: 300; color: #FCFCFC; letter-spacing: 0.2px">Coloque fones, se tiver</h1>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: #C9C7C0">O som ajuda a desacelerar, mas é opcional. O app funciona igual sem ele.</p>
+</div>
+<div style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 56px">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 12px">
+<div class="ear-l" aria-hidden="true" style="width: 72px; height: 72px; border-radius: 999px; border: 2px solid #FCFCFC; background: rgba(252,252,252,0.12)"></div>
+<span style="font-size: 14px; color: #FCFCFC">Esquerdo</span>
+</div>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 12px">
+<div class="ear-r" aria-hidden="true" style="width: 72px; height: 72px; border-radius: 999px; border: 2px solid #FCFCFC; background: rgba(252,252,252,0.12)"></div>
+<span style="font-size: 14px; color: #FCFCFC">Direito</span>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<button onClick="{{ soundOn }}" style="height: 52px; border-radius: 999px; border: 1px solid {{ hair }}; background: {{ glassStrong }}; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: {{ ink }}; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 17px; font-weight: 500">Pronto, estou ouvindo</button>
+<button onClick="{{ soundOff }}" style="height: 52px; border-radius: 999px; border: 1px solid rgba(252,252,252,0.6); background: transparent; color: #FCFCFC; font-size: 16px; font-weight: 500">Usar sem som</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ show.quiz }}" hint-placeholder-val="{{ false }}">
+<div class="screen-in" style="flex: 1; display: flex; flex-direction: column; gap: 24px; padding: 16px 24px 32px 24px">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; gap: 8px; align-items: center">
+<div aria-hidden="true" style="width: 96px; height: 2px; border-radius: 2px; background: {{ hair }}; overflow: hidden"><div style="height: 100%; width: {{ progressPct }}; background: {{ ink }}; transition: width 700ms ease"></div></div>
+<span style="margin-left: 4px; font-size: 13px; color: {{ subInk }}">{{ quizLabel }}</span>
+</div>
+</div>
+<div class="{{ qEnter }}">
+<div style="{{ qLeave }}">
+<h1 style="margin: 0 0 24px 0; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 26px; line-height: 1.25; font-weight: 300; letter-spacing: 0.2px" aria-label="{{ question.text }}"><sc-for list="{{ question.words }}" as="wd" hint-placeholder-count="8"><span class="{{ wd.cls }}" aria-hidden="true" style="display: inline-block; margin-right: 0.26em; animation-delay: {{ wd.delay }}">{{ wd.t }}</span></sc-for></h1>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<sc-for list="{{ question.options }}" as="o" hint-placeholder-count="3">
+<div class="{{ o.enter }}" style="animation-delay: {{ o.delay }}">
+<button onClick="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+<div style="flex: 1"></div>
+<sc-if value="{{ soundVisible }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; align-items: center; gap: 10px; font-size: 13px; color: {{ subInk }}">
+<div aria-hidden="true" style="display: flex; align-items: flex-end; gap: 3px; height: 16px">
+<span class="bar" style="width: 3px; height: 16px; border-radius: 2px; background: currentColor"></span>
+<span class="bar" style="width: 3px; height: 16px; border-radius: 2px; background: currentColor; animation-delay: 0.2s"></span>
+<span class="bar" style="width: 3px; height: 16px; border-radius: 2px; background: currentColor; animation-delay: 0.4s"></span>
+<span class="bar" style="width: 3px; height: 16px; border-radius: 2px; background: currentColor; animation-delay: 0.6s"></span>
+</div>
+<span>{{ soundLabel }}</span>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ show.ready }}" hint-placeholder-val="{{ false }}">
+<div class="screen-in" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 32px; padding: 0 32px 48px 32px; text-align: center">
+<canvas ref="{{ blobReady }}" aria-hidden="true" style="width: 220px; height: 220px"></canvas>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<p class="fade-1" style="margin: 0; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 24px; line-height: 1.3; font-weight: 300; letter-spacing: 0.2px; color: {{ subInk }}">Se acomode.</p>
+<p class="fade-2" style="margin: 0; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 24px; line-height: 1.3; font-weight: 300; letter-spacing: 0.2px; color: {{ subInk }}">Respire fundo.</p>
+<p class="fade-3" style="margin: 0; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 32px; line-height: 1.3; font-weight: 300; letter-spacing: 0.2px">Vamos começar?</p>
+</div>
+<button class="fade-4" onClick="{{ beginQuiz }}" style="height: 52px; padding: 0 40px; border-radius: 999px; border: 1px solid {{ hair }}; background: {{ glassStrong }}; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: {{ ink }}; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 17px; font-weight: 500">Começar</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ show.breath }}" hint-placeholder-val="{{ false }}">
+<div class="screen-in" style="flex: 1; display: flex; flex-direction: column; gap: 20px; padding: 8px 24px 32px 24px">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<p style="margin: 0; font-size: 13px; color: {{ subInk }}">{{ breathKicker }}</p>
+<h1 style="margin: 0; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 26px; line-height: 1.25; font-weight: 300; letter-spacing: 0.2px">{{ breath.heading }}</h1>
+</div>
+<sc-if value="{{ breath.isBreathing }}" hint-placeholder-val="{{ true }}">
+<div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px">
+<div aria-hidden="true" style="width: 240px; height: 240px; display: flex; align-items: center; justify-content: center">
+<sc-if value="{{ breath.isT }}" hint-placeholder-val="{{ true }}"><canvas ref="{{ blobBreathT }}" style="width: 240px; height: 240px"></canvas></sc-if>
+<sc-if value="{{ breath.isN }}" hint-placeholder-val="{{ false }}"><canvas ref="{{ blobBreathN }}" style="width: 240px; height: 240px"></canvas></sc-if>
+<sc-if value="{{ breath.isC }}" hint-placeholder-val="{{ false }}"><canvas ref="{{ blobBreathC }}" style="width: 240px; height: 240px"></canvas></sc-if>
+</div>
+<div style="position: relative; height: 28px; width: 100%; text-align: center; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 20px; font-weight: 500">
+<span class="{{ breath.lin }}" style="position: absolute; left: 0; right: 0">{{ breath.inLabel }}</span>
+<span class="{{ breath.lout }}" style="position: absolute; left: 0; right: 0">{{ breath.outLabel }}</span>
+</div>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; text-align: center; color: {{ subInk }}">{{ breath.hint }}</p>
+</div>
+<button onClick="{{ breathDone }}" style="height: 52px; border-radius: 999px; border: 1px solid {{ hair }}; background: {{ glassStrong }}; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: {{ ink }}; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 17px; font-weight: 500">Continuar</button>
+</sc-if>
+<sc-if value="{{ breath.isSteps }}" hint-placeholder-val="{{ false }}">
+<div style="flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 16px">
+<div style="background: {{ glass }}; border: 1px solid {{ hair }}; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-radius: 24px; padding: 28px 24px; display: flex; flex-direction: column; gap: 16px; min-height: 200px; justify-content: center">
+<span style="font-size: 13px; font-weight: 400; color: {{ subInk }}">{{ breath.stepLabel }}</span>
+<p style="margin: 0; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 24px; line-height: 1.3; font-weight: 300; color: {{ ink }}; letter-spacing: 0.2px">{{ breath.stepText }}</p>
+<p style="margin: 0; font-size: 14px; color: {{ subInk }}">Leve o tempo que precisar.</p>
+</div>
+<button onClick="{{ breathToBreathing }}" style="align-self: center; height: 44px; padding: 0 16px; border-radius: 999px; border: none; background: transparent; color: {{ ink }}; font-size: 14px; font-weight: 500; text-decoration: underline">Voltar para a respiração</button>
+</div>
+<button onClick="{{ breathNextStep }}" style="height: 52px; border-radius: 999px; border: 1px solid {{ hair }}; background: {{ glassStrong }}; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: {{ ink }}; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 17px; font-weight: 500">{{ breath.stepCta }}</button>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ show.tags }}" hint-placeholder-val="{{ false }}">
+<div class="screen-in" style="flex: 1; display: flex; flex-direction: column; gap: 24px; padding: 16px 24px 32px 24px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<p style="margin: 0; font-size: 13px; color: {{ subInk }}">Opcional · fica só no seu aparelho</p>
+<h1 style="margin: 0; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 26px; line-height: 1.25; font-weight: 300; letter-spacing: 0.2px">Quer dar nome ao que mais mexeu com você hoje?</h1>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: {{ subInk }}">Escolha quantos quiser. Isso aparece depois na sua Nebulosa.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<sc-for list="{{ tagOptions }}" as="tag" hint-placeholder-count="8">
+<button onClick="{{ tag.toggle }}" aria-pressed="{{ tag.pressed }}" style="{{ tag.style }}">{{ tag.label }}</button>
+</sc-for>
+</div>
+<div style="flex: 1"></div>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<button onClick="{{ tagsDone }}" style="height: 52px; border-radius: 999px; border: 1px solid {{ hair }}; background: {{ glassStrong }}; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: {{ ink }}; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 17px; font-weight: 500">Ver meu clima</button>
+<button onClick="{{ tagsSkip }}" style="height: 48px; border-radius: 999px; border: 1px solid {{ ink }}; background: transparent; color: {{ ink }}; font-size: 15px; font-weight: 500">Pular</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ show.result }}" hint-placeholder-val="{{ false }}">
+<div class="screen-in" style="flex: 1; display: flex; flex-direction: column; gap: 24px; padding: 24px 24px 32px 24px">
+<div style="flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<p style="margin: 0; font-size: 15px; color: {{ subInk }}">Seu clima agora</p>
+<h1 style="margin: 0; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 48px; font-weight: 300; letter-spacing: 0.2px">{{ moodInfo.name }}</h1>
+<p style="margin: 0; font-size: 16px; color: {{ subInk }}">{{ moodInfo.desc }}</p>
+<sc-if value="{{ show.mix }}" hint-placeholder-val="{{ false }}">
+<p style="margin: 0; font-size: 14px; line-height: 1.45; color: {{ subInk }}">{{ mixLine }}</p>
+</sc-if>
+<sc-if value="{{ show.tagsLine }}" hint-placeholder-val="{{ false }}">
+<p style="margin: 0; font-size: 14px; color: {{ subInk }}">{{ tagsLine }}</p>
+</sc-if>
+</div>
+<div style="background: {{ glass }}; border: 1px solid {{ hair }}; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 12px">
+<p style="margin: 0; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 20px; line-height: 1.4; font-weight: 500; color: {{ ink }}">{{ phrase.t }}</p>
+<p style="margin: 0; font-size: 13px; color: {{ subInk }}">{{ phrase.src }}</p>
+</div>
+</div>
+<button onClick="{{ finishResult }}" style="height: 52px; border-radius: 999px; border: 1px solid {{ hair }}; background: {{ glassStrong }}; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: {{ ink }}; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 17px; font-weight: 500">Ir para o meu refúgio</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ show.home }}" hint-placeholder-val="{{ false }}">
+<div class="screen-in" style="flex: 1; display: flex; flex-direction: column; gap: 20px; padding: 8px 24px 32px 24px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<p style="margin: 0; font-size: 15px; color: {{ subInk }}">Seu clima agora</p>
+<h1 style="margin: 0; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 40px; font-weight: 300; letter-spacing: 0.2px">{{ moodInfo.name }}</h1>
+<sc-if value="{{ soundVisible }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; align-items: center; gap: 10px; font-size: 13px; color: {{ subInk }}">
+<div aria-hidden="true" style="display: flex; align-items: flex-end; gap: 3px; height: 16px">
+<span class="bar" style="width: 3px; height: 16px; border-radius: 2px; background: currentColor"></span>
+<span class="bar" style="width: 3px; height: 16px; border-radius: 2px; background: currentColor; animation-delay: 0.2s"></span>
+<span class="bar" style="width: 3px; height: 16px; border-radius: 2px; background: currentColor; animation-delay: 0.4s"></span>
+<span class="bar" style="width: 3px; height: 16px; border-radius: 2px; background: currentColor; animation-delay: 0.6s"></span>
+</div>
+<span>{{ soundLabel }}</span>
+</div>
+</sc-if>
+</div>
+<div style="background: {{ glass }}; border: 1px solid {{ hair }}; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 12px">
+<p style="margin: 0; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 20px; line-height: 1.4; font-weight: 500; color: {{ ink }}">{{ phrase.t }}</p>
+<p style="margin: 0; font-size: 13px; color: {{ subInk }}">{{ phrase.src }}</p>
+</div>
+<sc-if value="{{ show.stale }}" hint-placeholder-val="{{ false }}">
+<div style="background: {{ glass }}; border: 1px solid {{ hair }}; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 12px">
+<p style="margin: 0; font-size: 15px; line-height: 1.45; color: {{ ink }}">Seu último check-in foi há mais de 12 horas. Como está o clima aí dentro agora?</p>
+<button onClick="{{ startQuiz }}" style="align-self: flex-start; height: 44px; padding: 0 20px; border-radius: 999px; border: 1px solid {{ hair }}; background: {{ glassStrong }}; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: {{ ink }}; font-size: 15px; font-weight: 500">Fazer um novo check-in</button>
+</div>
+</sc-if>
+<sc-if value="{{ show.suggest }}" hint-placeholder-val="{{ false }}">
+<div style="background: {{ glass }}; border: 1px solid {{ hair }}; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 12px; border: 1px solid {{ hair }}">
+<p style="margin: 0; font-size: 15px; line-height: 1.45; color: {{ ink }}">Os últimos dias têm pesado. Que tal chamar alguém que te faz bem?</p>
+<button onClick="{{ goPorto }}" style="align-self: flex-start; height: 44px; padding: 0 20px; border-radius: 999px; border: 1px solid {{ hair }}; background: {{ glassStrong }}; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: {{ ink }}; font-size: 15px; font-weight: 500">Compartilhar com um Porto Seguro</button>
+</div>
+</sc-if>
+<div aria-hidden="true" style="flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; overflow: hidden">
+<canvas ref="{{ blobHome }}" style="width: 180px; height: 180px"></canvas>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<button onClick="{{ startQuiz }}" style="height: 56px; border-radius: 999px; border: 1px solid {{ hair }}; background: {{ glass }}; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: {{ ink }}; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 17px; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 10px">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" aria-hidden="true"><path d="M2 12c2-3 4-3 6 0s4 3 6 0 4-3 6 0"></path></svg>
+Medir meu clima
+</button>
+<button onClick="{{ goPorto }}" style="height: 56px; border-radius: 999px; border: 1px solid {{ hair }}; background: {{ glass }}; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: {{ ink }}; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 17px; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 10px">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 4-6 8-6s8 2 8 6"></path></svg>
+Compartilhar com um Porto Seguro
+</button>
+<button onClick="{{ goNebulosa }}" style="height: 56px; border-radius: 999px; border: 1px solid {{ hair }}; background: {{ glass }}; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: {{ ink }}; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 17px; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 10px">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><circle cx="5" cy="6" r="1.5"></circle><circle cx="19" cy="7" r="1.5"></circle><circle cx="17" cy="18" r="1.5"></circle></svg>
+Minha Nebulosa
+</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ show.porto }}" hint-placeholder-val="{{ false }}">
+<div class="screen-in" style="flex: 1; display: flex; flex-direction: column; gap: 16px; padding: 8px 24px 24px 24px; overflow-y: auto">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h1 style="margin: 0; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 26px; line-height: 1.2; font-weight: 300; letter-spacing: 0.2px">Compartilhar com um Porto Seguro</h1>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: {{ subInk }}">Montamos uma mensagem a partir do seu clima. Se quiser, mude do seu jeito.</p>
+</div>
+<div style="background: {{ glass }}; border: 1px solid {{ hair }}; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-radius: 24px; overflow: hidden; display: flex; flex-direction: column">
+<div style="{{ portoStrip }}">
+<span style="font-size: 13px; color: {{ cardInk }}">Seu clima agora</span>
+<span style="font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 20px; font-weight: 500; color: {{ cardInk }}">{{ moodInfo.name }}</span>
+</div>
+<div style="padding: 16px; display: flex; flex-direction: column; gap: 8px">
+<label for="porto-msg" style="font-size: 13px; color: {{ subInk }}">Sua mensagem</label>
+<textarea id="porto-msg" value="{{ message }}" onChange="{{ editMsg }}" rows="4" style="width: 100%; box-sizing: border-box; resize: none; border: 1px solid {{ hair }}; border-radius: 16px; padding: 14px 16px; background: {{ glassInner }}; color: {{ ink }}; font-family: 'Roboto','Helvetica Neue',Arial,sans-serif; font-size: 16px; line-height: 1.5"></textarea>
+<button onClick="{{ nextMessage }}" style="align-self: flex-start; height: 40px; padding: 0 4px; border: none; background: transparent; color: {{ ink }}; font-size: 14px; font-weight: 500">Sugerir outra mensagem</button>
+</div>
+</div>
+<div style="flex: 1"></div>
+<button onClick="{{ goPicker }}" style="min-height: 56px; border-radius: 999px; border: 1px solid {{ hair }}; background: {{ glassStrong }}; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: {{ ink }}; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 17px; font-weight: 500">Escolher um Porto Seguro</button>
+<p style="margin: 0; font-size: 13px; line-height: 1.45; text-align: center; color: {{ subInk }}">Abre o WhatsApp com a mensagem pronta. O app não acessa sua agenda.</p>
+</div>
+</sc-if>
+
+<sc-if value="{{ show.aftercare }}" hint-placeholder-val="{{ false }}">
+<div class="screen-in" style="flex: 1; display: flex; flex-direction: column; gap: 24px; padding: 16px 24px 32px 24px">
+<div style="flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 16px">
+<div class="breathe" aria-hidden="true" style="width: 72px; height: 72px; border-radius: 999px; background: {{ ink }}; opacity: 0.85"></div>
+<h1 style="margin: 0; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 30px; line-height: 1.2; font-weight: 300; letter-spacing: 0.2px">Você deu um passo importante.</h1>
+<p style="margin: 0; font-size: 16px; line-height: 1.5; color: {{ subInk }}">{{ afterText }}</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<button onClick="{{ soloBreath }}" style="height: 52px; border-radius: 999px; border: 1px solid {{ hair }}; background: {{ glassStrong }}; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: {{ ink }}; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 17px; font-weight: 500">Respirar um pouco enquanto isso</button>
+<button onClick="{{ goHome }}" style="height: 48px; border-radius: 999px; border: 1px solid {{ ink }}; background: transparent; color: {{ ink }}; font-size: 15px; font-weight: 500">Voltar ao meu refúgio</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ show.nebulosa }}" hint-placeholder-val="{{ false }}">
+<div class="screen-in" style="flex: 1; display: flex; flex-direction: column; gap: 14px; padding: 8px 24px 24px 24px; overflow-y: auto">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h1 style="margin: 0; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 28px; font-weight: 300; letter-spacing: 0.2px">Minha Nebulosa</h1>
+<p style="margin: 0; font-size: 15px; color: {{ subInk }}">Outubro de 2026</p>
+</div>
+<div style="background: #0B0A12; border-radius: 24px; padding: 4px 0 14px 0; display: flex; flex-direction: column; align-items: center; gap: 6px; flex-shrink: 0">
+<canvas ref="{{ nebRef }}" onClick="{{ nebClick }}" role="img" aria-label="{{ nebAria }}" style="width: 342px; height: 330px; cursor: pointer"></canvas>
+<div style="display: flex; gap: 16px; justify-content: center; font-size: 12px; color: #D9D6E4">
+<span style="display: flex; align-items: center; gap: 6px"><span aria-hidden="true" style="width: 10px; height: 10px; border-radius: 999px; background: #6096D6"></span>Tempestade</span>
+<span style="display: flex; align-items: center; gap: 6px"><span aria-hidden="true" style="width: 10px; height: 10px; border-radius: 999px; background: #B28CE4"></span>Névoa</span>
+<span style="display: flex; align-items: center; gap: 6px"><span aria-hidden="true" style="width: 10px; height: 10px; border-radius: 999px; background: #F6CE60"></span>Clareira</span>
+</div>
+</div>
+<p style="margin: 0; font-size: 14px; line-height: 1.45; color: {{ subInk }}">{{ weekLine }}</p>
+<sc-if value="{{ show.dayDetail }}" hint-placeholder-val="{{ false }}">
+<div style="background: {{ glass }}; border: 1px solid {{ hair }}; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-radius: 20px; padding: 18px; display: flex; flex-direction: column; gap: 10px; flex-shrink: 0">
+<span style="font-size: 13px; color: {{ subInk }}">{{ detail.title }}</span>
+<span style="font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 22px; font-weight: 400; letter-spacing: 0.2px; color: {{ ink }}">{{ detail.mood }}</span>
+<sc-if value="{{ detail.hasMix }}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div aria-hidden="true" style="display: flex; height: 8px; border-radius: 999px; overflow: hidden; background: {{ hair }}">
+<span style="{{ detail.barT }}"></span><span style="{{ detail.barN }}"></span><span style="{{ detail.barC }}"></span>
+</div>
+<span style="font-size: 13px; color: {{ subInk }}">{{ detail.mixText }}</span>
+</div>
+</sc-if>
+<sc-if value="{{ detail.hasTags }}" hint-placeholder-val="{{ false }}">
+<span style="font-size: 14px; color: {{ ink }}">{{ detail.tags }}</span>
+</sc-if>
+<span style="font-size: 15px; line-height: 1.45; color: {{ ink }}">{{ detail.phrase }}</span>
+<sc-if value="{{ detail.porto }}" hint-placeholder-val="{{ false }}">
+<span style="font-size: 13px; color: {{ ink }}">Você compartilhou com um Porto Seguro neste dia.</span>
+</sc-if>
+</div>
+</sc-if>
+<sc-if value="{{ show.dayHint }}" hint-placeholder-val="{{ true }}">
+<p style="margin: 0; font-size: 14px; line-height: 1.45; color: {{ subInk }}">Cada estrela é um dia. Quanto mais check-ins, mais ela brilha. Toque numa estrela para relembrar o dia.</p>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ show.ajustes }}" hint-placeholder-val="{{ false }}">
+<div class="screen-in" style="flex: 1; display: flex; flex-direction: column; gap: 16px; padding: 8px 24px 24px 24px; overflow-y: auto">
+<h1 style="margin: 0; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 28px; font-weight: 300; letter-spacing: 0.2px">Ajustes</h1>
+<div style="background: {{ glass }}; border: 1px solid {{ hair }}; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-radius: 24px; padding: 8px 16px; display: flex; flex-direction: column">
+<sc-for list="{{ toggles }}" as="tg" hint-placeholder-count="6">
+<button onClick="{{ tg.toggle }}" aria-pressed="{{ tg.on }}" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; padding: 8px 0; border: none; border-bottom: 1px solid {{ hair }}; background: transparent; text-align: left">
+<span style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 15px; font-weight: 500; color: {{ ink }}">{{ tg.label }}</span>
+<span style="font-size: 13px; color: {{ subInk }}">{{ tg.sub }}</span>
+</span>
+<span aria-hidden="true" style="{{ tg.track }}"><span style="{{ tg.knob }}"></span></span>
+</button>
+</sc-for>
+</div>
+<button onClick="{{ simulateStale }}" style="height: 48px; border-radius: 999px; border: 1px solid {{ hair }}; background: transparent; color: {{ ink }}; font-size: 15px; font-weight: 500">Simular: 12 horas depois</button>
+<button onClick="{{ simulateReminder }}" style="height: 48px; border-radius: 999px; border: 1px solid {{ hair }}; background: transparent; color: {{ ink }}; font-size: 15px; font-weight: 500">Simular lembrete de recalibração</button>
+<button onClick="{{ resetAll }}" style="height: 48px; border-radius: 999px; border: 1px solid {{ hair }}; background: transparent; color: {{ ink }}; font-size: 15px; font-weight: 500">Apagar todos os meus dados</button>
+<p style="margin: 0; font-size: 13px; line-height: 1.45; text-align: center; color: {{ subInk }}">Seus dados ficam só neste aparelho. Sem conta, sem servidor.</p>
+</div>
+</sc-if>
+
+</div>
+
+<sc-if value="{{ show.lock }}" hint-placeholder-val="{{ false }}">
+<div class="screen-in" style="position: absolute; inset: 0; background: #101418; display: flex; flex-direction: column; align-items: center; padding: 96px 16px 32px 16px; gap: 8px; color: #FCFCFC">
+<span style="font-size: 16px; color: #C9C7C0">sábado, 24 de outubro</span>
+<span style="font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 80px; font-weight: 300; line-height: 1; letter-spacing: 0.2px">21:47</span>
+<div style="height: 48px"></div>
+<button onClick="{{ openFromReminder }}" style="width: 100%; border: none; border-radius: 20px; background: #2A2E33; color: #FCFCFC; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; text-align: left">
+<span style="display: flex; justify-content: space-between; width: 100%; font-size: 13px; color: #C9C7C0"><span>Refúgio Sensorial</span><span>agora</span></span>
+<span style="font-size: 15px; line-height: 1.4">Um tempo se passou. Quer fazer um novo check-in?</span>
+</button>
+<div style="flex: 1"></div>
+<span style="font-size: 13px; color: #A9A6A0">Toque na notificação. O texto não revela seu estado na tela bloqueada.</span>
+</div>
+</sc-if>
+
+<sc-if value="{{ show.picker }}" hint-placeholder-val="{{ false }}">
+<div class="screen-in" style="position: absolute; inset: 0; background: rgba(0,0,0,0.45); display: flex; flex-direction: column; justify-content: flex-end">
+<div style="background: #F2F2F7; border-radius: 16px 16px 0 0; height: 720px; display: flex; flex-direction: column">
+<div style="padding: 8px 16px; background: #FFF4CC; color: #4A3B00; font-size: 12px; text-align: center; border-radius: 16px 16px 0 0">Simulação do seletor nativo do sistema</div>
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px">
+<button onClick="{{ goPorto }}" style="height: 44px; border: none; background: transparent; color: #0055D4; font-size: 16px; padding: 0">Cancelar</button>
+<span style="font-size: 17px; font-weight: 700; color: #1C1C1E">Contatos</span>
+<span style="width: 64px"></span>
+</div>
+<div style="margin: 0 16px 12px 16px; height: 36px; border-radius: 10px; background: #E3E3E8; display: flex; align-items: center; padding: 0 12px; font-size: 15px; color: #6C6C70">Buscar</div>
+<div style="background: #FFFFFF; margin: 0 16px; border-radius: 12px; display: flex; flex-direction: column">
+<sc-for list="{{ contacts }}" as="c" hint-placeholder-count="4">
+<button onClick="{{ c.pick }}" style="display: flex; align-items: center; gap: 12px; min-height: 60px; padding: 8px 16px; border: none; border-bottom: 1px solid #E5E5EA; background: transparent; text-align: left">
+<span aria-hidden="true" style="width: 40px; height: 40px; border-radius: 999px; background: #A7A7AD; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 500">{{ c.initial }}</span>
+<span style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 16px; color: #1C1C1E">{{ c.full }}</span>
+<span style="font-size: 13px; color: #6C6C70">{{ c.phone }}</span>
+</span>
+</button>
+</sc-for>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ show.whatsapp }}" hint-placeholder-val="{{ false }}">
+<div class="screen-in" style="position: absolute; inset: 0; background: {{ chat.bg }}; display: flex; flex-direction: column">
+<div style="padding: 8px 16px; background: #FFF4CC; color: #4A3B00; font-size: 12px; text-align: center">{{ chat.banner }}</div>
+<div style="background: {{ chat.header }}; color: {{ chat.headerInk }}; padding: 12px 16px; display: flex; align-items: center; gap: 12px">
+<span aria-hidden="true" style="width: 40px; height: 40px; border-radius: 999px; background: #A7A7AD; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 500">{{ contactInitial }}</span>
+<span style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 16px; font-weight: 500">{{ contactName }}</span>
+<span style="font-size: 12px; color: {{ chat.headerSub }}">{{ contactE164 }}</span>
+</span>
+</div>
+<div style="flex: 1; padding: 16px; display: flex; flex-direction: column; justify-content: flex-end; gap: 8px">
+<sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+<div style="align-self: flex-end; width: 220px; background: {{ chat.bubble }}; border-radius: 14px; padding: 6px">
+<div style="{{ miniCardStyle }}">
+<span style="font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 16px; line-height: 1.3; font-weight: 500; color: {{ cardInk }}">{{ card.title }}</span>
+<span style="font-size: 11px; color: {{ cardInk }}">{{ card.sub }}</span>
+</div>
+</div>
+<div style="align-self: flex-end; max-width: 80%; background: {{ chat.bubble }}; border-radius: 14px; padding: 10px 12px; font-size: 15px; line-height: 1.45; color: {{ chat.bubbleInk }}">{{ message }}<div style="font-size: 11px; opacity: 0.75; text-align: right; padding-top: 4px">21:48 · enviada</div></div>
+</sc-if>
+</div>
+<sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 8px; padding: 8px 8px 24px 8px">
+<div style="align-self: flex-start; margin-left: 8px; display: flex; align-items: center; gap: 8px; background: #FFFFFF; border-radius: 12px; padding: 6px 10px 6px 6px">
+<div style="{{ thumbStyle }}"></div>
+<span style="font-size: 13px; color: #3B4A54">Card do Refúgio anexado</span>
+</div>
+<div style="display: flex; align-items: flex-end; gap: 8px">
+<div style="flex: 1; background: #FFFFFF; border-radius: 24px; padding: 12px 16px; font-size: 15px; line-height: 1.45; color: #111B21">{{ message }}</div>
+<button onClick="{{ sendWhats }}" aria-label="Enviar mensagem" style="width: 48px; height: 48px; border-radius: 999px; border: none; background: {{ chat.send }}; color: #FFFFFF; display: flex; align-items: center; justify-content: center; padding: 0">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13"></path><path d="M22 2l-7 20-4-9-9-4 20-7z"></path></svg>
+</button>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+<div style="padding: 8px 16px 24px 16px">
+<button onClick="{{ backFromWhats }}" style="width: 100%; height: 52px; border-radius: 999px; border: none; background: #0033C6; color: #FCFCFC; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 17px; font-weight: 500">Voltar ao Refúgio</button>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ show.help }}" hint-placeholder-val="{{ false }}">
+<div class="screen-in" style="position: absolute; inset: 0; background: linear-gradient(165deg,#1B1E2E 0%,#262640 60%,#2E2A45 100%); color: #FCFCFC; display: flex; flex-direction: column; gap: 28px; padding: 28px 24px 32px 24px">
+<button onClick="{{ closeHelp }}" style="align-self: flex-start; height: 44px; padding: 0 4px; border: none; background: transparent; color: #FCFCFC; font-size: 15px; font-weight: 400; display: flex; align-items: center; gap: 4px">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+Voltar
+</button>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<h1 style="margin: 0; font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 30px; line-height: 1.25; font-weight: 300; letter-spacing: 0.2px">Você não precisa passar por isso sem apoio.</h1>
+<p style="margin: 0; font-size: 16px; line-height: 1.5; color: rgba(252,252,252,0.82)">Fale agora com alguém preparado para te ouvir.</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<button onClick="{{ callCvv }}" style="min-height: 76px; border-radius: 20px; border: 1px solid rgba(252,252,252,0.75); background: rgba(252,252,252,0.16); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: #FCFCFC; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; text-align: left">
+<span style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 20px; font-weight: 500; letter-spacing: 0.2px">Ligar para o CVV · 188</span>
+<span style="font-size: 14px; color: rgba(252,252,252,0.8)">Apoio emocional, 24 horas, gratuito</span>
+</span>
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"></path></svg>
+</button>
+<button onClick="{{ callSamu }}" style="min-height: 76px; border-radius: 20px; border: 1px solid rgba(252,252,252,0.32); background: rgba(252,252,252,0.07); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: #FCFCFC; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; text-align: left">
+<span style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 20px; font-weight: 500; letter-spacing: 0.2px">Ligar para o SAMU · 192</span>
+<span style="font-size: 14px; color: rgba(252,252,252,0.8)">Emergência médica</span>
+</span>
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"></path></svg>
+</button>
+<button onClick="{{ helpPorto }}" style="min-height: 76px; border-radius: 20px; border: 1px solid rgba(252,252,252,0.32); background: rgba(252,252,252,0.07); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: #FCFCFC; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; text-align: left">
+<span style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-family: 'Urbanist','Helvetica Neue',Arial,sans-serif; font-size: 20px; font-weight: 500; letter-spacing: 0.2px">Compartilhar com um Porto Seguro</span>
+<span style="font-size: 14px; color: rgba(252,252,252,0.8)">Mensagem pronta para alguém de confiança</span>
+</span>
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.9A8 8 0 1 1 21 12z"></path></svg>
+</button>
+</div>
+<div style="flex: 1"></div>
+<p style="margin: 0; font-size: 13px; line-height: 1.5; color: rgba(252,252,252,0.7)">Esta tela funciona sem internet e aparece com um toque em qualquer lugar do app.</p>
+</div>
+</sc-if>
+
+<sc-if value="{{ show.toast }}" hint-placeholder-val="{{ false }}">
+<div role="status" style="position: absolute; left: 16px; right: 16px; bottom: 24px; background: #231F20; color: #FCFCFC; border-radius: 16px; padding: 14px 16px; font-size: 14px; line-height: 1.45">{{ toast }}</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+var MOODS = {
+  tempestade: { name: 'Tempestade', desc: 'Agitação, tensão, sobrecarga', sound: 'Ondas do mar · ruído rosa', dot: '#3D6E9E', grad: 'linear-gradient(135deg,#16253D 0%,#24395A 55%,#48573D 100%)', ink: '#FCFCFC' },
+  nevoa: { name: 'Névoa', desc: 'Pouca energia, desânimo, tristeza', sound: 'Violão dedilhado · vento leve', dot: '#A07CC5', grad: 'linear-gradient(135deg,#4B3E72 0%,#7D6699 55%,#B48EA6 100%)', ink: '#FCFCFC' },
+  clareira: { name: 'Clareira', desc: 'Equilíbrio, calma, presença', sound: 'Floresta · pássaros ao fundo', dot: '#F2C94C', grad: 'linear-gradient(135deg,#F4EDCB 0%,#E1EDCB 55%,#C6DEBA 100%)', ink: '#231F20' }
+};
+var QS = [
+  { dim: 'Mente', text: 'Se sua mente fosse um elemento da natureza agora, ela seria…', options: [
+    { label: 'Uma represa cheia, prestes a transbordar', w: { tempestade: 1 } },
+    { label: 'Terra seca, sem chuva há dias', w: { nevoa: 1 } },
+    { label: 'Neblina leve, que vai e vem', w: { nevoa: 0.5, clareira: 0.5 } },
+    { label: 'Um rio correndo calmo', w: { clareira: 1 } } ] },
+  { dim: 'Corpo', text: 'Como o seu corpo está agora?', options: [
+    { label: 'Ombros duros, coração acelerado', w: { tempestade: 1 } },
+    { label: 'Pesado, como se carregasse uma mochila', w: { nevoa: 1 } },
+    { label: 'Cansado, mas tranquilo', w: { nevoa: 0.4, clareira: 0.6 } },
+    { label: 'Leve, respirando fundo sem esforço', w: { clareira: 1 } } ] },
+  { dim: 'Sono', text: 'E a sua última noite, como foi?', options: [
+    { label: 'Rolei na cama com a cabeça a mil', w: { tempestade: 1 } },
+    { label: 'Dormi muito e acordei sem vontade de levantar', w: { nevoa: 1 } },
+    { label: 'Acordei algumas vezes, mas descansei', w: { tempestade: 0.3, clareira: 0.7 } },
+    { label: 'Descansei bem', w: { clareira: 1 } } ] },
+  { dim: 'Pensamentos', text: 'Seus pensamentos hoje parecem…', options: [
+    { label: 'Mil abas abertas no navegador', w: { tempestade: 1 } },
+    { label: 'Um rádio chiando baixinho, fora de sintonia', w: { nevoa: 1 } },
+    { label: 'Uma lista longa, mas organizada', w: { tempestade: 0.4, clareira: 0.6 } },
+    { label: 'Um céu limpo, com poucas nuvens', w: { clareira: 1 } } ] },
+  { dim: 'Preocupações', text: 'E as preocupações, como estão hoje?', options: [
+    { label: 'Não saem da minha cabeça', w: { tempestade: 1 } },
+    { label: 'Nem tenho forças para pensar nelas', w: { nevoa: 1 } },
+    { label: 'Estão aqui, mas sob controle', w: { tempestade: 0.3, clareira: 0.7 } },
+    { label: 'Hoje estão bem quietas', w: { clareira: 1 } } ] },
+  { dim: 'Energia', text: 'Se sua energia fosse a bateria do celular…', options: [
+    { label: '80%, mas esquentando', w: { tempestade: 1 } },
+    { label: '10%, em modo economia', w: { nevoa: 1 } },
+    { label: '50%, dá pra chegar até a noite', w: { nevoa: 0.3, clareira: 0.7 } },
+    { label: 'Carregada na medida certa', w: { clareira: 1 } } ] },
+  { dim: 'Pessoas', text: 'Como você se sente em relação às pessoas hoje?', options: [
+    { label: 'Qualquer coisa me irrita', w: { tempestade: 1 } },
+    { label: 'Sozinho, mesmo perto de gente', w: { nevoa: 1 } },
+    { label: 'Prefiro ficar no meu canto, e tudo bem', w: { nevoa: 0.4, clareira: 0.6 } },
+    { label: 'Perto de quem importa', w: { clareira: 1 } } ] },
+  { dim: 'Prazer', text: 'Hoje, as coisas de que você gosta…', options: [
+    { label: 'Até tento, mas não consigo parar para curtir', w: { tempestade: 1 } },
+    { label: 'Perderam a graça', w: { nevoa: 1 } },
+    { label: 'Estão mornas, mas ainda estão lá', w: { nevoa: 0.5, clareira: 0.5 } },
+    { label: 'Ainda me trazem alegria', w: { clareira: 1 } } ] }
+];
+var BREATH_AFTER = 2;
+var BT = {
+  tempestade: { chip: 'Desacelerar', title: 'Vamos desacelerar juntos.', inLabel: 'Inspire… 4', outLabel: 'Solte bem devagar… 7', hint: 'Soltar o ar mais devagar do que puxa pode ajudar a desacelerar. Siga a esfera.', sphere: 'guided-t', lin: 'label-in-t', lout: 'label-out-t', altBtn: 'Prefiro me aterrar', altTitle: 'Vamos voltar para o agora.', steps: ['Olhe ao redor e nomeie 3 coisas que você vê.', 'Agora, 2 sons que você consegue ouvir.', 'E 1 coisa que você sente no corpo neste momento.'] },
+  nevoa: { chip: 'Acolher', title: 'Um respiro para se acolher.', inLabel: 'Inspire…', outLabel: 'Solte…', hint: 'Se quiser, coloque a mão no peito e respire ali, no ritmo da esfera.', sphere: 'guided-n', lin: 'label-in-n', lout: 'label-out-n', altBtn: 'Prefiro me mexer um pouco', altTitle: 'Um pouco de movimento, sem pressa.', steps: ['Espreguice os braços para cima, bem devagar.', 'Gire os ombros para trás, três vezes.', 'Olhe pela janela ou para longe por um instante.'] },
+  clareira: { chip: 'Saborear', title: 'Guarde este momento.', inLabel: 'Inspire…', outLabel: 'Solte…', hint: 'Pense em uma coisa boa de hoje e fique com ela por três respirações.', sphere: 'guided-c', lin: 'label-in-c', lout: 'label-out-c', altBtn: 'Prefiro um roteiro guiado', altTitle: 'Saboreando o dia.', steps: ['Pense em uma coisa boa que aconteceu hoje.', 'Lembre quem ou o que fez parte disso.', 'Agradeça em silêncio, do seu jeito.'] }
+};
+var TAGS = ['Trabalho', 'Estudos', 'Família', 'Relacionamento', 'Saúde', 'Sono', 'Dinheiro', 'Nada em especial'];
+var KEYS = ['tempestade', 'nevoa', 'clareira'];
+var STARCOL = { tempestade: [96, 150, 214], nevoa: [178, 140, 228], clareira: [246, 206, 96] };
+function seeded(n) { var x = Math.sin(n * 12.9898) * 43758.5453; return x - Math.floor(x); }
+var HISTX = null;
+function buildHISTX() { return HIST.map(function (m, i) {
+  if (!m) return null;
+  var d = i + 1, main = 0.5 + seeded(d) * 0.4, others = KEYS.filter(function (k) { return k !== m; }), split = seeded(d + 50), mix = {};
+  mix[m] = main; mix[others[0]] = (1 - main) * split; mix[others[1]] = (1 - main) * (1 - split);
+  return { mood: m, mix: mix, checkins: 1 + Math.floor(seeded(d + 99) * 3), tags: seeded(d + 7) > 0.45 ? [TAGS[Math.floor(seeded(d + 3) * 7)]] : [], porto: d === 6 || d === 13 || d === 19 };
+}); }
+var NEB_W = 342, NEB_H = 330;
+function nebPos(d) { var ang = d * 0.58 + 0.4, r = 14 + d * 4.5; return { x: NEB_W / 2 + Math.cos(ang) * r + (seeded(d + 200) - 0.5) * 10, y: NEB_H / 2 + Math.sin(ang) * r * 0.9 + (seeded(d + 300) - 0.5) * 10 }; }
+function mixColor(mix) { var c = [0, 0, 0], t = 0; KEYS.forEach(function (k) { var w = mix[k] || 0; t += w; for (var i = 0; i < 3; i++) c[i] += STARCOL[k][i] * w; }); return t ? c.map(function (v) { return Math.round(v / t); }) : [200, 200, 220]; }
+function totals(answers, prior) {
+  var t = { tempestade: 0, nevoa: 0, clareira: 0 };
+  if (prior) KEYS.forEach(function (k) { t[k] += prior[k] || 0; });
+  answers.forEach(function (a, i) { if (a === undefined || a === null) return; var w = QS[i].options[a].w; KEYS.forEach(function (k) { t[k] += w[k] || 0; }); });
+  return t;
+}
+function layers(w) {
+  var sum = w.tempestade + w.nevoa + w.clareira;
+  if (sum <= 0) return { neutral: 1, tempestade: 0, nevoa: 0, clareira: 0 };
+  var wt = w.tempestade / sum, wn = w.nevoa / sum, wc = w.clareira / sum;
+  var rest = 1 - wc;
+  return { neutral: 1, tempestade: 1, nevoa: rest > 0.001 ? Math.min(1, wn / rest) : 0, clareira: wc, wc: wc };
+}
+var PH = {
+  neutra: {
+    tempestade: { t: 'Você não precisa resolver tudo agora. Só esta respiração.', src: 'Frase autoral' },
+    nevoa: { t: 'Dias cinzentos também passam. Seja gentil com você hoje.', src: 'Frase autoral' },
+    clareira: { t: 'Guarde este momento. Ele também é seu.', src: 'Frase autoral' }
+  },
+  espiritual: {
+    tempestade: { t: '[Texto de Salmos 46:1 na Bíblia Livre]', src: 'Salmos 46:1 · Bíblia Livre (BLIVRE)' },
+    nevoa: { t: '[Texto de Salmos 42:11 na Bíblia Livre]', src: 'Salmos 42:11 · Bíblia Livre (BLIVRE)' },
+    clareira: { t: '[Texto de Salmos 118:24 na Bíblia Livre]', src: 'Salmos 118:24 · Bíblia Livre (BLIVRE)' }
+  },
+  filosofica: {
+    tempestade: { t: 'Não são as coisas que nos perturbam, mas o que pensamos sobre elas.', src: 'Epicteto, Manual · tradução livre' },
+    nevoa: { t: 'Sofremos mais na imaginação do que na realidade.', src: 'Sêneca, Cartas a Lucílio · tradução livre' },
+    clareira: { t: 'Sábio é quem não sofre pelo que não tem e se alegra com o que tem.', src: 'Epicteto, Fragmentos · tradução livre' }
+  }
+};
+var LINES = [
+  { key: 'neutra', title: 'Neutra', sub: 'Frases de acolhimento, sem referência religiosa' },
+  { key: 'espiritual', title: 'Espiritual', sub: 'Salmos e outras passagens bíblicas' },
+  { key: 'filosofica', title: 'Filosófica', sub: 'Estoicismo e outras correntes' }
+];
+var HIST = ['clareira','clareira','nevoa','','tempestade','tempestade','nevoa','clareira','clareira','','nevoa','nevoa','nevoa','tempestade','clareira','','clareira','clareira','tempestade','nevoa','','clareira','nevoa'];
+var CONTACTS = [
+  { first: 'Ana', full: 'Ana (Mãe)', phone: '(11) 98765-4321' },
+  { first: 'Bruno', full: 'Bruno Lima', phone: '+55 11 91234-5678' },
+  { first: 'Carla', full: 'Carla Souza', phone: '21 99876-1234' },
+  { first: 'Dani', full: 'Dani Rocha', phone: '011 97777-1212' }
+];
+function e164(p) {
+  var d = p.replace(/\D/g, '');
+  if (d.charAt(0) === '0') d = d.slice(1);
+  if (!(d.indexOf('55') === 0 && d.length >= 12)) d = '55' + d;
+  return '+' + d.slice(0, 2) + ' ' + d.slice(2, 4) + ' ' + d.slice(4, d.length - 4) + '-' + d.slice(d.length - 4);
+}
+function initialState() {
+  return { screen: 'welcome', prev: 'home', onboarded: false, lines: { neutra: true, espiritual: false, filosofica: false }, sound: true, reminders: true, lockApp: false, q: 0, answers: [], live: null, mood: null, busy: false, streak: 0, checkins: 0, tone: 'companhia', contact: null, sent: false, day: null, toast: '', breathDone: false, tags: [], todayTags: [], mix: null, msgIdx: 0, channel: 'whatsapp', breathSolo: false, breathType: null, breathAlt: false, breathStep: 0, haptics: true };
+}
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = initialState();
+    this._blobs = {}; this._cfg = {};
+    var me = this; this.nebRef = function (el) { me.nebAttach(el); };
+    this.blobRefs = { welcome: this.mkRef('welcome'), home: this.mkRef('home'), bt: this.mkRef('bt'), bn: this.mkRef('bn'), bc: this.mkRef('bc'), ready: this.mkRef('ready') };
+  }
+  mkRef(key) {
+    var self = this;
+    return function (el) {
+      var b = self._blobs[key] || (self._blobs[key] = { cv: null, raf: null });
+      if (b.cv === el) return;
+      if (b.raf) cancelAnimationFrame(b.raf);
+      b.raf = null; b.cv = el;
+      if (el) self.runBlob(key, b);
+    };
+  }
+  audioInit() {
+    if (this.au) { if (this.au.ctx.state === 'suspended') this.au.ctx.resume(); this.audioApply(); return; }
+    var AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
+    var ctx = new AC(), sr = ctx.sampleRate;
+    var master = ctx.createGain(); master.gain.value = 0; master.connect(ctx.destination);
+    var mk = function () { var g = ctx.createGain(); g.gain.value = 0; g.connect(master); return g; };
+    var L = { tempestade: mk(), nevoa: mk(), clareira: mk(), test: mk() };
+    var len = sr * 4, buf = ctx.createBuffer(1, len, sr), d = buf.getChannelData(0);
+    var b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+    for (var i = 0; i < len; i++) { var w = Math.random() * 2 - 1; b0 = 0.99886 * b0 + w * 0.0555179; b1 = 0.99332 * b1 + w * 0.0750759; b2 = 0.969 * b2 + w * 0.153852; b3 = 0.8665 * b3 + w * 0.3104856; b4 = 0.55 * b4 + w * 0.5329522; b5 = -0.7616 * b5 - w * 0.016898; d[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + w * 0.5362) * 0.11; b6 = w * 0.115926; }
+    var noise = function () { var n = ctx.createBufferSource(); n.buffer = buf; n.loop = true; n.loopStart = Math.random(); n.start(0, Math.random() * 3); return n; };
+    var lfo = function (freq, depth, target) { var o = ctx.createOscillator(), g = ctx.createGain(); o.frequency.value = freq; g.gain.value = depth; o.connect(g); g.connect(target); o.start(); };
+    /* Tempestade: mar + ruído rosa + binaural 4 Hz */
+    var lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 650;
+    var waves = ctx.createGain(); waves.gain.value = 0.55;
+    noise().connect(lp); lp.connect(waves); waves.connect(L.tempestade);
+    lfo(0.085, 0.45, waves.gain); lfo(0.085, 380, lp.frequency);
+    var merger = ctx.createChannelMerger(2), oL = ctx.createOscillator(), oR = ctx.createOscillator(), bg = ctx.createGain();
+    oL.frequency.value = 200; oR.frequency.value = 204; bg.gain.value = 0.045;
+    oL.connect(merger, 0, 0); oR.connect(merger, 0, 1); merger.connect(bg); bg.connect(L.tempestade); oL.start(); oR.start();
+    /* Névoa: vento leve + violão dedilhado */
+    var bp = ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 520; bp.Q.value = 0.8;
+    var wind = ctx.createGain(); wind.gain.value = 0.28;
+    noise().connect(bp); bp.connect(wind); wind.connect(L.nevoa); lfo(0.05, 260, bp.frequency); lfo(0.07, 0.12, wind.gain);
+    /* Clareira: folhas + pad calmo + pássaros */
+    var hp = ctx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 2800;
+    var leaves = ctx.createGain(); leaves.gain.value = 0.05;
+    noise().connect(hp); hp.connect(leaves); leaves.connect(L.clareira); lfo(0.11, 0.03, leaves.gain);
+    var pad = ctx.createGain(); pad.gain.value = 0.05; pad.connect(L.clareira);
+    [174.61, 220, 261.63, 349.23].forEach(function (f, k) { var o = ctx.createOscillator(); o.type = 'sine'; o.frequency.value = f; o.detune.value = (k - 1.5) * 4; o.connect(pad); o.start(); lfo(0.05 + k * 0.013, 5, o.detune); });
+    lfo(0.04, 0.02, pad.gain);
+    var plucks = {};
+    var pluckBuf = function (freq) {
+      if (plucks[freq]) return plucks[freq];
+      var n = Math.round(sr / freq), dur = Math.floor(sr * 3), b = ctx.createBuffer(1, dur, sr), out = b.getChannelData(0), ring = new Float32Array(n);
+      for (var i = 0; i < n; i++) ring[i] = Math.random() * 2 - 1;
+      for (var i = 0; i < dur; i++) { var j = i % n, nx = (j + 1) % n; out[i] = ring[j]; ring[j] = 0.5 * (ring[j] + ring[nx]) * 0.9965; }
+      plucks[freq] = b; return b;
+    };
+    var play = function (bufr, when, vol, pan, dest) { var s2 = ctx.createBufferSource(), g = ctx.createGain(), p = ctx.createStereoPanner(); s2.buffer = bufr; g.gain.value = vol; p.pan.value = pan; s2.connect(g); g.connect(p); p.connect(dest); s2.start(when); };
+    var chirp = function (when, pan) {
+      var o = ctx.createOscillator(), g = ctx.createGain(), p = ctx.createStereoPanner(), f0 = 2600 + Math.random() * 1400;
+      o.frequency.setValueAtTime(f0, when); o.frequency.exponentialRampToValueAtTime(f0 * 1.45, when + 0.05); o.frequency.exponentialRampToValueAtTime(f0 * 0.95, when + 0.11);
+      g.gain.setValueAtTime(0, when); g.gain.linearRampToValueAtTime(0.045, when + 0.012); g.gain.exponentialRampToValueAtTime(0.0005, when + 0.13);
+      p.pan.value = pan; o.connect(g); g.connect(p); p.connect(L.clareira); o.start(when); o.stop(when + 0.15);
+    };
+    var ping = function (when, pan) {
+      var o = ctx.createOscillator(), g = ctx.createGain(), p = ctx.createStereoPanner();
+      o.frequency.value = 523.25; g.gain.setValueAtTime(0, when); g.gain.linearRampToValueAtTime(0.18, when + 0.02); g.gain.exponentialRampToValueAtTime(0.0005, when + 0.6);
+      p.pan.value = pan; o.connect(g); g.connect(p); p.connect(L.test); o.start(when); o.stop(when + 0.65);
+    };
+    var CHORDS = [[130.81, 196.0, 261.63, 329.63], [110.0, 164.81, 220.0, 261.63], [87.31, 174.61, 220.0, 261.63], [98.0, 146.83, 196.0, 246.94]];
+    var PATTERN = [0, 1, 2, 3, 2, 1];
+    var self = this, au = { ctx: ctx, master: master, L: L, tgt: {}, nextNote: 0, step: 0, nextBird: 0, nextPing: 0, pingSide: -1 };
+    au.timer = setInterval(function () {
+      var now = ctx.currentTime;
+      if ((au.tgt.nevoa || 0) > 0.03 && now >= au.nextNote - 0.15) {
+        var ch = CHORDS[Math.floor(au.step / PATTERN.length) % CHORDS.length], f = ch[PATTERN[au.step % PATTERN.length]];
+        play(pluckBuf(f), Math.max(now, au.nextNote), 0.32, (PATTERN[au.step % PATTERN.length] - 1.5) * 0.25, L.nevoa);
+        au.nextNote = Math.max(now, au.nextNote) + 0.95; au.step++;
+      }
+      if ((au.tgt.clareira || 0) > 0.03 && now >= au.nextBird) {
+        var n = 2 + Math.floor(Math.random() * 3), pan = Math.random() * 1.6 - 0.8;
+        for (var k = 0; k < n; k++) chirp(now + 0.05 + k * (0.13 + Math.random() * 0.06), pan);
+        au.nextBird = now + 2.5 + Math.random() * 4;
+      }
+      if ((au.tgt.test || 0) > 0.5 && now >= au.nextPing) { ping(now + 0.05, au.pingSide); au.pingSide *= -1; au.nextPing = now + 1.2; }
+    }, 120);
+    this.au = au;
+    this.audioApply();
+  }
+  audioApply() {
+    var au = this.au; if (!au) return;
+    var st = this.state, s = st.screen, w = this._w || { tempestade: 0, nevoa: 0, clareira: 0 };
+    var sum = w.tempestade + w.nevoa + w.clareira;
+    var mix = sum > 0 ? { tempestade: w.tempestade / sum, nevoa: w.nevoa / sum, clareira: w.clareira / sum } : { tempestade: 0, nevoa: 0.35, clareira: 0.65 };
+    var outside = ['lock', 'picker', 'whatsapp'].indexOf(s) >= 0;
+    var m = !st.sound ? 0 : (s === 'help' ? 0.12 : (outside ? 0.25 : (s === 'welcome' || s === 'content' ? 0 : 0.85)));
+    var t = { tempestade: mix.tempestade * 0.9, nevoa: mix.nevoa, clareira: mix.clareira, test: 0 };
+    if (s === 'sound') t = { tempestade: 0, nevoa: 0, clareira: 0, test: 1 };
+    if (st.stale && st.onboarded && ['quiz', 'breath', 'tags', 'result'].indexOf(s) < 0) m *= 0.5;
+    au.tgt = t;
+    var now = au.ctx.currentTime;
+    au.master.gain.setTargetAtTime(m, now, 0.8);
+    KEYS.concat(['test']).forEach(function (k) { au.L[k].gain.setTargetAtTime(t[k], now, k === 'test' ? 0.2 : 1.2); });
+  }
+  componentDidUpdate() { this.audioApply(); }
+  dayData(d) {
+    var st = this.state;
+    if (d < 24) return (HISTX || (HISTX = buildHISTX()))[d - 1];
+    if (d === 24 && st.mood) { var mix = {}; if (st.mix) KEYS.forEach(function (k) { mix[k] = st.mix[k] / 100; }); else mix[st.mood] = 1; return { mood: st.mood, mix: mix, checkins: Math.max(1, st.checkins), tags: st.todayTags || [], porto: !!st.portoToday, today: true }; }
+    return null;
+  }
+  nebAttach(el) {
+    if (this._nebCv === el) return;
+    if (this._nebRaf) cancelAnimationFrame(this._nebRaf);
+    this._nebRaf = null; this._nebCv = el;
+    if (!el) return;
+    var self = this, dpr = window.devicePixelRatio || 1, W = NEB_W, H = NEB_H;
+    el.width = W * dpr; el.height = H * dpr;
+    var ctx = el.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var dust = []; for (var i = 0; i < 170; i++) dust.push({ x: seeded(i + 1000) * W, y: seeded(i + 2000) * H, a: 0.05 + seeded(i + 3000) * 0.2, p: seeded(i + 4000) * 6.28 });
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var t0 = performance.now(), born = t0;
+    var frame = function (now) {
+      var t = reduce ? 0 : (now - t0) / 1000, age = reduce ? 99 : (now - born) / 1000;
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.clearRect(0, 0, W, H);
+      dust.forEach(function (p) { ctx.fillStyle = 'rgba(220,220,240,' + (p.a * (0.6 + 0.4 * Math.sin(t * 0.8 + p.p))).toFixed(3) + ')'; ctx.fillRect(p.x, p.y, 1, 1); });
+      var data = []; for (var d = 1; d <= 31; d++) data.push(self.dayData(d));
+      ctx.globalCompositeOperation = 'lighter';
+      [[1, 3], [4, 10], [11, 17], [18, 24], [25, 31]].forEach(function (wk) {
+        var n = 0, cx = 0, cy = 0, mix = { tempestade: 0, nevoa: 0, clareira: 0 };
+        for (var d = wk[0]; d <= wk[1]; d++) { var dd = data[d - 1]; if (!dd) continue; var p = nebPos(d); n++; cx += p.x; cy += p.y; KEYS.forEach(function (k) { mix[k] += dd.mix[k] || 0; }); }
+        if (!n) return;
+        cx /= n; cy /= n; var c = mixColor(mix);
+        var g = ctx.createRadialGradient(cx, cy, 0, cx, cy, 95);
+        g.addColorStop(0, 'rgba(' + c.join(',') + ',0.26)'); g.addColorStop(1, 'rgba(' + c.join(',') + ',0)');
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, 95, 0, 6.2832); ctx.fill();
+      });
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.strokeStyle = 'rgba(220,220,240,0.08)'; ctx.lineWidth = 1; ctx.beginPath();
+      for (var d = 1; d <= 24; d++) { var p = nebPos(d); if (d === 1) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y); }
+      ctx.stroke();
+      for (var d = 1; d <= 24; d++) {
+        var dd = data[d - 1], p = nebPos(d);
+        var appear = Math.max(0, Math.min(1, (age - d * 0.04) / 0.5));
+        if (!appear) continue;
+        if (!dd) { ctx.fillStyle = 'rgba(200,200,225,' + (0.35 * appear).toFixed(3) + ')'; ctx.beginPath(); ctx.arc(p.x, p.y, 1.3, 0, 6.2832); ctx.fill(); continue; }
+        var c = mixColor(dd.mix), size = (2.2 + dd.checkins * 1.1) * appear;
+        if (dd.today) size *= 1 + 0.22 * Math.sin(t * 2.2);
+        ctx.globalCompositeOperation = 'lighter';
+        var g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, size * 5);
+        g.addColorStop(0, 'rgba(' + c.join(',') + ',0.55)'); g.addColorStop(1, 'rgba(' + c.join(',') + ',0)');
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x, p.y, size * 5, 0, 6.2832); ctx.fill();
+        ctx.globalCompositeOperation = 'source-over';
+        var core = c.map(function (v) { return Math.round(v + (255 - v) * 0.45); });
+        ctx.fillStyle = 'rgb(' + core.join(',') + ')'; ctx.beginPath(); ctx.arc(p.x, p.y, size, 0, 6.2832); ctx.fill();
+        if (self.state.day === d) { ctx.strokeStyle = 'rgba(255,255,255,0.85)'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(p.x, p.y, size + 7, 0, 6.2832); ctx.stroke(); }
+        if (dd.today) { ctx.fillStyle = 'rgba(255,255,255,0.75)'; ctx.font = '11px Roboto, Arial, sans-serif'; ctx.fillText('hoje', p.x + size + 8, p.y + 4); }
+      }
+      self._nebRaf = requestAnimationFrame(frame);
+    };
+    this._nebRaf = requestAnimationFrame(frame);
+  }
+  componentWillUnmount() { if (this.au) { clearInterval(this.au.timer); try { this.au.ctx.close(); } catch (e) {} this.au = null; } if (this._nebRaf) cancelAnimationFrame(this._nebRaf); var bs = this._blobs; Object.keys(bs).forEach(function (k) { if (bs[k].raf) cancelAnimationFrame(bs[k].raf); }); }
+  runBlob(key, b) {
+    var self = this, cv = b.cv, S = parseInt(cv.style.width, 10) || 240, dpr = window.devicePixelRatio || 1;
+    cv.width = S * dpr; cv.height = S * dpr;
+    var ctx = cv.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var N = S > 200 ? 1400 : 900, pts = [];
+    for (var i = 0; i < N; i++) { var y = 1 - (i / (N - 1)) * 2, r = Math.sqrt(1 - y * y), th = i * 2.399963; pts.push([Math.cos(th) * r, y, Math.sin(th) * r]); }
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var c0 = self._cfg[key] || {};
+    var cur = { amp: c0.amp || 1, speed: c0.speed || 1, rot: c0.rot || 0.2, col: (c0.col || [252, 252, 252]).slice() };
+    var ph = 0, rotPh = 0, t0 = performance.now(), last = t0;
+    var ease = function (x) { return 0.5 - 0.5 * Math.cos(Math.PI * x); };
+    var frame = function (now) {
+      var cfg = self._cfg[key] || {};
+      var dt = Math.min(0.05, (now - last) / 1000); last = now;
+      var k = Math.min(1, dt * 0.8);
+      cur.amp += ((cfg.amp || 1) - cur.amp) * k;
+      cur.speed += ((cfg.speed || 1) - cur.speed) * k;
+      cur.rot += ((cfg.rot || 0.2) - cur.rot) * k;
+      var tc = cfg.col || [252, 252, 252];
+      for (var c = 0; c < 3; c++) cur.col[c] += (tc[c] - cur.col[c]) * k;
+      ph += dt * cur.speed; rotPh += dt * cur.rot;
+      var br = cfg.breath || { P: 6, inFrac: 0.5, lo: 0.95, hi: 1.05 };
+      var u = (((now - t0) / 1000) % br.P) / br.P;
+      var sv = u < br.inFrac ? ease(u / br.inFrac) : 1 - ease((u - br.inFrac) / (1 - br.inFrac));
+      var R = (cfg.R || 0.33) * S * (br.lo + (br.hi - br.lo) * sv);
+      ctx.clearRect(0, 0, S, S);
+      var ay = rotPh, ax = 0.4 + 0.18 * Math.sin(rotPh * 0.8);
+      var cy = Math.cos(ay), sy = Math.sin(ay), cx = Math.cos(ax), sx = Math.sin(ax);
+      var A = cur.amp, rgb = Math.round(cur.col[0]) + ',' + Math.round(cur.col[1]) + ',' + Math.round(cur.col[2]);
+      for (var n = 0; n < N; n++) {
+        var p = pts[n], x = p[0], y = p[1], z = p[2];
+        var d = 1 + A * (0.14 * Math.sin(2.1 * x + 1.7 * y + ph * 0.8) + 0.09 * Math.sin(3.3 * y - 2.2 * z + ph * 1.2) + 0.06 * Math.sin(4.1 * z + 2.7 * x - ph * 0.6));
+        var X = x * d, Y = y * d, Z = z * d;
+        var x1 = X * cy + Z * sy, z1 = -X * sy + Z * cy;
+        var y1 = Y * cx - z1 * sx, z2 = Y * sx + z1 * cx;
+        var f = 3 / (3 - z2);
+        var depth = Math.max(0, Math.min(1, (z2 / d + 1) / 2));
+        var rim = 1 - Math.abs(z2 / d);
+        var al = Math.min(1, 0.08 + 0.55 * depth + 0.4 * rim * depth);
+        ctx.fillStyle = 'rgba(' + rgb + ',' + al.toFixed(3) + ')';
+        ctx.beginPath(); ctx.arc(S / 2 + x1 * R * f, S / 2 + y1 * R * f, (0.5 + 0.9 * depth) * (S / 280 + 0.25), 0, 6.2832); ctx.fill();
+      }
+      if (!reduce) b.raf = requestAnimationFrame(frame);
+    };
+    b.raf = requestAnimationFrame(frame);
+  }
+  go(screen) { this.setState({ screen: screen, day: null }); }
+  flash(msg) { var self = this; this.setState({ toast: msg }); clearTimeout(this._t); this._t = setTimeout(function () { self.setState({ toast: '' }); }, 2800); }
+  prior() { var p = { tempestade: 0, nevoa: 0, clareira: 0 }; if (this.state.mood) p[this.state.mood] = 1.5; return p; }
+  startQuiz() { this.setState({ screen: 'quiz', q: 0, answers: [], busy: false, breathDone: false, breathSolo: false, breathType: null, breathAlt: false, breathStep: 0, tags: [], orders: QS.map(function (q) { var o = q.options.map(function (_, i) { return i; }); for (var i = o.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = o[i]; o[i] = o[j]; o[j] = t; } return o; }) }); }
+  haptic(p) { try { if (this.state.haptics && navigator.vibrate) navigator.vibrate(p); } catch (e) {} }
+  answer(idx) {
+    if (this.state.busy) return;
+    this.haptic(12);
+    var self = this, q = this.state.q;
+    var answers = this.state.answers.slice(0, q);
+    answers[q] = idx;
+    this.setState({ answers: answers, busy: true, phase: 'pick' });
+    setTimeout(function () { self.setState({ phase: 'leave' }); }, 480);
+    setTimeout(function () {
+      if (q === BREATH_AFTER && !self.state.breathDone) self.setState({ screen: 'breath', busy: false, phase: 'idle' });
+      else if (q < QS.length - 1) self.setState({ q: q + 1, busy: false, phase: 'idle' });
+      else self.setState({ screen: 'tags', busy: false, phase: 'idle' });
+    }, 1050);
+  }
+  finish(tags) {
+    var answers = this.state.answers;
+    var c = totals(answers, null);
+    var max = Math.max(c.tempestade, c.nevoa, c.clareira), mood = 'clareira';
+    for (var i = answers.length - 1; i >= 0; i--) {
+      var w = QS[i].options[answers[i]].w, top = null, best = -1;
+      KEYS.forEach(function (k) { if ((w[k] || 0) > best && Math.abs(c[k] - max) < 0.001) { best = w[k] || 0; top = k; } });
+      if (top && best > 0) { mood = top; break; }
+    }
+    var sum = c.tempestade + c.nevoa + c.clareira;
+    var mix = {}; KEYS.forEach(function (k) { mix[k] = Math.round(100 * c[k] / sum); });
+    var streak = mood === 'clareira' ? 0 : this.state.streak + 1;
+    this.haptic([10, 70, 10]);
+    this.setState({ stale: false, mood: mood, mix: mix, todayTags: tags, streak: streak, checkins: this.state.checkins + 1, screen: 'result', busy: false });
+  }
+  back() {
+    var s = this.state.screen;
+    if (s === 'content') return this.go('welcome');
+    if (s === 'sound') return this.go('content');
+    if (s === 'ready') return this.go(this.state.onboarded ? 'home' : 'sound');
+    if (s === 'breath') return this.state.breathSolo ? this.setState({ screen: 'aftercare', breathSolo: false }) : this.setState({ screen: 'quiz', busy: false });
+    if (s === 'tags') return this.setState({ screen: 'quiz', q: QS.length - 1, busy: false });
+    if (s === 'quiz') {
+      if (this.state.q > 0) return this.setState({ q: this.state.q - 1, busy: false });
+      return this.go(this.state.onboarded ? 'home' : 'sound');
+    }
+    this.go('home');
+  }
+  renderVals() {
+    var self = this, st = this.state, s = st.screen;
+    var onb = st.onboarded;
+    var inCheckin = s === 'quiz' || (s === 'breath' && !st.breathSolo) || s === 'tags';
+    var weights = { tempestade: 0, nevoa: 0, clareira: 0 };
+    if (inCheckin) weights = totals(st.answers, this.prior());
+    else if ((onb || s === 'result') && st.mood) { if (st.mix) KEYS.forEach(function (k) { weights[k] = st.mix[k] / 100; }); else weights[st.mood] = 1; }
+    this._w = weights;
+    var lay = layers(weights);
+    var staleNow = !!st.stale && !inCheckin && onb && s !== 'result';
+    var light = (lay.wc || 0) >= 0.55 && !staleNow;
+    var bgMood = light ? 'clareira' : 'escuro';
+    var ink = light ? '#231F20' : '#FCFCFC';
+    var subInk = light ? '#3E3A36' : 'rgba(252,252,252,0.86)';
+    var liveTop = 'clareira', liveBest = -1;
+    KEYS.forEach(function (k) { if (weights[k] > liveBest) { liveBest = weights[k]; liveTop = k; } });
+    var mood = st.mood || 'clareira';
+    var info = MOODS[mood];
+    var sel = ['espiritual', 'filosofica', 'neutra'].filter(function (k) { return st.lines[k]; });
+    if (!sel.length) sel = ['neutra'];
+    var line = sel[st.checkins % sel.length];
+    var phrase = PH[line][mood];
+    var name = st.contact ? st.contact.first : '[nome]';
+    var MSGS = {
+      tempestade: ['Oi! Hoje está tudo meio acelerado por aqui. Você tem um tempinho pra conversar?', 'Oi! Tô precisando desacelerar. Pode me ligar quando der?', 'Oi! O dia tá puxado. Topa conversar um pouquinho mais tarde?'],
+      nevoa: ['Oi! Hoje está sendo um dia difícil pra mim. Você tem um tempinho pra conversar?', 'Oi! Tô meio pra baixo hoje. Um abraço, mesmo que de longe, ia ajudar.', 'Oi! Tô precisando de companhia hoje. Bora conversar?'],
+      clareira: ['Oi! Hoje o dia tá leve e lembrei de você.', 'Oi! Tô num dia bom e queria dividir isso com você!', 'Oi! Passando pra dizer que você é importante pra mim.']
+    };
+    var msgList = MSGS[mood];
+    var message = (st.customMsg !== null && st.customMsg !== undefined) ? st.customMsg : msgList[st.msgIdx % msgList.length].replace('Oi!', st.contact ? ('Oi, ' + st.contact.first + '!') : 'Oi!');
+    var card = true ? { title: 'Meu clima hoje: ' + info.name, sub: info.desc, isFrase: false, notFrase: true }
+      : (st.tone === 'frase' ? { title: '“' + phrase.t + '”', sub: phrase.src, isFrase: true, notFrase: false }
+      : { title: 'Pensei em você', sub: 'Enviado com carinho pelo Refúgio Sensorial', isFrase: false, notFrase: true });
+    var shareHints = { companhia: 'Não revela como você está. Só um convite para estar junto.', clima: 'Mostra seu clima de hoje, sem detalhes das respostas.', frase: 'Divide a frase do dia, sem falar do seu clima.' };
+    var isSms = st.channel === 'sms';
+    var chat = isSms
+      ? { bg: '#FFFFFF', header: '#F6F6F6', headerInk: '#1C1C1E', headerSub: '#6C6C70', bubble: '#0060CC', bubbleInk: '#FFFFFF', send: '#0060CC', banner: 'Simulação: o app de Mensagens abre com o texto pronto' }
+      : { bg: '#ECE5DD', header: '#075E54', headerInk: '#FFFFFF', headerSub: '#D6EDE9', bubble: '#DCF8C6', bubbleInk: '#111B21', send: '#00806A', banner: 'Simulação: o WhatsApp abre na conversa com a mensagem pronta' };
+    var appScreens = ['welcome', 'content', 'sound', 'ready', 'quiz', 'breath', 'tags', 'result', 'home', 'porto', 'aftercare', 'nebulosa', 'ajustes'];
+    var liveInfo = MOODS[liveBest > 0 ? liveTop : mood];
+    var mixLine = '';
+    if (st.mix) {
+      var parts = KEYS.filter(function (k) { return st.mix[k] > 0; }).sort(function (a, b) { return st.mix[b] - st.mix[a]; }).map(function (k) { return MOODS[k].name + ' ' + st.mix[k] + '%'; });
+      if (parts.length > 1) mixLine = 'Hoje teve um pouco de tudo: ' + parts.join(' · ');
+    }
+    var bType = st.breathType || (st.breathSolo ? mood : (liveBest > 0 ? liveTop : mood));
+    var bt = BT[bType];
+    var breathDoneFn = function () { if (st.breathSolo) { self.setState({ screen: 'home', breathSolo: false, breathAlt: false, breathType: null }); return; } self.setState({ screen: 'quiz', q: Math.min(st.q + 1, QS.length - 1), breathDone: true, breathAlt: false, breathType: null, breathStep: 0 }); };
+    var MOTION = { tempestade: { amp: 1.6, speed: 1.9, rot: 0.42 }, nevoa: { amp: 0.8, speed: 0.55, rot: 0.14 }, clareira: { amp: 0.45, speed: 0.35, rot: 0.11 } };
+    var dotLight = [252, 252, 252], dotDark = [35, 31, 32];
+    var homeMot = MOTION[mood];
+    this._cfg.welcome = { amp: 1, speed: 1, rot: 0.22, col: dotLight, R: 0.33 };
+    this._cfg.home = { amp: homeMot.amp, speed: homeMot.speed, rot: homeMot.rot, col: mood === 'clareira' ? dotDark : dotLight, R: 0.3, breath: { P: 6, inFrac: 0.5, lo: 0.96, hi: 1.04 } };
+    var bCol = light ? dotDark : dotLight;
+    this._cfg.ready = { amp: 0.6, speed: 0.6, rot: 0.15, col: bCol, R: 0.32, breath: { P: 6, inFrac: 0.5, lo: 0.92, hi: 1.06 } };
+    this._cfg.bt = { amp: 0.7, speed: 1.1, rot: 0.25, col: bCol, R: 0.34, breath: { P: 11, inFrac: 4 / 11, lo: 0.62, hi: 1.15 } };
+    this._cfg.bn = { amp: 0.45, speed: 0.5, rot: 0.14, col: bCol, R: 0.34, breath: { P: 10, inFrac: 0.5, lo: 0.62, hi: 1.15 } };
+    this._cfg.bc = { amp: 0.3, speed: 0.35, rot: 0.11, col: bCol, R: 0.34, breath: { P: 8, inFrac: 0.5, lo: 0.62, hi: 1.15 } };
+    var wc = { tempestade: 0, nevoa: 0, clareira: 0 };
+    for (var wd = 18; wd <= 24; wd++) { var wdd = this.dayData(wd); if (wdd) wc[wdd.mood] += 1; }
+    var wparts = ['clareira', 'nevoa', 'tempestade'].filter(function (k) { return wc[k] > 0; }).map(function (k) { return MOODS[k].name + ' em ' + wc[k] + (wc[k] === 1 ? ' dia' : ' dias'); });
+    var weekLine = wparts.length ? ('Nesta semana: ' + wparts.join(' · ') + '.') : 'Nesta semana ainda não há registros.';
+    var tagsLine = st.todayTags && st.todayTags.length ? ('O que mexeu com você: ' + st.todayTags.join(', ')) : '';
+    var hairC = light ? 'rgba(35,31,32,0.22)' : 'rgba(252,252,252,0.36)';
+    var pill = function (on) { return 'height: 44px; padding: 0 16px; border-radius: 999px; font-size: 14px; font-weight: ' + (on ? '500' : '400') + '; color: ' + ink + '; transition: background 400ms, border-color 400ms; ' + (on ? 'border: 1px solid ' + ink + '; background: ' + (light ? 'rgba(255,255,255,0.55)' : 'rgba(252,252,252,0.2)') : 'border: 1px solid ' + hairC + '; background: transparent'); };
+    var days = [];
+    for (var b = 0; b < 4; b++) days.push({ blank: true, real: false });
+    for (var d = 1; d <= 31; d++) {
+      (function (d) {
+        var m = d < 24 ? HIST[d - 1] : (d === 24 ? (st.mood || '') : '');
+        var future = d > 24;
+        var color = m ? MOODS[m].dot : 'transparent';
+        var selected = st.day === d;
+        var txt = m === 'clareira' ? '#231F20' : '#FCFCFC';
+        var style = 'width: 40px; height: 40px; border-radius: 999px; padding: 0; font-size: 12px; font-weight: 500; ' +
+          (m ? ('border: none; background: ' + color + '; color: ' + txt + '; box-shadow: 0 0 14px ' + color) : ('border: 1px dashed #4A4658; background: transparent; color: ' + (future ? '#5E5A6C' : '#A9A6B8'))) +
+          (selected ? '; outline: 2px solid #FCFCFC; outline-offset: 2px' : '');
+        days.push({ blank: false, real: true, n: String(d), style: style, aria: d + ' de outubro' + (m ? ', ' + MOODS[m].name : ', sem registro'), pick: function () { if (!future) self.setState({ day: d }); } });
+      })(d);
+    }
+    var detail = { title: '', mood: '', phrase: '' };
+    if (st.day) {
+      var dm = st.day < 24 ? HIST[st.day - 1] : (st.day === 24 ? (st.mood || '') : '');
+      detail.title = st.day + ' de outubro' + (st.day === 24 ? ' · hoje' : '');
+      detail.mood = dm ? MOODS[dm].name : 'Sem registro';
+      detail.phrase = dm ? PH.neutra[dm].t : 'Tudo bem não registrar todo dia. A Nebulosa não julga.';
+      if (st.day === 24 && tagsLine) detail.phrase = tagsLine + '. ' + detail.phrase;
+    }
+    if (st.day) {
+      var ddx = this.dayData(st.day);
+      var pctx = function (k) { return ddx ? Math.round((ddx.mix[k] || 0) * 100) : 0; };
+      var bar = function (k, col) { return 'display: block; height: 100%; width: ' + pctx(k) + '%; background: ' + col; };
+      detail = {
+        title: st.day + ' de outubro' + (st.day === 24 ? ' · hoje' : '') + (ddx ? ' · ' + ddx.checkins + (ddx.checkins === 1 ? ' check-in' : ' check-ins') : ''),
+        mood: ddx ? MOODS[ddx.mood].name : 'Sem registro',
+        hasMix: !!ddx,
+        barT: bar('tempestade', '#3D6E9E'), barN: bar('nevoa', '#9B7BC0'), barC: bar('clareira', '#E2B93B'),
+        mixText: ddx ? KEYS.filter(function (k) { return pctx(k) > 0; }).sort(function (a, b) { return pctx(b) - pctx(a); }).map(function (k) { return MOODS[k].name + ' ' + pctx(k) + '%'; }).join(' · ') : '',
+        hasTags: !!(ddx && ddx.tags && ddx.tags.length),
+        tags: ddx && ddx.tags && ddx.tags.length ? 'O que mexeu com você: ' + ddx.tags.join(', ') : '',
+        phrase: ddx ? PH.neutra[ddx.mood].t : 'Tudo bem não registrar todo dia. A Nebulosa não julga.',
+        porto: !!(ddx && ddx.porto)
+      };
+    }
+    var sw = function (on) { return { track: 'width: 44px; height: 26px; border-radius: 999px; flex-shrink: 0; position: relative; box-sizing: border-box; border: 1px solid ' + (on ? ink : hairC) + '; background: ' + (on ? ink : 'transparent') + '; transition: background 300ms', knob: 'position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 999px; background: ' + (on ? (light ? '#F4EDCB' : '#2A2540') : ink) + '; transition: transform 300ms; transform: translateX(' + (on ? '18px' : '0') + ')' }; };
+    var toggleLine = function (k) { return function () { var l = Object.assign({}, st.lines); l[k] = !l[k]; self.setState({ lines: l }); }; };
+    var tgs = [
+      { label: 'Linha neutra', sub: 'Frases autorais de acolhimento', on: st.lines.neutra, toggle: toggleLine('neutra') },
+      { label: 'Linha espiritual', sub: 'Salmos · Bíblia Livre', on: st.lines.espiritual, toggle: toggleLine('espiritual') },
+      { label: 'Linha filosófica', sub: 'Estoicismo', on: st.lines.filosofica, toggle: toggleLine('filosofica') },
+      { label: 'Som ambiente', sub: 'Fone recomendado, não obrigatório', on: st.sound, toggle: function () { if (!st.sound) self.audioInit(); self.setState({ sound: !st.sound }); } },
+      { label: 'Vibração suave', sub: 'Um toque leve ao responder', on: st.haptics, toggle: function () { var on = !st.haptics; self.setState({ haptics: on }); if (on) { try { navigator.vibrate && navigator.vibrate(12); } catch (e) {} } } },
+      { label: 'Lembretes de recalibração', sub: 'Até 2 por dia, silêncio das 22h às 8h', on: st.reminders, toggle: function () { self.setState({ reminders: !st.reminders }); } },
+      { label: 'Bloquear o app', sub: 'Biometria ou PIN do aparelho', on: st.lockApp, toggle: function () { self.setState({ lockApp: !st.lockApp }); } }
+    ].map(function (t) { var x = sw(t.on); t.track = x.track; t.knob = x.knob; return t; });
+    var q = QS[st.q];
+    return {
+      ink: ink,
+      blobRef: this.blobRefs.welcome,
+      blobHome: this.blobRefs.home,
+      nebRef: this.nebRef,
+      nebClick: function (e) {
+        var cv = self._nebCv; if (!cv) return;
+        var r = cv.getBoundingClientRect(), x = (e.clientX - r.left) * (NEB_W / r.width), y = (e.clientY - r.top) * (NEB_H / r.height);
+        var best = null, bd = 26;
+        for (var d = 1; d <= 24; d++) { var p = nebPos(d), dist = Math.hypot(p.x - x, p.y - y); if (dist < bd) { bd = dist; best = d; } }
+        self.setState({ day: best });
+      },
+      nebAria: 'Nebulosa de outubro. ' + weekLine,
+      weekLine: weekLine,
+      blobReady: this.blobRefs.ready,
+      blobBreathT: this.blobRefs.bt,
+      blobBreathN: this.blobRefs.bn,
+      blobBreathC: this.blobRefs.bc,
+      subInk: subInk,
+      bg: { neutral: lay.neutral, tempestade: lay.tempestade, nevoa: lay.nevoa, clareira: lay.clareira },
+      glass: light ? 'rgba(255,255,255,0.38)' : 'rgba(252,252,252,0.10)',
+      glassStrong: light ? 'rgba(255,255,255,0.55)' : 'rgba(252,252,252,0.18)',
+      glassInner: light ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.14)',
+      hair: light ? 'rgba(35,31,32,0.22)' : 'rgba(252,252,252,0.36)',
+      qEnter: '',
+      qLeave: 'transition: opacity 450ms ease, transform 450ms ease; ' + (st.phase === 'leave' ? 'opacity: 0; transform: translateY(-14px)' : 'opacity: 1; transform: none'),
+      progressPct: Math.round(100 * (st.q + 1) / QS.length) + '%',
+      mixLine: mixLine,
+      staleOverlay: staleNow ? 0.55 : 0,
+      simulateStale: function () { self.setState({ stale: true, screen: 'home' }); },
+      tagsLine: tagsLine,
+      show: {
+        topbar: appScreens.indexOf(s) >= 0,
+        back: ['content', 'sound', 'ready', 'quiz', 'breath', 'tags', 'porto', 'nebulosa', 'ajustes'].indexOf(s) >= 0,
+        settings: s === 'home',
+        mix: !!mixLine, tagsLine: !!tagsLine,
+        stale: staleNow && s === 'home',
+        breath: s === 'breath', tags: s === 'tags', ready: s === 'ready', aftercare: s === 'aftercare',
+        welcome: s === 'welcome', content: s === 'content', sound: s === 'sound', quiz: s === 'quiz', result: s === 'result', home: s === 'home',
+        porto: s === 'porto', nebulosa: s === 'nebulosa', ajustes: s === 'ajustes', lock: s === 'lock', picker: s === 'picker', whatsapp: s === 'whatsapp', help: s === 'help',
+        suggest: st.streak >= 3,
+        dayDetail: !!st.day, dayHint: !st.day,
+        toast: !!st.toast
+      },
+      toast: st.toast,
+      moodInfo: info,
+      phrase: phrase,
+      soundVisible: false,
+      soundLabel: 'Tocando: ' + (inCheckin ? liveInfo.sound : info.sound),
+      tagOptions: TAGS.map(function (t) {
+        var on = st.tags.indexOf(t) >= 0;
+        return { label: t, pressed: on ? 'true' : 'false', style: pill(on), toggle: function () {
+          var next = on ? st.tags.filter(function (x) { return x !== t; }) : (t === 'Nada em especial' ? [t] : st.tags.filter(function (x) { return x !== 'Nada em especial'; }).concat([t]));
+          self.setState({ tags: next });
+        } };
+      }),
+      breathDone: breathDoneFn,
+      breathChips: KEYS.map(function (k) { var on = bType === k; return { label: BT[k].chip, pressed: on ? 'true' : 'false', style: pill(on), pick: function () { self.setState({ breathType: k, breathAlt: false, breathStep: 0 }); } }; }),
+      breath: { heading: st.breathAlt ? bt.altTitle : bt.title, isBreathing: !st.breathAlt, isSteps: st.breathAlt, isT: bType === 'tempestade', isN: bType === 'nevoa', isC: bType === 'clareira', sphere: bt.sphere, lin: bt.lin, lout: bt.lout, inLabel: bt.inLabel, outLabel: bt.outLabel, hint: bt.hint, altBtn: bt.altBtn, stepLabel: 'Passo ' + (st.breathStep + 1) + ' de ' + bt.steps.length, stepText: bt.steps[st.breathStep] || '', stepCta: st.breathStep >= bt.steps.length - 1 ? 'Concluir' : 'Próximo' },
+      breathToAlt: function () { self.setState({ breathAlt: true, breathStep: 0 }); },
+      breathToBreathing: function () { self.setState({ breathAlt: false, breathStep: 0 }); },
+      breathNextStep: function () { if (st.breathStep >= bt.steps.length - 1) breathDoneFn(); else self.setState({ breathStep: st.breathStep + 1 }); },
+      breathKicker: st.breathSolo ? 'Um respiro só para você' : 'Uma pausa no meio do caminho',
+      tagsDone: function () { self.finish(st.tags.filter(function (x) { return x !== 'Nada em especial'; })); },
+      tagsSkip: function () { self.finish([]); },
+      lineOptions: LINES.map(function (l) {
+        var on = st.lines[l.key];
+        return { title: l.title, sub: l.sub, pressed: on ? 'true' : 'false', toggle: toggleLine(l.key),
+          cardStyle: 'display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 18px; border-radius: 18px; color: ' + ink + '; background: ' + (on ? 'rgba(252,252,252,0.16)' : 'rgba(252,252,252,0.06)') + '; border: 1px solid ' + (on ? 'rgba(252,252,252,0.7)' : 'rgba(252,252,252,0.3)') + '; transition: background 400ms, border-color 400ms',
+          checkStyle: 'width: 26px; height: 26px; border-radius: 7px; box-sizing: border-box; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: background 200ms, border-color 200ms; color: ' + (on ? '#14121C' : 'transparent') + '; border: 1px solid ' + (on ? '#FCFCFC' : 'rgba(252,252,252,0.6)') + '; background: ' + (on ? '#FCFCFC' : 'transparent') };
+      }),
+      dots: QS.map(function (x, i) { return { style: 'width: ' + (i === st.q ? '24px' : '8px') + '; height: 8px; border-radius: 999px; transition: width 300ms; background: ' + (i <= st.q ? ink : (bgMood === 'clareira' ? 'rgba(35,31,32,0.25)' : 'rgba(252,252,252,0.35)')) }; }),
+      quizLabel: q.dim + ' · ' + (st.q + 1) + ' de ' + QS.length,
+      question: { text: q.text, words: q.text.split(' ').map(function (w, i) { return { t: w, cls: st.q % 2 ? 'w-b' : 'w-a', delay: (250 + i * 90) + 'ms' }; }), options: ((st.orders && st.orders[st.q]) || q.options.map(function (_, i) { return i; })).map(function (idx) {
+        var o = q.options[idx];
+        var picked = st.answers[st.q] === idx;
+        var dim = (st.phase === 'pick' || st.phase === 'leave') && !picked;
+        var pos = arguments[1] || 0;
+        return { label: o.label, enter: st.q % 2 ? 'oin-b' : 'oin-a', delay: (250 + q.text.split(' ').length * 90 + 450 + pos * 170) + 'ms', pick: function () { self.answer(idx); }, style: 'opacity: ' + (dim ? '0' : '1') + '; ' + 'min-height: 58px; padding: 14px 14px; border-radius: 14px; text-align: left; font-size: 16px; line-height: 1.45; font-weight: 400; color: ' + ink + '; border: 1px solid ' + (picked ? ink : 'transparent') + '; border-bottom-color: ' + (picked ? ink : hairC) + '; background: ' + (picked ? (light ? 'rgba(255,255,255,0.5)' : 'rgba(252,252,252,0.16)') : 'transparent') + '; transition: background 500ms, border-color 500ms, opacity 380ms ease' };
+      }) },
+      message: message,
+      cardStyle: 'border-radius: 20px; padding: 24px 20px; min-height: 140px; display: flex; flex-direction: column; justify-content: flex-end; gap: 6px; background: ' + info.grad,
+      miniCardStyle: 'border-radius: 10px; padding: 16px 12px; min-height: 96px; display: flex; flex-direction: column; justify-content: flex-end; gap: 4px; background: ' + info.grad,
+      thumbStyle: 'width: 36px; height: 36px; border-radius: 8px; background: ' + info.grad,
+      cardInk: info.ink,
+      card: card,
+      chat: chat,
+      shareHint: shareHints[st.tone],
+      shareOptions: [['companhia', 'Só companhia'], ['clima', 'Meu clima'], ['frase', 'Uma frase']].map(function (o) {
+        var on = st.tone === o[0];
+        return { label: o[1], pressed: on ? 'true' : 'false', style: pill(on), pick: function () { self.setState({ tone: o[0], msgIdx: 0 }); } };
+      }),
+      nextMessage: function () { self.setState({ msgIdx: st.msgIdx + 1, customMsg: null }); },
+      editMsg: function (e) { self.setState({ customMsg: e.target.value }); },
+      portoStrip: 'padding: 16px; display: flex; flex-direction: column; gap: 2px; background: ' + info.grad,
+      chIsWhats: isSms ? 'false' : 'true',
+      chIsSms: isSms ? 'true' : 'false',
+      chStyleW: pill(!isSms),
+      chStyleS: pill(isSms),
+      chWhats: function () { self.setState({ channel: 'whatsapp' }); },
+      chSms: function () { self.setState({ channel: 'sms' }); },
+      afterText: (st.contact ? st.contact.first : 'Seu Porto Seguro') + ' vai ver sua mensagem quando puder. A resposta pode demorar um pouco, e tudo bem.',
+      soloBreath: function () { self.setState({ screen: 'breath', breathSolo: true, breathType: null, breathAlt: false, breathStep: 0 }); },
+      goHome: function () { self.go('home'); },
+      contacts: CONTACTS.map(function (c) { return { full: c.full, phone: c.phone, initial: c.first.charAt(0), pick: function () { self.setState({ contact: c, screen: 'whatsapp', sent: false }); } }; }),
+      contactName: st.contact ? st.contact.full : '',
+      contactInitial: st.contact ? st.contact.first.charAt(0) : '',
+      contactE164: st.contact ? (e164(st.contact.phone) + ' · número normalizado') : '',
+      sent: st.sent,
+      notSent: !st.sent,
+      days: days,
+      detail: detail,
+      toggles: tgs,
+      goContent: function () { self.go('content'); },
+      goSound: function () { self.audioInit(); if (!sel.length || !(st.lines.neutra || st.lines.espiritual || st.lines.filosofica)) { var l = Object.assign({}, st.lines); l.neutra = true; self.setState({ lines: l }); } self.go('sound'); },
+      soundOn: function () { self.audioInit(); self.setState({ sound: true, screen: 'ready' }); },
+      soundOff: function () { self.setState({ sound: false, screen: 'ready' }); },
+      startQuiz: function () { self.go('ready'); },
+      beginQuiz: function () { self.startQuiz(); },
+      finishResult: function () { self.setState({ onboarded: true, screen: 'home' }); },
+      goPorto: function () { self.setState({ screen: 'porto', sent: false, customMsg: null, msgIdx: 0, channel: 'whatsapp' }); },
+      goPicker: function () { self.go('picker'); },
+      goNebulosa: function () { self.go('nebulosa'); },
+      goAjustes: function () { self.go('ajustes'); },
+      back: function () { self.back(); },
+      openHelp: function () { self.setState({ prev: s, screen: 'help' }); },
+      closeHelp: function () { self.setState({ screen: st.prev || 'home' }); },
+      helpPorto: function () { self.setState({ screen: 'porto', sent: false, customMsg: null, msgIdx: 0, channel: 'whatsapp' }); },
+      callCvv: function () { self.flash('No app real, isto abre o discador do celular já com 188.'); },
+      callSamu: function () { self.flash('No app real, isto abre o discador do celular já com 192.'); },
+      sendWhats: function () { self.setState({ sent: true, portoToday: true }); },
+      backFromWhats: function () { self.setState({ screen: 'aftercare', sent: false, streak: 0 }); },
+      simulateReminder: function () { self.go('lock'); },
+      openFromReminder: function () { self.go('ready'); },
+      resetAll: function () { self.setState(initialState()); }
+    };
+  }
+}
+</script>
+</body>
+</html>

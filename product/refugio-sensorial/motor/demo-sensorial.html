@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Refúgio Sensorial · Demo dos motores</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500&family=Roboto:wght@300;400;500&display=swap">
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif; background: #0E0E14; color: #FCFCFC; }
+  .wrap { display: flex; flex-wrap: wrap; gap: 32px; padding: 32px; justify-content: center; }
+  .phone { position: relative; width: 390px; height: 720px; border-radius: 40px; overflow: hidden; }
+  .layer { position: absolute; inset: 0; transition: opacity 2800ms cubic-bezier(0.45,0,0.25,1); }
+  .content { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; transition: color 1600ms ease; }
+  h1 { margin: 0; font-family: 'Urbanist', 'Helvetica Neue', Arial, sans-serif; font-weight: 300; font-size: 40px; letter-spacing: 0.2px; }
+  .panel { width: 360px; display: flex; flex-direction: column; gap: 16px; }
+  .card { background: rgba(252,252,252,0.06); border: 1px solid rgba(252,252,252,0.2); border-radius: 20px; padding: 18px; display: flex; flex-direction: column; gap: 12px; }
+  label { display: flex; justify-content: space-between; font-size: 14px; }
+  input[type=range] { width: 100%; }
+  button { height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid rgba(252,252,252,0.4); background: rgba(252,252,252,0.08); color: #FCFCFC; font-size: 14px; cursor: pointer; }
+  button:focus-visible, input:focus-visible { outline: 3px solid #7FA8FF; outline-offset: 2px; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; }
+  p.note { margin: 0; font-size: 13px; line-height: 1.5; color: rgba(252,252,252,0.7); }
+  .neb { background: #0B0A12; border-radius: 24px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="phone" aria-label="Simulação da tela">
+    <div class="layer" id="lN" style="background:#0E0E14"></div>
+    <div class="layer" id="lT" style="background:linear-gradient(165deg,#16253D 0%,#24395A 55%,#48573D 100%)"></div>
+    <div class="layer" id="lV" style="background:linear-gradient(165deg,#4B3E72 0%,#7D6699 55%,#B48EA6 100%)"></div>
+    <div class="layer" id="lC" style="background:linear-gradient(165deg,#F4EDCB 0%,#E1EDCB 55%,#C6DEBA 100%)"></div>
+    <div class="content" id="content">
+      <p style="margin:0;font-size:15px;opacity:.85">Seu clima agora</p>
+      <h1 id="name">—</h1>
+      <canvas id="blob" style="width:260px;height:260px" aria-hidden="true"></canvas>
+      <p id="mixline" style="margin:0;font-size:14px;opacity:.85"></p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="card">
+      <strong>Mistura do clima</strong>
+      <label>Tempestade <span id="vT">0</span></label><input type="range" id="sT" min="0" max="100" value="20">
+      <label>Névoa <span id="vV">0</span></label><input type="range" id="sV" min="0" max="100" value="50">
+      <label>Clareira <span id="vC">0</span></label><input type="range" id="sC" min="0" max="100" value="30">
+      <div class="row">
+        <button data-preset="100,0,0">Só Tempestade</button><button data-preset="0,100,0">Só Névoa</button><button data-preset="0,0,100">Só Clareira</button>
+      </div>
+      <label><span>Modo pausa de respiração</span><input type="checkbox" id="breath"></label>
+    </div>
+    <div class="card">
+      <strong>Som</strong>
+      <div class="row"><button id="aStart">Ligar som</button><button id="aMute">Silenciar</button><button id="aTest">Teste de fone</button></div>
+      <p class="note">Use fone. O navegador só libera áudio depois de um toque.</p>
+    </div>
+    <div class="card">
+      <strong>Nebulosa (dados fictícios)</strong>
+      <canvas id="neb" class="neb" style="width:324px;height:310px" aria-label="Nebulosa de exemplo" role="img"></canvas>
+      <p class="note" id="nebinfo">Toque numa estrela.</p>
+    </div>
+  </div>
+</div>
+<script src="motor-clima.js"></script>
+<script src="motor-audio.js"></script>
+<script src="motor-visual.js"></script>
+<script>
+(function () {
+  var C = window.RefugioClima, $ = function (id) { return document.getElementById(id); };
+  var NAMES = { tempestade: 'Tempestade', nevoa: 'Névoa', clareira: 'Clareira' };
+  var w = { tempestade: 20, nevoa: 50, clareira: 30 }, audio = new RefugioAudio(), testing = false, muted = false;
+
+  function render() {
+    $('vT').textContent = w.tempestade; $('vV').textContent = w.nevoa; $('vC').textContent = w.clareira;
+    var lay = C.layerOpacities(w); $('lN').style.opacity = lay.neutro; $('lT').style.opacity = lay.tempestade; $('lV').style.opacity = lay.nevoa; $('lC').style.opacity = lay.clareira;
+    var light = C.isLight(w, false); $('content').style.color = light ? '#231F20' : '#FCFCFC';
+    var dom = C.dominant(w); $('name').textContent = dom ? NAMES[dom] : 'Neutro';
+    var n = C.normalize(w); $('mixline').textContent = n ? C.KEYS.map(function (k) { return NAMES[k] + ' ' + Math.round(n[k] * 100) + '%'; }).join(' · ') : '';
+    audio.setMix(w);
+  }
+  [['sT', 'tempestade'], ['sV', 'nevoa'], ['sC', 'clareira']].forEach(function (p) { $(p[0]).addEventListener('input', function (e) { w[p[1]] = +e.target.value; render(); }); });
+  document.querySelectorAll('[data-preset]').forEach(function (b) { b.addEventListener('click', function () { var v = b.dataset.preset.split(',').map(Number); w = { tempestade: v[0], nevoa: v[1], clareira: v[2] }; $('sT').value = v[0]; $('sV').value = v[1]; $('sC').value = v[2]; render(); }); });
+
+  new RefugioForma($('blob'), function () {
+    var dom = C.dominant(w) || 'nevoa', light = C.isLight(w, false), breath = $('breath').checked, m = RefugioForma.MOTION[dom];
+    return { amp: breath ? m.amp * 0.45 : m.amp, speed: breath ? m.speed * 0.6 : m.speed, rot: m.rot, col: light ? [35, 31, 32] : [252, 252, 252], R: breath ? 0.34 : 0.3, breath: breath ? RefugioForma.BREATH[dom] : RefugioForma.BREATH.ambiente };
+  });
+
+  $('aStart').addEventListener('click', function () { audio.start(); audio.setMaster(muted ? 0 : 0.85); render(); });
+  $('aMute').addEventListener('click', function () { muted = !muted; audio.setMaster(muted ? 0 : 0.85); $('aMute').textContent = muted ? 'Religar' : 'Silenciar'; });
+  $('aTest').addEventListener('click', function () { audio.start(); testing = !testing; audio.setTest(testing); $('aTest').textContent = testing ? 'Parar teste' : 'Teste de fone'; });
+
+  var moods = ['clareira','clareira','nevoa','','tempestade','tempestade','nevoa','clareira','clareira','','nevoa','nevoa','nevoa','tempestade','clareira','','clareira','clareira','tempestade','nevoa','','clareira','nevoa','nevoa'];
+  var days = []; for (var d = 1; d <= 31; d++) { var m = moods[d - 1]; if (!m) { days.push(null); continue; } var mix = { tempestade: 0.1, nevoa: 0.1, clareira: 0.1 }; mix[m] = 0.8; days.push({ mix: mix, checkins: 1 + (d % 3), today: d === 24, mood: m }); }
+  var selected = null;
+  var neb = new RefugioNebulosa($('neb'), function () { return { days: days, today: 24, selected: selected, weeks: [[1, 3], [4, 10], [11, 17], [18, 24], [25, 31]] }; });
+  $('neb').addEventListener('click', function (e) {
+    var r = e.target.getBoundingClientRect(); selected = neb.hitTest((e.clientX - r.left) * (324 / r.width), (e.clientY - r.top) * (310 / r.height), 24);
+    $('nebinfo').textContent = selected ? (selected + ' de outubro · ' + (days[selected - 1] ? NAMES[days[selected - 1].mood] : 'sem registro')) : 'Toque numa estrela.';
+  });
+  render();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "versao": "1.0",
+  "regra": "Mensagem escolhida pelo clima atual. 'Oi!' vira 'Oi, <primeiro nome>!' após escolher o contato, a menos que a pessoa tenha editado o texto. 'Sugerir outra mensagem' avança para a próxima do mesmo clima e descarta a edição.",
+  "mensagens": {
+    "tempestade": [
+      "Oi! Hoje está tudo meio acelerado por aqui. Você tem um tempinho pra conversar?",
+      "Oi! Tô precisando desacelerar. Pode me ligar quando der?",
+      "Oi! O dia tá puxado. Topa conversar um pouquinho mais tarde?"
+    ],
+    "nevoa": [
+      "Oi! Hoje está sendo um dia difícil pra mim. Você tem um tempinho pra conversar?",
+      "Oi! Tô meio pra baixo hoje. Um abraço, mesmo que de longe, ia ajudar.",
+      "Oi! Tô precisando de companhia hoje. Bora conversar?"
+    ],
+    "clareira": [
+      "Oi! Hoje o dia tá leve e lembrei de você.",
+      "Oi! Tô num dia bom e queria dividir isso com você!",
+      "Oi! Passando pra dizer que você é importante pra mim."
+    ]
+  }
+}

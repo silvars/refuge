@@ -1,0 +1,296 @@
+{
+  "versao": "1.0",
+  "observacao": "Check-in de momento inspirado nas dimensões do DASS-21 e PHQ-9, sem validade clínica. Não incluir pergunta sobre pensamentos de morte ou autolesão (ver especificação, Protocolo de segurança).",
+  "pausa_apos_indice": 2,
+  "embaralhar_opcoes": true,
+  "perguntas": [
+    {
+      "id": "mente",
+      "dimensao": "Mente",
+      "texto": "Se sua mente fosse um elemento da natureza agora, ela seria…",
+      "opcoes": [
+        {
+          "id": "mente_1",
+          "texto": "Uma represa cheia, prestes a transbordar",
+          "pesos": {
+            "tempestade": 1
+          }
+        },
+        {
+          "id": "mente_2",
+          "texto": "Terra seca, sem chuva há dias",
+          "pesos": {
+            "nevoa": 1
+          }
+        },
+        {
+          "id": "mente_3",
+          "texto": "Neblina leve, que vai e vem",
+          "pesos": {
+            "nevoa": 0.5,
+            "clareira": 0.5
+          }
+        },
+        {
+          "id": "mente_4",
+          "texto": "Um rio correndo calmo",
+          "pesos": {
+            "clareira": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "corpo",
+      "dimensao": "Corpo",
+      "texto": "Como o seu corpo está agora?",
+      "opcoes": [
+        {
+          "id": "corpo_1",
+          "texto": "Ombros duros, coração acelerado",
+          "pesos": {
+            "tempestade": 1
+          }
+        },
+        {
+          "id": "corpo_2",
+          "texto": "Pesado, como se carregasse uma mochila",
+          "pesos": {
+            "nevoa": 1
+          }
+        },
+        {
+          "id": "corpo_3",
+          "texto": "Cansado, mas tranquilo",
+          "pesos": {
+            "nevoa": 0.4,
+            "clareira": 0.6
+          }
+        },
+        {
+          "id": "corpo_4",
+          "texto": "Leve, respirando fundo sem esforço",
+          "pesos": {
+            "clareira": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "sono",
+      "dimensao": "Sono",
+      "texto": "E a sua última noite, como foi?",
+      "opcoes": [
+        {
+          "id": "sono_1",
+          "texto": "Rolei na cama com a cabeça a mil",
+          "pesos": {
+            "tempestade": 1
+          }
+        },
+        {
+          "id": "sono_2",
+          "texto": "Dormi muito e acordei sem vontade de levantar",
+          "pesos": {
+            "nevoa": 1
+          }
+        },
+        {
+          "id": "sono_3",
+          "texto": "Acordei algumas vezes, mas descansei",
+          "pesos": {
+            "tempestade": 0.3,
+            "clareira": 0.7
+          }
+        },
+        {
+          "id": "sono_4",
+          "texto": "Descansei bem",
+          "pesos": {
+            "clareira": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "pensamentos",
+      "dimensao": "Pensamentos",
+      "texto": "Seus pensamentos hoje parecem…",
+      "opcoes": [
+        {
+          "id": "pensamentos_1",
+          "texto": "Mil abas abertas no navegador",
+          "pesos": {
+            "tempestade": 1
+          }
+        },
+        {
+          "id": "pensamentos_2",
+          "texto": "Um rádio chiando baixinho, fora de sintonia",
+          "pesos": {
+            "nevoa": 1
+          }
+        },
+        {
+          "id": "pensamentos_3",
+          "texto": "Uma lista longa, mas organizada",
+          "pesos": {
+            "tempestade": 0.4,
+            "clareira": 0.6
+          }
+        },
+        {
+          "id": "pensamentos_4",
+          "texto": "Um céu limpo, com poucas nuvens",
+          "pesos": {
+            "clareira": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "preocupacoes",
+      "dimensao": "Preocupações",
+      "texto": "E as preocupações, como estão hoje?",
+      "opcoes": [
+        {
+          "id": "preocupacoes_1",
+          "texto": "Não saem da minha cabeça",
+          "pesos": {
+            "tempestade": 1
+          }
+        },
+        {
+          "id": "preocupacoes_2",
+          "texto": "Nem tenho forças para pensar nelas",
+          "pesos": {
+            "nevoa": 1
+          }
+        },
+        {
+          "id": "preocupacoes_3",
+          "texto": "Estão aqui, mas sob controle",
+          "pesos": {
+            "tempestade": 0.3,
+            "clareira": 0.7
+          }
+        },
+        {
+          "id": "preocupacoes_4",
+          "texto": "Hoje estão bem quietas",
+          "pesos": {
+            "clareira": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "energia",
+      "dimensao": "Energia",
+      "texto": "Se sua energia fosse a bateria do celular…",
+      "opcoes": [
+        {
+          "id": "energia_1",
+          "texto": "80%, mas esquentando",
+          "pesos": {
+            "tempestade": 1
+          }
+        },
+        {
+          "id": "energia_2",
+          "texto": "10%, em modo economia",
+          "pesos": {
+            "nevoa": 1
+          }
+        },
+        {
+          "id": "energia_3",
+          "texto": "50%, dá pra chegar até a noite",
+          "pesos": {
+            "nevoa": 0.3,
+            "clareira": 0.7
+          }
+        },
+        {
+          "id": "energia_4",
+          "texto": "Carregada na medida certa",
+          "pesos": {
+            "clareira": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "pessoas",
+      "dimensao": "Pessoas",
+      "texto": "Como você se sente em relação às pessoas hoje?",
+      "opcoes": [
+        {
+          "id": "pessoas_1",
+          "texto": "Qualquer coisa me irrita",
+          "pesos": {
+            "tempestade": 1
+          }
+        },
+        {
+          "id": "pessoas_2",
+          "texto": "Sozinho, mesmo perto de gente",
+          "pesos": {
+            "nevoa": 1
+          }
+        },
+        {
+          "id": "pessoas_3",
+          "texto": "Prefiro ficar no meu canto, e tudo bem",
+          "pesos": {
+            "nevoa": 0.4,
+            "clareira": 0.6
+          }
+        },
+        {
+          "id": "pessoas_4",
+          "texto": "Perto de quem importa",
+          "pesos": {
+            "clareira": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "prazer",
+      "dimensao": "Prazer",
+      "texto": "Hoje, as coisas de que você gosta…",
+      "opcoes": [
+        {
+          "id": "prazer_1",
+          "texto": "Até tento, mas não consigo parar para curtir",
+          "pesos": {
+            "tempestade": 1
+          }
+        },
+        {
+          "id": "prazer_2",
+          "texto": "Perderam a graça",
+          "pesos": {
+            "nevoa": 1
+          }
+        },
+        {
+          "id": "prazer_3",
+          "texto": "Estão mornas, mas ainda estão lá",
+          "pesos": {
+            "nevoa": 0.5,
+            "clareira": 0.5
+          }
+        },
+        {
+          "id": "prazer_4",
+          "texto": "Ainda me trazem alegria",
+          "pesos": {
+            "clareira": 1
+          }
+        }
+      ]
+    }
+  ]
+}

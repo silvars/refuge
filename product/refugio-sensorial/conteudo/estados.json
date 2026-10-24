@@ -1,0 +1,79 @@
+{
+  "versao": "1.0",
+  "estados": {
+    "tempestade": {
+      "nome": "Tempestade",
+      "descricao": "Agitação, tensão, sobrecarga",
+      "degrade": [
+        "#16253D",
+        "#24395A",
+        "#48573D"
+      ],
+      "angulo_graus": 165,
+      "cor_estrela": "#6096D6",
+      "cor_legenda": "#3D6E9E",
+      "tinta_texto": "#FCFCFC",
+      "som": "Ondas do mar, ruído rosa, binaural 4 Hz (200/204 Hz)",
+      "forma_tela_principal": {
+        "amplitude": 1.6,
+        "velocidade": 1.9,
+        "rotacao": 0.42
+      }
+    },
+    "nevoa": {
+      "nome": "Névoa",
+      "descricao": "Pouca energia, desânimo, tristeza",
+      "degrade": [
+        "#4B3E72",
+        "#7D6699",
+        "#B48EA6"
+      ],
+      "angulo_graus": 165,
+      "cor_estrela": "#B28CE4",
+      "cor_legenda": "#9B7BC0",
+      "tinta_texto": "#FCFCFC",
+      "som": "Vento leve e violão dedilhado em tons maiores",
+      "forma_tela_principal": {
+        "amplitude": 0.8,
+        "velocidade": 0.55,
+        "rotacao": 0.14
+      }
+    },
+    "clareira": {
+      "nome": "Clareira",
+      "descricao": "Equilíbrio, calma, presença",
+      "degrade": [
+        "#F4EDCB",
+        "#E1EDCB",
+        "#C6DEBA"
+      ],
+      "angulo_graus": 165,
+      "cor_estrela": "#F6CE60",
+      "cor_legenda": "#E2B93B",
+      "tinta_texto": "#231F20",
+      "som": "Pad calmo, folhas e pássaros",
+      "forma_tela_principal": {
+        "amplitude": 0.45,
+        "velocidade": 0.35,
+        "rotacao": 0.11
+      }
+    }
+  },
+  "neutro": {
+    "fundo": "#0E0E14",
+    "uso": "Onboarding antes do primeiro check-in"
+  },
+  "esmaecido": {
+    "sobreposicao": "#3A3A44",
+    "opacidade": 0.55,
+    "apos_horas": 12
+  },
+  "ajuda": {
+    "degrade": [
+      "#1B1E2E",
+      "#262640",
+      "#2E2A45"
+    ],
+    "observacao": "Fixo, não muda com o clima"
+  }
+}

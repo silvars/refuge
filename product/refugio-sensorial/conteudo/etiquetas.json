@@ -1,0 +1,15 @@
+{
+  "versao": "1.0",
+  "titulo": "Quer dar nome ao que mais mexeu com você hoje?",
+  "opcoes": [
+    "Trabalho",
+    "Estudos",
+    "Família",
+    "Relacionamento",
+    "Saúde",
+    "Sono",
+    "Dinheiro",
+    "Nada em especial"
+  ],
+  "regra": "Múltipla escolha, opcional. 'Nada em especial' é exclusiva. Salvo só no aparelho."
+}

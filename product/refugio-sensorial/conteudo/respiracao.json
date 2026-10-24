@@ -1,0 +1,55 @@
+{
+  "versao": "1.0",
+  "regra": "O tipo de pausa é definido pelo estado (clima predominante até a pergunta 3, ou clima do dia no respiro pós-Porto Seguro). Não é escolha do usuário.",
+  "pausas": {
+    "tempestade": {
+      "nome": "Desacelerar",
+      "titulo": "Vamos desacelerar juntos.",
+      "inspira_s": 4,
+      "expira_s": 7,
+      "rotulo_inspira": "Inspire… 4",
+      "rotulo_expira": "Solte bem devagar… 7",
+      "apoio": "Soltar o ar mais devagar do que puxa pode ajudar a desacelerar. Siga a esfera.",
+      "forma": {
+        "amplitude": 0.7,
+        "velocidade": 1.1,
+        "rotacao": 0.25,
+        "escala_min": 0.62,
+        "escala_max": 1.15
+      }
+    },
+    "nevoa": {
+      "nome": "Acolher",
+      "titulo": "Um respiro para se acolher.",
+      "inspira_s": 5,
+      "expira_s": 5,
+      "rotulo_inspira": "Inspire…",
+      "rotulo_expira": "Solte…",
+      "apoio": "Se quiser, coloque a mão no peito e respire ali, no ritmo da esfera.",
+      "forma": {
+        "amplitude": 0.45,
+        "velocidade": 0.5,
+        "rotacao": 0.14,
+        "escala_min": 0.62,
+        "escala_max": 1.15
+      }
+    },
+    "clareira": {
+      "nome": "Saborear",
+      "titulo": "Guarde este momento.",
+      "inspira_s": 4,
+      "expira_s": 4,
+      "rotulo_inspira": "Inspire…",
+      "rotulo_expira": "Solte…",
+      "apoio": "Pense em uma coisa boa de hoje e fique com ela por três respirações.",
+      "forma": {
+        "amplitude": 0.3,
+        "velocidade": 0.35,
+        "rotacao": 0.11,
+        "escala_min": 0.62,
+        "escala_max": 1.15
+      }
+    }
+  },
+  "comunicacao": "Nunca prometer efeito terapêutico. Usar 'pode ajudar a desacelerar', nunca 'reduz a ansiedade'."
+}

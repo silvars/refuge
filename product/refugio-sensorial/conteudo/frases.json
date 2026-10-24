@@ -1,0 +1,193 @@
+{
+  "versao": "1.0",
+  "campos": {
+    "id": "identificador único",
+    "linha": "neutra | espiritual | filosofica",
+    "uso": "tela | notificacao",
+    "estados": "lista com tempestade | nevoa | clareira",
+    "momento": "qualquer | manha | noite (só notificação)",
+    "texto": "texto exibido",
+    "origem": "autoria ou referência",
+    "traducao_edicao": "edição/tradução usada",
+    "licenca": "propria | CC-BY-4.0 | dominio_publico",
+    "max_caracteres": "limite (notificação: 110)",
+    "nao_repetir_dias": "intervalo mínimo para repetir",
+    "revisado_por_profissional": "revisão de saúde mental feita",
+    "ativo": "permite desligar sem nova versão"
+  },
+  "credito_biblia_livre": "Escrituras citadas da Bíblia Livre (BLIVRE), Copyright © Diego Santos, Mario Sérgio e Marco Teles, fevereiro de 2018. Licença Creative Commons Atribuição. Fonte: https://ebible.org/porbr2018/copyright.htm (confirmar a variante da licença no site oficial antes de publicar)",
+  "meta_lancamento": "Mínimo de 30 frases de tela por estado em cada linha ativa e 15 frases de notificação por estado.",
+  "frases": [
+    {
+      "id": "TXT_N_T_01",
+      "linha": "neutra",
+      "uso": "tela",
+      "estados": [
+        "tempestade"
+      ],
+      "texto": "Você não precisa resolver tudo agora. Só esta respiração.",
+      "origem": "Frase autoral",
+      "licenca": "propria",
+      "revisado_por_profissional": false,
+      "ativo": true
+    },
+    {
+      "id": "TXT_N_N_01",
+      "linha": "neutra",
+      "uso": "tela",
+      "estados": [
+        "nevoa"
+      ],
+      "texto": "Dias cinzentos também passam. Seja gentil com você hoje.",
+      "origem": "Frase autoral",
+      "licenca": "propria",
+      "revisado_por_profissional": false,
+      "ativo": true
+    },
+    {
+      "id": "TXT_N_C_01",
+      "linha": "neutra",
+      "uso": "tela",
+      "estados": [
+        "clareira"
+      ],
+      "texto": "Guarde este momento. Ele também é seu.",
+      "origem": "Frase autoral",
+      "licenca": "propria",
+      "revisado_por_profissional": false,
+      "ativo": true
+    },
+    {
+      "id": "TXT_E_T_01",
+      "linha": "espiritual",
+      "uso": "tela",
+      "estados": [
+        "tempestade"
+      ],
+      "texto": "[PREENCHER: Salmos 46:1 na Bíblia Livre]",
+      "origem": "Salmos 46:1",
+      "traducao_edicao": "Bíblia Livre (BLIVRE), fev/2018",
+      "licenca": "CC-BY-4.0",
+      "ativo": false,
+      "revisado_por_profissional": false
+    },
+    {
+      "id": "TXT_E_N_01",
+      "linha": "espiritual",
+      "uso": "tela",
+      "estados": [
+        "nevoa"
+      ],
+      "texto": "[PREENCHER: Salmos 42:11 na Bíblia Livre]",
+      "origem": "Salmos 42:11",
+      "traducao_edicao": "Bíblia Livre (BLIVRE), fev/2018",
+      "licenca": "CC-BY-4.0",
+      "ativo": false,
+      "revisado_por_profissional": false
+    },
+    {
+      "id": "TXT_E_C_01",
+      "linha": "espiritual",
+      "uso": "tela",
+      "estados": [
+        "clareira"
+      ],
+      "texto": "[PREENCHER: Salmos 118:24 na Bíblia Livre]",
+      "origem": "Salmos 118:24",
+      "traducao_edicao": "Bíblia Livre (BLIVRE), fev/2018",
+      "licenca": "CC-BY-4.0",
+      "ativo": false,
+      "revisado_por_profissional": false
+    },
+    {
+      "id": "TXT_F_T_01",
+      "linha": "filosofica",
+      "uso": "tela",
+      "estados": [
+        "tempestade"
+      ],
+      "texto": "Não são as coisas que nos perturbam, mas o que pensamos sobre elas.",
+      "origem": "Epicteto, Manual",
+      "traducao_edicao": "Tradução livre",
+      "licenca": "propria",
+      "revisado_por_profissional": false,
+      "ativo": true
+    },
+    {
+      "id": "TXT_F_N_01",
+      "linha": "filosofica",
+      "uso": "tela",
+      "estados": [
+        "nevoa"
+      ],
+      "texto": "Sofremos mais na imaginação do que na realidade.",
+      "origem": "Sêneca, Cartas a Lucílio",
+      "traducao_edicao": "Tradução livre",
+      "licenca": "propria",
+      "revisado_por_profissional": false,
+      "ativo": true
+    },
+    {
+      "id": "TXT_F_C_01",
+      "linha": "filosofica",
+      "uso": "tela",
+      "estados": [
+        "clareira"
+      ],
+      "texto": "Sábio é quem não sofre pelo que não tem e se alegra com o que tem.",
+      "origem": "Epicteto, Fragmentos",
+      "traducao_edicao": "Tradução livre",
+      "licenca": "propria",
+      "revisado_por_profissional": false,
+      "ativo": true
+    },
+    {
+      "id": "NOT_N_T_01",
+      "linha": "neutra",
+      "uso": "notificacao",
+      "estados": [
+        "tempestade"
+      ],
+      "texto": "Uma coisa de cada vez. Você não precisa dar conta de tudo hoje.",
+      "origem": "Frase autoral",
+      "momento": "qualquer",
+      "max_caracteres": 110,
+      "nao_repetir_dias": 14,
+      "licenca": "propria",
+      "revisado_por_profissional": false,
+      "ativo": true
+    },
+    {
+      "id": "NOT_N_N_01",
+      "linha": "neutra",
+      "uso": "notificacao",
+      "estados": [
+        "nevoa"
+      ],
+      "texto": "Dias pesados também contam. Você está fazendo o que dá, e isso basta.",
+      "origem": "Frase autoral",
+      "momento": "manha",
+      "max_caracteres": 110,
+      "nao_repetir_dias": 14,
+      "licenca": "propria",
+      "revisado_por_profissional": false,
+      "ativo": true
+    },
+    {
+      "id": "NOT_N_C_01",
+      "linha": "neutra",
+      "uso": "notificacao",
+      "estados": [
+        "clareira"
+      ],
+      "texto": "Que bom te ver num dia leve. Guarda esse momento.",
+      "origem": "Frase autoral",
+      "momento": "qualquer",
+      "max_caracteres": 110,
+      "nao_repetir_dias": 14,
+      "licenca": "propria",
+      "revisado_por_profissional": false,
+      "ativo": true
+    }
+  ]
+}
