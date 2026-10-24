@@ -1,24 +1,53 @@
-.DS_Store
-node_modules/
-*.log
-__pycache__/
-*.pyc
-.env
+# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
 
-# Expo / React Native (a partir da Fase 1)
+# dependencies
+node_modules/
+
+# Expo
 .expo/
-.expo-shared/
 dist/
 web-build/
+expo-env.d.ts
+
+# Native
+.kotlin/
+*.orig.*
 *.jks
 *.p8
 *.p12
 *.key
 *.mobileprovision
-ios/Pods/
-android/.gradle/
-android/app/build/
+
+# Metro
+.metro-health-check*
+
+# debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# macOS
+.DS_Store
+*.pem
+
+# local env files
+.env*.local
+.env
+
+# typescript
+*.tsbuildinfo
+
+example
+
+# generated native folders
+/ios
+/android
+
+# Python (audio/gerar_loops.py)
+__pycache__/
+*.pyc
 
 # Ferramentas de qualidade
 coverage/
 .sonar/
+*.log

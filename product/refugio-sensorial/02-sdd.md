@@ -31,8 +31,8 @@ Versões checadas no registry do npm em **24/10/2026** — ver nota de atualiza�
 | Base | Expo SDK | 58 (`58.0.19`) | Gerenciado (development build, não Expo Go — ver acima) |
 | Base | react-native | `0.88.0` | Vem pinado pelo Expo SDK 58 |
 | Base | react | `19.3.1` | Vem pinado pelo Expo SDK 58 |
-| Base | typescript | `7.0.2` (estrito) | Compilador novo (porta nativa, bem mais rápido que o 5.x) |
-| Navegação | expo-router | `58.0.26` | Telas e deep links dos lembretes |
+| Base | typescript | `~6.0.3` (estrito) | Versão que o template oficial do Expo SDK 58 testa/pina. O npm tem `7.0.2` disponível (compilador nativo), mas o Expo ainda não validou contra ele — não forçar TS 7 até o próprio template do Expo adotar |
+| Navegação | expo-router | `58.0.26` | Telas e deep links dos lembretes — vive em `src/app/` (convenção atual do template, não `app/` na raiz) |
 | Estado | zustand | `5.0.16` | Estado de sessão e preferências |
 | Gráficos | @shopify/react-native-skia | `2.14.0` | Degradês compostos, forma de pontos, Nebulosa, vidro (BackdropBlur) |
 | Animação | react-native-reanimated | `4.7.1` | Transições de tela/pergunta, interpolação de cor, `useFrameCallback` |
@@ -56,6 +56,12 @@ Versões checadas no registry do npm em **24/10/2026** — ver nota de atualiza�
 | Build/CI | eas-cli | `25.3.0` | Builds nativos e EAS Update (quando aplicável) |
 
 > **Nota de atualização:** não instale essas versões à mão. Ao criar o projeto na Fase 1, use `npx create-expo-app` seguido de `npx expo install <pacote>` para cada dependência — o Expo resolve automaticamente a versão compatível com o SDK instalado (pode ser diferente do último lançamento do npm). Rode `npx expo install --check` periodicamente para alinhar. Para libs fora do ecossistema Expo (zustand, libphonenumber-js, i18next, etc.), `npm view <pacote> version` ou o Dependabot (seção 2.1) indicam a versão mais nova.
+>
+> **Node:** o toolchain do RN 0.88 exige Node `^22.13.0 || ^24.3.0 || >= 26.0.0` (Node 23.x, por exemplo, NÃO funciona). Projeto fixa `22` via `.nvmrc`/`engines`; usar `nvm use` antes de instalar.
+>
+> **Scaffold:** projeto Expo já criado na raiz do repositório (`npx create-expo-app`) na Fase 1 — estrutura de pastas desta seção já reflete o que foi gerado, não é mais só plano.
+>
+> **Vulnerabilidade conhecida sem fix (aceita por ora):** `npm audit` aponta `node-forge` e `zod` (ambos transitivos de `@expo/cli`, dependência do próprio `expo`) como alta severidade. Não há versão corrigida publicada por nenhum dos dois no momento (confirmado via GHSA-86w9-cpqp-85rv, `first_patched_version: null`); `npm audit fix --force` sugere rebaixar para `expo@44`, o que seria regressão grave — **não aplicar**. Reavaliar a cada `npx expo install --check`/atualização de SDK.
 
 ---
 
@@ -85,29 +91,34 @@ Repositório público (`github.com/silvars/refuge`) — isso dá acesso gratuito
 
 ## 3. Estrutura de pastas
 
+> Atualizado para a convenção do template oficial `create-expo-app` (SDK 58+): o expo-router vive em `src/app/` (não mais `app/` na raiz), com alias `@/*` apontando para `src/*` (ver `tsconfig.json`). `ios/`/`android/` não existem no repo — são gerados sob demanda (Continuous Native Generation) a partir de `app.json`.
+
 ```
-app/                          # expo-router
-  _layout.tsx                 # fontes, providers, barra superior, botão Ajuda global
-  index.tsx                   # redireciona: onboarding ou principal
-  onboarding/
-    boas-vindas.tsx
-    conteudo.tsx
-    fone.tsx
-  vamos-comecar.tsx
-  checkin/
-    index.tsx                 # perguntas (P1..P8) + transições
-    pausa.tsx                 # também usada no modo "respiro"
-    etiquetas.tsx
-    resultado.tsx
-  principal.tsx
-  porto-seguro/
-    index.tsx
-    acolhimento.tsx
-  nebulosa.tsx
-  ajustes.tsx
-  sobre.tsx
-  ajuda.tsx                   # modal, presentation: 'fullScreenModal'
 src/
+  app/                         # expo-router — cada arquivo aqui é uma tela
+    _layout.tsx                # fontes, providers, barra superior, botão Ajuda global
+    index.tsx                  # redireciona: onboarding ou principal
+    onboarding/
+      boas-vindas.tsx
+      conteudo.tsx
+      fone.tsx
+    vamos-comecar.tsx
+    checkin/
+      index.tsx                # perguntas (P1..P8) + transições
+      pausa.tsx                # também usada no modo "respiro"
+      etiquetas.tsx
+      resultado.tsx
+    principal.tsx
+    porto-seguro/
+      index.tsx
+      acolhimento.tsx
+    nebulosa.tsx
+    ajustes.tsx
+    sobre.tsx
+    ajuda.tsx                  # modal, presentation: 'fullScreenModal'
+  components/                  # componentes de UI reutilizáveis (fora de app/, por convenção do template)
+  hooks/
+  constants/
   domain/
     clima.ts                  # porta de motor/motor-clima.js (funções puras)
     tipos.ts
