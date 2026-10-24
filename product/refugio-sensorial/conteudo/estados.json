@@ -1,9 +1,11 @@
 {
-  "versao": "1.0",
+  "versao": "2.0",
+  "idiomas": ["pt-BR", "en", "fr", "es"],
+  "idioma_origem": "pt-BR",
   "estados": {
     "tempestade": {
-      "nome": "Tempestade",
-      "descricao": "Agitação, tensão, sobrecarga",
+      "nome": { "pt-BR": "Tempestade", "en": null, "fr": null, "es": null },
+      "descricao": { "pt-BR": "Agitação, tensão, sobrecarga", "en": null, "fr": null, "es": null },
       "degrade": [
         "#16253D",
         "#24395A",
@@ -13,7 +15,7 @@
       "cor_estrela": "#6096D6",
       "cor_legenda": "#3D6E9E",
       "tinta_texto": "#FCFCFC",
-      "som": "Ondas do mar, ruído rosa, binaural 4 Hz (200/204 Hz)",
+      "som": { "pt-BR": "Ondas do mar, ruído rosa, binaural 4 Hz (200/204 Hz)", "en": null, "fr": null, "es": null },
       "forma_tela_principal": {
         "amplitude": 1.6,
         "velocidade": 1.9,
@@ -21,8 +23,8 @@
       }
     },
     "nevoa": {
-      "nome": "Névoa",
-      "descricao": "Pouca energia, desânimo, tristeza",
+      "nome": { "pt-BR": "Névoa", "en": null, "fr": null, "es": null },
+      "descricao": { "pt-BR": "Pouca energia, desânimo, tristeza", "en": null, "fr": null, "es": null },
       "degrade": [
         "#4B3E72",
         "#7D6699",
@@ -32,7 +34,7 @@
       "cor_estrela": "#B28CE4",
       "cor_legenda": "#9B7BC0",
       "tinta_texto": "#FCFCFC",
-      "som": "Vento leve e violão dedilhado em tons maiores",
+      "som": { "pt-BR": "Vento leve e violão dedilhado em tons maiores", "en": null, "fr": null, "es": null },
       "forma_tela_principal": {
         "amplitude": 0.8,
         "velocidade": 0.55,
@@ -40,8 +42,8 @@
       }
     },
     "clareira": {
-      "nome": "Clareira",
-      "descricao": "Equilíbrio, calma, presença",
+      "nome": { "pt-BR": "Clareira", "en": null, "fr": null, "es": null },
+      "descricao": { "pt-BR": "Equilíbrio, calma, presença", "en": null, "fr": null, "es": null },
       "degrade": [
         "#F4EDCB",
         "#E1EDCB",
@@ -51,7 +53,7 @@
       "cor_estrela": "#F6CE60",
       "cor_legenda": "#E2B93B",
       "tinta_texto": "#231F20",
-      "som": "Pad calmo, folhas e pássaros",
+      "som": { "pt-BR": "Pad calmo, folhas e pássaros", "en": null, "fr": null, "es": null },
       "forma_tela_principal": {
         "amplitude": 0.45,
         "velocidade": 0.35,
@@ -61,7 +63,7 @@
   },
   "neutro": {
     "fundo": "#0E0E14",
-    "uso": "Onboarding antes do primeiro check-in"
+    "uso": { "pt-BR": "Onboarding antes do primeiro check-in", "en": null, "fr": null, "es": null }
   },
   "esmaecido": {
     "sobreposicao": "#3A3A44",
@@ -74,6 +76,6 @@
       "#262640",
       "#2E2A45"
     ],
-    "observacao": "Fixo, não muda com o clima"
+    "observacao": { "pt-BR": "Fixo, não muda com o clima", "en": null, "fr": null, "es": null }
   }
 }

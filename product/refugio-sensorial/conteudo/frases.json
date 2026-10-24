@@ -1,22 +1,29 @@
 {
-  "versao": "1.0",
+  "versao": "2.0",
+  "idiomas": ["pt-BR", "en", "fr", "es"],
+  "idioma_origem": "pt-BR",
   "campos": {
     "id": "identificador único",
     "linha": "neutra | espiritual | filosofica",
     "uso": "tela | notificacao",
     "estados": "lista com tempestade | nevoa | clareira",
     "momento": "qualquer | manha | noite (só notificação)",
-    "texto": "texto exibido",
+    "texto": "mapa por idioma (pt-BR/en/fr/es); null = tradução pendente, nunca string vazia",
     "origem": "autoria ou referência",
-    "traducao_edicao": "edição/tradução usada",
+    "traducao_edicao": "edição/tradução usada (ver creditos_biblia para a linha espiritual)",
     "licenca": "propria | CC-BY-4.0 | dominio_publico",
     "max_caracteres": "limite (notificação: 110)",
     "nao_repetir_dias": "intervalo mínimo para repetir",
     "revisado_por_profissional": "revisão de saúde mental feita",
     "ativo": "permite desligar sem nova versão"
   },
-  "credito_biblia_livre": "Escrituras citadas da Bíblia Livre (BLIVRE), Copyright © Diego Santos, Mario Sérgio e Marco Teles, fevereiro de 2018. Licença Creative Commons Atribuição. Fonte: https://ebible.org/porbr2018/copyright.htm (confirmar a variante da licença no site oficial antes de publicar)",
-  "meta_lancamento": "Mínimo de 30 frases de tela por estado em cada linha ativa e 15 frases de notificação por estado.",
+  "creditos_biblia": {
+    "pt-BR": "Escrituras citadas da Bíblia Livre (BLIVRE), Copyright © Diego Santos, Mario Sérgio e Marco Teles, fevereiro de 2018. Licença Creative Commons Atribuição. Fonte: https://ebible.org/porbr2018/copyright.htm (confirmar a variante da licença no site oficial antes de publicar)",
+    "en": "Scripture quoted from the World English Bible (WEB), public domain. Confirm edition details before publishing.",
+    "fr": "Écritures citées de la version Louis Segond (1910), domaine public. Confirmer l'édition avant publication.",
+    "es": "Escrituras citadas de la versión Reina-Valera Antigua (1909), dominio público. Confirmar la edición antes de publicar."
+  },
+  "meta_lancamento": "Mínimo de 30 frases de tela por estado em cada linha ativa e 15 frases de notificação por estado, POR IDIOMA (pt-BR, en, fr, es — ver especificação, seção 16.7).",
   "frases": [
     {
       "id": "TXT_N_T_01",
@@ -25,7 +32,7 @@
       "estados": [
         "tempestade"
       ],
-      "texto": "Você não precisa resolver tudo agora. Só esta respiração.",
+      "texto": { "pt-BR": "Você não precisa resolver tudo agora. Só esta respiração.", "en": null, "fr": null, "es": null },
       "origem": "Frase autoral",
       "licenca": "propria",
       "revisado_por_profissional": false,
@@ -38,7 +45,7 @@
       "estados": [
         "nevoa"
       ],
-      "texto": "Dias cinzentos também passam. Seja gentil com você hoje.",
+      "texto": { "pt-BR": "Dias cinzentos também passam. Seja gentil com você hoje.", "en": null, "fr": null, "es": null },
       "origem": "Frase autoral",
       "licenca": "propria",
       "revisado_por_profissional": false,
@@ -51,7 +58,7 @@
       "estados": [
         "clareira"
       ],
-      "texto": "Guarde este momento. Ele também é seu.",
+      "texto": { "pt-BR": "Guarde este momento. Ele também é seu.", "en": null, "fr": null, "es": null },
       "origem": "Frase autoral",
       "licenca": "propria",
       "revisado_por_profissional": false,
@@ -64,7 +71,12 @@
       "estados": [
         "tempestade"
       ],
-      "texto": "[PREENCHER: Salmos 46:1 na Bíblia Livre]",
+      "texto": {
+        "pt-BR": "[PREENCHER: Salmos 46:1 na Bíblia Livre]",
+        "en": "[PREENCHER: Psalm 46:1 na World English Bible]",
+        "fr": "[PREENCHER: Psaume 46:1 na Louis Segond]",
+        "es": "[PREENCHER: Salmos 46:1 na Reina-Valera Antigua]"
+      },
       "origem": "Salmos 46:1",
       "traducao_edicao": "Bíblia Livre (BLIVRE), fev/2018",
       "licenca": "CC-BY-4.0",
@@ -78,7 +90,12 @@
       "estados": [
         "nevoa"
       ],
-      "texto": "[PREENCHER: Salmos 42:11 na Bíblia Livre]",
+      "texto": {
+        "pt-BR": "[PREENCHER: Salmos 42:11 na Bíblia Livre]",
+        "en": "[PREENCHER: Psalm 42:11 na World English Bible]",
+        "fr": "[PREENCHER: Psaume 42:11 na Louis Segond]",
+        "es": "[PREENCHER: Salmos 42:11 na Reina-Valera Antigua]"
+      },
       "origem": "Salmos 42:11",
       "traducao_edicao": "Bíblia Livre (BLIVRE), fev/2018",
       "licenca": "CC-BY-4.0",
@@ -92,7 +109,12 @@
       "estados": [
         "clareira"
       ],
-      "texto": "[PREENCHER: Salmos 118:24 na Bíblia Livre]",
+      "texto": {
+        "pt-BR": "[PREENCHER: Salmos 118:24 na Bíblia Livre]",
+        "en": "[PREENCHER: Psalm 118:24 na World English Bible]",
+        "fr": "[PREENCHER: Psaume 118:24 na Louis Segond]",
+        "es": "[PREENCHER: Salmos 118:24 na Reina-Valera Antigua]"
+      },
       "origem": "Salmos 118:24",
       "traducao_edicao": "Bíblia Livre (BLIVRE), fev/2018",
       "licenca": "CC-BY-4.0",
@@ -106,9 +128,9 @@
       "estados": [
         "tempestade"
       ],
-      "texto": "Não são as coisas que nos perturbam, mas o que pensamos sobre elas.",
+      "texto": { "pt-BR": "Não são as coisas que nos perturbam, mas o que pensamos sobre elas.", "en": null, "fr": null, "es": null },
       "origem": "Epicteto, Manual",
-      "traducao_edicao": "Tradução livre",
+      "traducao_edicao": "Tradução livre (pt-BR); traduções clássicas de domínio público nos demais idiomas (ver especificação, seção 16.4)",
       "licenca": "propria",
       "revisado_por_profissional": false,
       "ativo": true
@@ -120,9 +142,9 @@
       "estados": [
         "nevoa"
       ],
-      "texto": "Sofremos mais na imaginação do que na realidade.",
+      "texto": { "pt-BR": "Sofremos mais na imaginação do que na realidade.", "en": null, "fr": null, "es": null },
       "origem": "Sêneca, Cartas a Lucílio",
-      "traducao_edicao": "Tradução livre",
+      "traducao_edicao": "Tradução livre (pt-BR); traduções clássicas de domínio público nos demais idiomas (ver especificação, seção 16.4)",
       "licenca": "propria",
       "revisado_por_profissional": false,
       "ativo": true
@@ -134,9 +156,9 @@
       "estados": [
         "clareira"
       ],
-      "texto": "Sábio é quem não sofre pelo que não tem e se alegra com o que tem.",
+      "texto": { "pt-BR": "Sábio é quem não sofre pelo que não tem e se alegra com o que tem.", "en": null, "fr": null, "es": null },
       "origem": "Epicteto, Fragmentos",
-      "traducao_edicao": "Tradução livre",
+      "traducao_edicao": "Tradução livre (pt-BR); traduções clássicas de domínio público nos demais idiomas (ver especificação, seção 16.4)",
       "licenca": "propria",
       "revisado_por_profissional": false,
       "ativo": true
@@ -148,7 +170,7 @@
       "estados": [
         "tempestade"
       ],
-      "texto": "Uma coisa de cada vez. Você não precisa dar conta de tudo hoje.",
+      "texto": { "pt-BR": "Uma coisa de cada vez. Você não precisa dar conta de tudo hoje.", "en": null, "fr": null, "es": null },
       "origem": "Frase autoral",
       "momento": "qualquer",
       "max_caracteres": 110,
@@ -164,7 +186,7 @@
       "estados": [
         "nevoa"
       ],
-      "texto": "Dias pesados também contam. Você está fazendo o que dá, e isso basta.",
+      "texto": { "pt-BR": "Dias pesados também contam. Você está fazendo o que dá, e isso basta.", "en": null, "fr": null, "es": null },
       "origem": "Frase autoral",
       "momento": "manha",
       "max_caracteres": 110,
@@ -180,7 +202,7 @@
       "estados": [
         "clareira"
       ],
-      "texto": "Que bom te ver num dia leve. Guarda esse momento.",
+      "texto": { "pt-BR": "Que bom te ver num dia leve. Guarda esse momento.", "en": null, "fr": null, "es": null },
       "origem": "Frase autoral",
       "momento": "qualquer",
       "max_caracteres": 110,

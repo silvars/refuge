@@ -1,15 +1,17 @@
 {
-  "versao": "1.0",
+  "versao": "2.0",
+  "idiomas": ["pt-BR", "en", "fr", "es"],
+  "idioma_origem": "pt-BR",
   "regra": "O tipo de pausa é definido pelo estado (clima predominante até a pergunta 3, ou clima do dia no respiro pós-Porto Seguro). Não é escolha do usuário.",
   "pausas": {
     "tempestade": {
-      "nome": "Desacelerar",
-      "titulo": "Vamos desacelerar juntos.",
+      "nome": { "pt-BR": "Desacelerar", "en": null, "fr": null, "es": null },
+      "titulo": { "pt-BR": "Vamos desacelerar juntos.", "en": null, "fr": null, "es": null },
       "inspira_s": 4,
       "expira_s": 7,
-      "rotulo_inspira": "Inspire… 4",
-      "rotulo_expira": "Solte bem devagar… 7",
-      "apoio": "Soltar o ar mais devagar do que puxa pode ajudar a desacelerar. Siga a esfera.",
+      "rotulo_inspira": { "pt-BR": "Inspire… 4", "en": null, "fr": null, "es": null },
+      "rotulo_expira": { "pt-BR": "Solte bem devagar… 7", "en": null, "fr": null, "es": null },
+      "apoio": { "pt-BR": "Soltar o ar mais devagar do que puxa pode ajudar a desacelerar. Siga a esfera.", "en": null, "fr": null, "es": null },
       "forma": {
         "amplitude": 0.7,
         "velocidade": 1.1,
@@ -19,13 +21,13 @@
       }
     },
     "nevoa": {
-      "nome": "Acolher",
-      "titulo": "Um respiro para se acolher.",
+      "nome": { "pt-BR": "Acolher", "en": null, "fr": null, "es": null },
+      "titulo": { "pt-BR": "Um respiro para se acolher.", "en": null, "fr": null, "es": null },
       "inspira_s": 5,
       "expira_s": 5,
-      "rotulo_inspira": "Inspire…",
-      "rotulo_expira": "Solte…",
-      "apoio": "Se quiser, coloque a mão no peito e respire ali, no ritmo da esfera.",
+      "rotulo_inspira": { "pt-BR": "Inspire…", "en": null, "fr": null, "es": null },
+      "rotulo_expira": { "pt-BR": "Solte…", "en": null, "fr": null, "es": null },
+      "apoio": { "pt-BR": "Se quiser, coloque a mão no peito e respire ali, no ritmo da esfera.", "en": null, "fr": null, "es": null },
       "forma": {
         "amplitude": 0.45,
         "velocidade": 0.5,
@@ -35,13 +37,13 @@
       }
     },
     "clareira": {
-      "nome": "Saborear",
-      "titulo": "Guarde este momento.",
+      "nome": { "pt-BR": "Saborear", "en": null, "fr": null, "es": null },
+      "titulo": { "pt-BR": "Guarde este momento.", "en": null, "fr": null, "es": null },
       "inspira_s": 4,
       "expira_s": 4,
-      "rotulo_inspira": "Inspire…",
-      "rotulo_expira": "Solte…",
-      "apoio": "Pense em uma coisa boa de hoje e fique com ela por três respirações.",
+      "rotulo_inspira": { "pt-BR": "Inspire…", "en": null, "fr": null, "es": null },
+      "rotulo_expira": { "pt-BR": "Solte…", "en": null, "fr": null, "es": null },
+      "apoio": { "pt-BR": "Pense em uma coisa boa de hoje e fique com ela por três respirações.", "en": null, "fr": null, "es": null },
       "forma": {
         "amplitude": 0.3,
         "velocidade": 0.35,
@@ -51,5 +53,5 @@
       }
     }
   },
-  "comunicacao": "Nunca prometer efeito terapêutico. Usar 'pode ajudar a desacelerar', nunca 'reduz a ansiedade'."
+  "comunicacao": "Nunca prometer efeito terapêutico. Usar 'pode ajudar a desacelerar', nunca 'reduz a ansiedade'. Campo interno, não traduzir."
 }

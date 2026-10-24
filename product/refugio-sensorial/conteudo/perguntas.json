@@ -1,31 +1,33 @@
 {
-  "versao": "1.0",
-  "observacao": "Check-in de momento inspirado nas dimensões do DASS-21 e PHQ-9, sem validade clínica. Não incluir pergunta sobre pensamentos de morte ou autolesão (ver especificação, Protocolo de segurança).",
+  "versao": "2.0",
+  "idiomas": ["pt-BR", "en", "fr", "es"],
+  "idioma_origem": "pt-BR",
+  "observacao": "Check-in de momento inspirado nas dimensões do DASS-21 e PHQ-9, sem validade clínica. Não incluir pergunta sobre pensamentos de morte ou autolesão (ver especificação, Protocolo de segurança). Campo interno, não traduzir.",
   "pausa_apos_indice": 2,
   "embaralhar_opcoes": true,
   "perguntas": [
     {
       "id": "mente",
-      "dimensao": "Mente",
-      "texto": "Se sua mente fosse um elemento da natureza agora, ela seria…",
+      "dimensao": { "pt-BR": "Mente", "en": null, "fr": null, "es": null },
+      "texto": { "pt-BR": "Se sua mente fosse um elemento da natureza agora, ela seria…", "en": null, "fr": null, "es": null },
       "opcoes": [
         {
           "id": "mente_1",
-          "texto": "Uma represa cheia, prestes a transbordar",
+          "texto": { "pt-BR": "Uma represa cheia, prestes a transbordar", "en": null, "fr": null, "es": null },
           "pesos": {
             "tempestade": 1
           }
         },
         {
           "id": "mente_2",
-          "texto": "Terra seca, sem chuva há dias",
+          "texto": { "pt-BR": "Terra seca, sem chuva há dias", "en": null, "fr": null, "es": null },
           "pesos": {
             "nevoa": 1
           }
         },
         {
           "id": "mente_3",
-          "texto": "Neblina leve, que vai e vem",
+          "texto": { "pt-BR": "Neblina leve, que vai e vem", "en": null, "fr": null, "es": null },
           "pesos": {
             "nevoa": 0.5,
             "clareira": 0.5
@@ -33,7 +35,7 @@
         },
         {
           "id": "mente_4",
-          "texto": "Um rio correndo calmo",
+          "texto": { "pt-BR": "Um rio correndo calmo", "en": null, "fr": null, "es": null },
           "pesos": {
             "clareira": 1
           }
@@ -42,26 +44,26 @@
     },
     {
       "id": "corpo",
-      "dimensao": "Corpo",
-      "texto": "Como o seu corpo está agora?",
+      "dimensao": { "pt-BR": "Corpo", "en": null, "fr": null, "es": null },
+      "texto": { "pt-BR": "Como o seu corpo está agora?", "en": null, "fr": null, "es": null },
       "opcoes": [
         {
           "id": "corpo_1",
-          "texto": "Ombros duros, coração acelerado",
+          "texto": { "pt-BR": "Ombros duros, coração acelerado", "en": null, "fr": null, "es": null },
           "pesos": {
             "tempestade": 1
           }
         },
         {
           "id": "corpo_2",
-          "texto": "Pesado, como se carregasse uma mochila",
+          "texto": { "pt-BR": "Pesado, como se carregasse uma mochila", "en": null, "fr": null, "es": null },
           "pesos": {
             "nevoa": 1
           }
         },
         {
           "id": "corpo_3",
-          "texto": "Cansado, mas tranquilo",
+          "texto": { "pt-BR": "Cansado, mas tranquilo", "en": null, "fr": null, "es": null },
           "pesos": {
             "nevoa": 0.4,
             "clareira": 0.6
@@ -69,7 +71,7 @@
         },
         {
           "id": "corpo_4",
-          "texto": "Leve, respirando fundo sem esforço",
+          "texto": { "pt-BR": "Leve, respirando fundo sem esforço", "en": null, "fr": null, "es": null },
           "pesos": {
             "clareira": 1
           }
@@ -78,26 +80,26 @@
     },
     {
       "id": "sono",
-      "dimensao": "Sono",
-      "texto": "E a sua última noite, como foi?",
+      "dimensao": { "pt-BR": "Sono", "en": null, "fr": null, "es": null },
+      "texto": { "pt-BR": "E a sua última noite, como foi?", "en": null, "fr": null, "es": null },
       "opcoes": [
         {
           "id": "sono_1",
-          "texto": "Rolei na cama com a cabeça a mil",
+          "texto": { "pt-BR": "Rolei na cama com a cabeça a mil", "en": null, "fr": null, "es": null },
           "pesos": {
             "tempestade": 1
           }
         },
         {
           "id": "sono_2",
-          "texto": "Dormi muito e acordei sem vontade de levantar",
+          "texto": { "pt-BR": "Dormi muito e acordei sem vontade de levantar", "en": null, "fr": null, "es": null },
           "pesos": {
             "nevoa": 1
           }
         },
         {
           "id": "sono_3",
-          "texto": "Acordei algumas vezes, mas descansei",
+          "texto": { "pt-BR": "Acordei algumas vezes, mas descansei", "en": null, "fr": null, "es": null },
           "pesos": {
             "tempestade": 0.3,
             "clareira": 0.7
@@ -105,7 +107,7 @@
         },
         {
           "id": "sono_4",
-          "texto": "Descansei bem",
+          "texto": { "pt-BR": "Descansei bem", "en": null, "fr": null, "es": null },
           "pesos": {
             "clareira": 1
           }
@@ -114,26 +116,26 @@
     },
     {
       "id": "pensamentos",
-      "dimensao": "Pensamentos",
-      "texto": "Seus pensamentos hoje parecem…",
+      "dimensao": { "pt-BR": "Pensamentos", "en": null, "fr": null, "es": null },
+      "texto": { "pt-BR": "Seus pensamentos hoje parecem…", "en": null, "fr": null, "es": null },
       "opcoes": [
         {
           "id": "pensamentos_1",
-          "texto": "Mil abas abertas no navegador",
+          "texto": { "pt-BR": "Mil abas abertas no navegador", "en": null, "fr": null, "es": null },
           "pesos": {
             "tempestade": 1
           }
         },
         {
           "id": "pensamentos_2",
-          "texto": "Um rádio chiando baixinho, fora de sintonia",
+          "texto": { "pt-BR": "Um rádio chiando baixinho, fora de sintonia", "en": null, "fr": null, "es": null },
           "pesos": {
             "nevoa": 1
           }
         },
         {
           "id": "pensamentos_3",
-          "texto": "Uma lista longa, mas organizada",
+          "texto": { "pt-BR": "Uma lista longa, mas organizada", "en": null, "fr": null, "es": null },
           "pesos": {
             "tempestade": 0.4,
             "clareira": 0.6
@@ -141,7 +143,7 @@
         },
         {
           "id": "pensamentos_4",
-          "texto": "Um céu limpo, com poucas nuvens",
+          "texto": { "pt-BR": "Um céu limpo, com poucas nuvens", "en": null, "fr": null, "es": null },
           "pesos": {
             "clareira": 1
           }
@@ -150,26 +152,26 @@
     },
     {
       "id": "preocupacoes",
-      "dimensao": "Preocupações",
-      "texto": "E as preocupações, como estão hoje?",
+      "dimensao": { "pt-BR": "Preocupações", "en": null, "fr": null, "es": null },
+      "texto": { "pt-BR": "E as preocupações, como estão hoje?", "en": null, "fr": null, "es": null },
       "opcoes": [
         {
           "id": "preocupacoes_1",
-          "texto": "Não saem da minha cabeça",
+          "texto": { "pt-BR": "Não saem da minha cabeça", "en": null, "fr": null, "es": null },
           "pesos": {
             "tempestade": 1
           }
         },
         {
           "id": "preocupacoes_2",
-          "texto": "Nem tenho forças para pensar nelas",
+          "texto": { "pt-BR": "Nem tenho forças para pensar nelas", "en": null, "fr": null, "es": null },
           "pesos": {
             "nevoa": 1
           }
         },
         {
           "id": "preocupacoes_3",
-          "texto": "Estão aqui, mas sob controle",
+          "texto": { "pt-BR": "Estão aqui, mas sob controle", "en": null, "fr": null, "es": null },
           "pesos": {
             "tempestade": 0.3,
             "clareira": 0.7
@@ -177,7 +179,7 @@
         },
         {
           "id": "preocupacoes_4",
-          "texto": "Hoje estão bem quietas",
+          "texto": { "pt-BR": "Hoje estão bem quietas", "en": null, "fr": null, "es": null },
           "pesos": {
             "clareira": 1
           }
@@ -186,26 +188,26 @@
     },
     {
       "id": "energia",
-      "dimensao": "Energia",
-      "texto": "Se sua energia fosse a bateria do celular…",
+      "dimensao": { "pt-BR": "Energia", "en": null, "fr": null, "es": null },
+      "texto": { "pt-BR": "Se sua energia fosse a bateria do celular…", "en": null, "fr": null, "es": null },
       "opcoes": [
         {
           "id": "energia_1",
-          "texto": "80%, mas esquentando",
+          "texto": { "pt-BR": "80%, mas esquentando", "en": null, "fr": null, "es": null },
           "pesos": {
             "tempestade": 1
           }
         },
         {
           "id": "energia_2",
-          "texto": "10%, em modo economia",
+          "texto": { "pt-BR": "10%, em modo economia", "en": null, "fr": null, "es": null },
           "pesos": {
             "nevoa": 1
           }
         },
         {
           "id": "energia_3",
-          "texto": "50%, dá pra chegar até a noite",
+          "texto": { "pt-BR": "50%, dá pra chegar até a noite", "en": null, "fr": null, "es": null },
           "pesos": {
             "nevoa": 0.3,
             "clareira": 0.7
@@ -213,7 +215,7 @@
         },
         {
           "id": "energia_4",
-          "texto": "Carregada na medida certa",
+          "texto": { "pt-BR": "Carregada na medida certa", "en": null, "fr": null, "es": null },
           "pesos": {
             "clareira": 1
           }
@@ -222,26 +224,26 @@
     },
     {
       "id": "pessoas",
-      "dimensao": "Pessoas",
-      "texto": "Como você se sente em relação às pessoas hoje?",
+      "dimensao": { "pt-BR": "Pessoas", "en": null, "fr": null, "es": null },
+      "texto": { "pt-BR": "Como você se sente em relação às pessoas hoje?", "en": null, "fr": null, "es": null },
       "opcoes": [
         {
           "id": "pessoas_1",
-          "texto": "Qualquer coisa me irrita",
+          "texto": { "pt-BR": "Qualquer coisa me irrita", "en": null, "fr": null, "es": null },
           "pesos": {
             "tempestade": 1
           }
         },
         {
           "id": "pessoas_2",
-          "texto": "Sozinho, mesmo perto de gente",
+          "texto": { "pt-BR": "Sozinho, mesmo perto de gente", "en": null, "fr": null, "es": null },
           "pesos": {
             "nevoa": 1
           }
         },
         {
           "id": "pessoas_3",
-          "texto": "Prefiro ficar no meu canto, e tudo bem",
+          "texto": { "pt-BR": "Prefiro ficar no meu canto, e tudo bem", "en": null, "fr": null, "es": null },
           "pesos": {
             "nevoa": 0.4,
             "clareira": 0.6
@@ -249,7 +251,7 @@
         },
         {
           "id": "pessoas_4",
-          "texto": "Perto de quem importa",
+          "texto": { "pt-BR": "Perto de quem importa", "en": null, "fr": null, "es": null },
           "pesos": {
             "clareira": 1
           }
@@ -258,26 +260,26 @@
     },
     {
       "id": "prazer",
-      "dimensao": "Prazer",
-      "texto": "Hoje, as coisas de que você gosta…",
+      "dimensao": { "pt-BR": "Prazer", "en": null, "fr": null, "es": null },
+      "texto": { "pt-BR": "Hoje, as coisas de que você gosta…", "en": null, "fr": null, "es": null },
       "opcoes": [
         {
           "id": "prazer_1",
-          "texto": "Até tento, mas não consigo parar para curtir",
+          "texto": { "pt-BR": "Até tento, mas não consigo parar para curtir", "en": null, "fr": null, "es": null },
           "pesos": {
             "tempestade": 1
           }
         },
         {
           "id": "prazer_2",
-          "texto": "Perderam a graça",
+          "texto": { "pt-BR": "Perderam a graça", "en": null, "fr": null, "es": null },
           "pesos": {
             "nevoa": 1
           }
         },
         {
           "id": "prazer_3",
-          "texto": "Estão mornas, mas ainda estão lá",
+          "texto": { "pt-BR": "Estão mornas, mas ainda estão lá", "en": null, "fr": null, "es": null },
           "pesos": {
             "nevoa": 0.5,
             "clareira": 0.5
@@ -285,7 +287,7 @@
         },
         {
           "id": "prazer_4",
-          "texto": "Ainda me trazem alegria",
+          "texto": { "pt-BR": "Ainda me trazem alegria", "en": null, "fr": null, "es": null },
           "pesos": {
             "clareira": 1
           }

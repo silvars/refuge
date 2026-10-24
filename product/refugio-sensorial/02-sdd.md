@@ -41,6 +41,8 @@
 | Biometria | expo-local-authentication | Bloqueio opcional do app |
 | Fontes | expo-font + @expo-google-fonts/urbanist e /roboto | Tipografia |
 | Conteúdo | JSON empacotado + EAS Update (OTA) | Frases e perguntas sem nova versão de loja |
+| Idioma | i18next + react-i18next | Catálogo de UI e seleção de texto do conteúdo dinâmico por locale |
+| Idioma (detecção) | expo-localization | Locale do aparelho no primeiro uso |
 | Testes | Jest (lógica), React Native Testing Library, Maestro (E2E) | — |
 
 > Confirmar versões compatíveis com o SDK Expo no momento da criação do projeto. Pinar versões exatas.
@@ -91,6 +93,14 @@ src/
     migracoes.ts
     repositorios.ts
   conteudo/                   # cópia de ../conteudo/*.json + validação de esquema
+  i18n/
+    index.ts                 # init do i18next, detecção de locale, troca em runtime
+    locales/
+      pt-BR/common.json       # textos fixos de UI (botões, telas, acessibilidade)
+      en/common.json
+      fr/common.json
+      es/common.json
+    textoLocalizado.ts        # helper: resolve campo multi-locale do conteudo/*.json com fallback para pt-BR
   haptics.ts
   contatos.ts                 # picker + normalização + abertura WhatsApp/SMS
   notificacoes.ts
@@ -358,7 +368,8 @@ async function abrirMensagem(e164: string, texto: string): Promise<'whatsapp' | 
 | Unitário (Jest) | `clima.ts` (totals, layerOpacities = média exata, finish com empates, shuffle estável), `agendamento.ts` (silêncio, teto diário, não repetição), `normalizarTelefone` (casos: `(11) 98765-4321`, `+55 11 91234-5678`, `21 99876-1234`, `011 97777-1212`, fixo), `selecaoFrases.ts` |
 | Componente | Check-in: fases bloqueiam toques; voltar preserva resposta; pausa escolhe tipo pelo estado |
 | E2E (Maestro) | Onboarding completo; check-in → resultado → principal; Porto Seguro até abrir app externo; Ajuda a partir de 3 telas; apagar tudo |
-| Manual | Som com fone, interrupções por ligação, reduzir movimento, leitor de tela (VoiceOver/TalkBack), fonte grande, aparelho Android intermediário (fps) |
+| i18n (Jest) | `textoLocalizado.ts` (fallback para pt-BR quando falta tradução, nunca retorna vazio/null), troca de idioma reflete no `lang` do app, seleção de frases nunca escolhe entrada pendente no idioma ativo |
+| Manual | Som com fone, interrupções por ligação, reduzir movimento, leitor de tela (VoiceOver/TalkBack) nos 4 idiomas, fonte grande, aparelho Android intermediário (fps) |
 
 ---
 
@@ -367,15 +378,18 @@ async function abrirMensagem(e164: string, texto: string): Promise<'whatsapp' | 
 | Fase | Entrega | Pronto quando |
 | --- | --- | --- |
 | **0. Provas de conceito (primeiro!)** | (a) Motor de áudio em `react-native-audio-api` com as 3 camadas e crossfade; (b) Forma de pontos em Skia a 55+ fps | Áudio estável 10 min, sobrevive a ligação e à troca de app; forma fluida no Android intermediário |
-| 1. Fundação | Projeto Expo, tokens, fontes, FundoClima, Vidro, banco criptografado, store | Fundo muda por mistura com transição de 2,8 s |
-| 2. Check-in | Perguntas, embaralhamento, transições, pausa, etiquetas, resultado, háptico | Fluxo completo grava check-in |
-| 3. Principal + Ajuda | Tela principal, banners (esmaecido, sequência), botão Ajuda global, tela de ajuda | Ajuda acessível em 1 toque de qualquer tela |
-| 4. Porto Seguro | Mensagem por clima, edição, picker, WhatsApp/SMS, acolhimento, respiro | Envio real para WhatsApp e fallback SMS |
+| 1. Fundação + i18n | Projeto Expo, tokens, fontes, FundoClima, Vidro, banco criptografado, store, **infraestrutura de i18n** (i18next, detecção de locale, reestruturação dos `conteudo/*.json` multi-locale, troca de idioma em Ajustes) | Fundo muda por mistura com transição de 2,8 s; trocar o idioma em Ajustes muda a UI inteira na hora |
+| 2. Check-in | Perguntas, embaralhamento, transições, pausa, etiquetas, resultado, háptico — todos os textos via i18n | Fluxo completo grava check-in nos 4 idiomas |
+| 3. Principal + Ajuda | Tela principal, banners (esmaecido, sequência), botão Ajuda global, tela de ajuda | Ajuda acessível em 1 toque de qualquer tela, nos 4 idiomas |
+| 4. Porto Seguro | Mensagem por clima, edição, picker, WhatsApp/SMS, acolhimento, respiro | Envio real para WhatsApp e fallback SMS, mensagem no idioma ativo |
 | 5. Nebulosa | Céu, memória do dia, resumo da semana | Toque abre memória correta |
-| 6. Ajustes + Notificações | Interruptores, apagar tudo, lembretes, mensagens de apoio, bloqueio | Regras de agendamento passam nos testes |
-| 7. Polimento e loja | Acessibilidade, reduzir movimento, Sobre/créditos, política de privacidade, declarações de loja | Checklist da especificação (seções 9.4, 11, 12) |
+| 6. Ajustes + Notificações | Interruptores, apagar tudo, lembretes, mensagens de apoio, bloqueio, seletor de idioma | Regras de agendamento passam nos testes; idioma persiste entre sessões |
+| 7. Conteúdo traduzido | Tradução/revisão humana de todo `conteudo/*.json` para en/fr/es (perguntas, frases, Porto Seguro, respiração, etiquetas), com as fontes bíblicas/filosóficas por idioma (ver especificação, seção 16) | Meta de frases por clima/linha atingida nos 4 idiomas; zero entradas `pendente: true` ativas |
+| 8. Polimento e loja | Acessibilidade, reduzir movimento, Sobre/créditos (por idioma), política de privacidade (4 idiomas), declarações de loja | Checklist da especificação (seções 9.4, 11, 12, 16) |
 
-**Definição de pronto (cada tela):** valores conferidos com os JSONs; funciona sem som e sem vibração; leitor de tela anuncia o essencial; reduzir movimento respeitado; nenhum dado emocional sai do aparelho.
+**Definição de pronto (cada tela):** valores conferidos com os JSONs; funciona sem som e sem vibração; leitor de tela anuncia o essencial; reduzir movimento respeitado; nenhum dado emocional sai do aparelho; nenhum texto hardcoded fora do i18n.
+
+> A Fase 7 (tradução de conteúdo) pode rodar em paralelo às Fases 2–6 assim que a infraestrutura da Fase 1 estiver pronta — a estrutura técnica não depende do texto final estar pronto, já que todo campo multi-locale tem fallback para pt-BR.
 
 ---
 
@@ -386,6 +400,75 @@ async function abrirMensagem(e164: string, texto: string): Promise<'whatsapp' | 
 3. Porte `motor/*.js` para TypeScript **mantendo a matemática**; escreva os testes da seção 12 antes de usar as funções nas telas.
 4. Não invente textos: use os JSONs. Textos novos entram nos JSONs com `revisado_por_profissional: false`.
 5. Não adicione: servidor, conta, analytics sem opt-in, permissão de contatos, leitura de redes sociais, pergunta sobre morte/autolesão.
-6. O protótipo (`prototipo/prototipo-jornada.dc.html`) é **referência de comportamento e ritmo**, não código a copiar: é um formato de template próprio (marcação com `{{ }}`, `<sc-if>`, `<sc-for>` e uma classe `Component` com `renderVals()`). A lógica em JavaScript dentro dele é legível e útil como guia.
+6. O protótipo (`prototipo/prototipo-jornada.dc.html`) é **referência de comportamento e ritmo**, não código a copiar: é um formato de template próprio (marcação com `{{ }}`, `<sc-if>`, `<sc-for>` e uma classe `Component` com `renderVals()`). A lógica em JavaScript dentro dele é legível e útil como guia. Os textos fixos em português no protótipo são só referência visual, não fonte de verdade do texto (a fonte é `conteudo/*.json`).
 7. `motor/demo-sensorial.html` roda em qualquer navegador (abrir o arquivo direto) e mostra cor, som, forma e Nebulosa reagindo à mistura.
 8. Em qualquer conflito entre o protótipo e a especificação, **vale a especificação**.
+9. **Nunca escreva texto visível diretamente no código.** Textos de UI vão em `src/i18n/locales/<idioma>/common.json`; textos de conteúdo dinâmico vêm dos campos multi-locale de `conteudo/*.json` (ver seção 15). Texto novo sem tradução para todos os 4 idiomas entra com o idioma faltante marcado como pendente, nunca com string vazia.
+10. Ver seção 15 para o desenho técnico completo de internacionalização antes de montar qualquer tela.
+
+---
+
+## 15. Internacionalização (i18n)
+
+Decisão de produto completa na especificação, seção 16. Esta seção cobre só o **como implementar**.
+
+### 15.1 Esquema multi-locale do conteúdo
+
+Cada campo de texto em `conteudo/*.json` vira um mapa por idioma em vez de uma string solta, mantendo um único arquivo por domínio (não duplicar perguntas/pesos/ids 4 vezes):
+
+```json
+{
+  "id": "mente_1",
+  "pesos": { "tempestade": 1 },
+  "texto": {
+    "pt-BR": "Uma represa cheia, prestes a transbordar",
+    "en": null,
+    "fr": null,
+    "es": null
+  }
+}
+```
+
+- `null` = tradução pendente. **Nunca** string vazia (`""`), que é ambígua com "traduzido e vazio por decisão de conteúdo".
+- Dados que não são texto (pesos, cores, tempos, ids) continuam únicos, fora do mapa de locale.
+- `idioma_origem: "pt-BR"` em cada arquivo documenta a fonte de verdade para revisão.
+
+### 15.2 Helper de resolução (`src/i18n/textoLocalizado.ts`)
+
+```ts
+function textoLocalizado<T extends Record<string, string | null>>(
+  campo: T,
+  idioma: Idioma,
+  idiomaOrigem: Idioma = 'pt-BR'
+): string {
+  return campo[idioma] ?? campo[idiomaOrigem] ?? '';
+}
+```
+
+- Fallback automático para `pt-BR` quando a entrada do idioma ativo está `null`.
+- `selecaoFrases.ts` (motor de escolha de frases) deve **excluir da rotação** qualquer frase com `texto[idiomaAtivo] === null`, usando diretamente o fallback só quando não houver nenhuma frase traduzida disponível naquele clima/linha — preferir mostrar menos frases traduzidas a mostrar pt-BR misturado no meio de outro idioma.
+
+### 15.3 UI estática
+
+- `i18next` + `react-i18next`, inicializado em `src/i18n/index.ts`.
+- Catálogo em `src/i18n/locales/<idioma>/common.json` (chaves por tela: `onboarding.boasVindas.titulo`, `ajuda.cvv.rotulo`, etc.).
+- `expo-localization` detecta `Localization.getLocales()[0].languageCode` no primeiro uso; se não for `pt|en|fr|es`, usa `pt-BR`.
+- Idioma escolhido manualmente é salvo em `preferencia(chave='idioma')` (tabela da seção 5) e tem prioridade sobre a detecção em usos futuros.
+- Troca de idioma chama `i18n.changeLanguage()` e atualiza `lang`/`accessibilityLanguage` dos componentes nativos (leitor de tela).
+
+### 15.4 Bíblia e filosofia por idioma
+
+Ver especificação seção 16.3–16.4 para as versões por idioma. No schema, cada frase ganha `fonte` por idioma quando a referência muda (ex. numeração de versículo é igual, mas o crédito de tradução muda):
+
+```json
+"creditos_biblia": {
+  "pt-BR": "Bíblia Livre (BLIVRE) — Creative Commons Atribuição",
+  "en": "World English Bible — domínio público",
+  "fr": "Louis Segond (1910) — domínio público",
+  "es": "Reina-Valera Antigua (1909) — domínio público"
+}
+```
+
+### 15.5 O que não é i18n
+
+Números de ajuda (CVV/SAMU), regras do motor de clima, pesos, tempos de animação e cores **não variam por idioma** (ver especificação, seção 16.6).

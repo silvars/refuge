@@ -488,6 +488,9 @@ Medidas via analytics opt-in (sem conteúdo) e entrevistas no beta. Tempo de tel
 | Tipo de pausa | Definido pelo estado, sem escolha do usuário |
 | Porto Seguro | Mensagem pelo clima, editável, WhatsApp com fallback SMS |
 | Plataforma | Multiplataforma (React Native + Expo); ver SDD |
+| Idiomas | pt-BR, en, fr, es, todos completos no MVP (ver seção 16) |
+| Números de emergência (CVV/SAMU) nos idiomas en/fr/es | **Pendente** — hoje são só brasileiros; decidir se mantém fixo ou adapta por idioma/região |
+| Tradução do conteúdo (perguntas, frases, mensagens) para en/fr/es | **Pendente** — tratada como entrega separada da reestruturação técnica |
 
 ---
 
@@ -501,6 +504,58 @@ Medidas via analytics opt-in (sem conteúdo) e entrevistas no beta. Tempo de tel
 6. Integração opcional com Apple Health / Health Connect (sono e passos, só no aparelho).
 7. Exportação criptografada do histórico.
 8. Trilhas sonoras produzidas.
+
+---
+
+## 16. Idiomas e localização
+
+**Idiomas do MVP:** português (pt-BR, idioma de origem do produto), inglês (en), francês (fr) e espanhol (es) — os 4 completos já no lançamento, cobrindo interface e conteúdo dinâmico.
+
+### 16.1 Seleção de idioma
+
+- **Detecção automática** pelo idioma do aparelho no primeiro uso. Se o idioma do aparelho não estiver entre os 4 suportados, o app abre em **pt-BR** (idioma de origem).
+- **Troca manual** disponível em Ajustes, a qualquer momento, com efeito imediato (sem precisar reiniciar o app). A escolha manual tem prioridade sobre a detecção automática em usos futuros.
+- A troca de idioma não afeta dados já salvos (histórico, etiquetas); textos de telas passadas (ex. Nebulosa) são exibidos no idioma atual, mesmo que tenham sido registrados em outro.
+
+### 16.2 O que é traduzido
+
+- **Interface:** todos os textos de tela, botões, rótulos de acessibilidade (`aria-label`, leitor de tela) e notificações.
+- **Conteúdo dinâmico** (`conteudo/*.json`): perguntas e opções do check-in, nomes/descrições dos climas, frases das 3 linhas (tela e notificação), mensagens do Porto Seguro, rótulos e frases de apoio da pausa de respiração, etiquetas de "o que mexeu com você".
+- **O que não muda por idioma:** pesos das opções, cores, tempos de animação/respiração, regras do motor de clima — são dados numéricos, não texto.
+
+### 16.3 Linha espiritual por idioma
+
+Cada idioma usa uma versão bíblica de **domínio público ou licença aberta equivalente**, mantendo o mesmo princípio da linha neutra/filosófica (crédito obrigatório na tela Sobre, seção 10):
+
+| Idioma | Versão proposta | Licença |
+| --- | --- | --- |
+| pt-BR | Bíblia Livre (BLIVRE) | Creative Commons Atribuição |
+| en | World English Bible (WEB) | Domínio público |
+| fr | Louis Segond (1910) | Domínio público |
+| es | Reina-Valera Antigua (1909) | Domínio público |
+
+Confirmar a licença exata de cada versão no site oficial antes de publicar (mesma ressalva já feita para a BLIVRE, seção 10). Os números dos versículos (Salmos) são os mesmos entre idiomas; o texto de cada frase muda.
+
+### 16.4 Linha filosófica por idioma
+
+Para inglês, francês e espanhol, usar **traduções clássicas já em domínio público** (ex. Internet Classics Archive, Project Gutenberg) dos mesmos textos de Epicteto e Sêneca escolhidos em português, citando tradutor e fonte em `origem`/`traducao_edicao`. A tradução própria (usada em pt-BR) não se aplica aos demais idiomas.
+
+### 16.5 Mensagens do Porto Seguro por idioma
+
+Adaptadas culturalmente, não traduzidas ao pé da letra (tom equivalente ao original: informal, afetivo, breve). Mesma estrutura de 3 mensagens por clima em cada idioma.
+
+### 16.6 Ajuda imediata (seção 9) e idioma
+
+Os contatos de ajuda (CVV · 188, SAMU · 192) são serviços **brasileiros**. No MVP, a tela de Ajuda mantém esses mesmos contatos independentemente do idioma escolhido (o idioma é tratado como preferência de leitura, não como localização geográfica). **Pendência em aberto:** decidir se, numa fase futura, os contatos de ajuda devem variar por idioma/região (ver seção 14).
+
+### 16.7 Meta de conteúdo por idioma
+
+A meta de lançamento da seção 10 (**≥ 30 frases de tela por clima em cada linha ativa; ≥ 15 frases de notificação por clima**) vale **por idioma**, não apenas em pt-BR. Frases sem tradução completa ficam marcadas como pendentes e não entram na rotação daquele idioma até serem revisadas (ver SDD, seção sobre internacionalização).
+
+### 16.8 Acessibilidade e idioma
+
+- `lang` do documento/app muda com o idioma selecionado (leitores de tela anunciam no idioma certo).
+- Pluralização e formatação de data/hora seguem convenções de cada idioma (ex. "3 dias" vs "3 days" vs "3 jours" vs "3 días").
 
 ---
 

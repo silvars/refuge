@@ -1,21 +1,23 @@
 {
-  "versao": "1.0",
-  "regra": "Mensagem escolhida pelo clima atual. 'Oi!' vira 'Oi, <primeiro nome>!' após escolher o contato, a menos que a pessoa tenha editado o texto. 'Sugerir outra mensagem' avança para a próxima do mesmo clima e descarta a edição.",
+  "versao": "2.0",
+  "idiomas": ["pt-BR", "en", "fr", "es"],
+  "idioma_origem": "pt-BR",
+  "regra": "Mensagem escolhida pelo clima atual. 'Oi!' vira 'Oi, <primeiro nome>!' após escolher o contato, a menos que a pessoa tenha editado o texto. 'Sugerir outra mensagem' avança para a próxima do mesmo clima e descarta a edição. Traduções não são literais: adaptar o tom informal e afetivo a cada idioma (ver especificação, seção 16.5).",
   "mensagens": {
     "tempestade": [
-      "Oi! Hoje está tudo meio acelerado por aqui. Você tem um tempinho pra conversar?",
-      "Oi! Tô precisando desacelerar. Pode me ligar quando der?",
-      "Oi! O dia tá puxado. Topa conversar um pouquinho mais tarde?"
+      { "id": "porto_tempestade_1", "pt-BR": "Oi! Hoje está tudo meio acelerado por aqui. Você tem um tempinho pra conversar?", "en": null, "fr": null, "es": null },
+      { "id": "porto_tempestade_2", "pt-BR": "Oi! Tô precisando desacelerar. Pode me ligar quando der?", "en": null, "fr": null, "es": null },
+      { "id": "porto_tempestade_3", "pt-BR": "Oi! O dia tá puxado. Topa conversar um pouquinho mais tarde?", "en": null, "fr": null, "es": null }
     ],
     "nevoa": [
-      "Oi! Hoje está sendo um dia difícil pra mim. Você tem um tempinho pra conversar?",
-      "Oi! Tô meio pra baixo hoje. Um abraço, mesmo que de longe, ia ajudar.",
-      "Oi! Tô precisando de companhia hoje. Bora conversar?"
+      { "id": "porto_nevoa_1", "pt-BR": "Oi! Hoje está sendo um dia difícil pra mim. Você tem um tempinho pra conversar?", "en": null, "fr": null, "es": null },
+      { "id": "porto_nevoa_2", "pt-BR": "Oi! Tô meio pra baixo hoje. Um abraço, mesmo que de longe, ia ajudar.", "en": null, "fr": null, "es": null },
+      { "id": "porto_nevoa_3", "pt-BR": "Oi! Tô precisando de companhia hoje. Bora conversar?", "en": null, "fr": null, "es": null }
     ],
     "clareira": [
-      "Oi! Hoje o dia tá leve e lembrei de você.",
-      "Oi! Tô num dia bom e queria dividir isso com você!",
-      "Oi! Passando pra dizer que você é importante pra mim."
+      { "id": "porto_clareira_1", "pt-BR": "Oi! Hoje o dia tá leve e lembrei de você.", "en": null, "fr": null, "es": null },
+      { "id": "porto_clareira_2", "pt-BR": "Oi! Tô num dia bom e queria dividir isso com você!", "en": null, "fr": null, "es": null },
+      { "id": "porto_clareira_3", "pt-BR": "Oi! Passando pra dizer que você é importante pra mim.", "en": null, "fr": null, "es": null }
     ]
   }
 }

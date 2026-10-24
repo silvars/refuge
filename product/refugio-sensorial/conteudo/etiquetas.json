@@ -1,15 +1,17 @@
 {
-  "versao": "1.0",
-  "titulo": "Quer dar nome ao que mais mexeu com você hoje?",
+  "versao": "2.0",
+  "idiomas": ["pt-BR", "en", "fr", "es"],
+  "idioma_origem": "pt-BR",
+  "titulo": { "pt-BR": "Quer dar nome ao que mais mexeu com você hoje?", "en": null, "fr": null, "es": null },
   "opcoes": [
-    "Trabalho",
-    "Estudos",
-    "Família",
-    "Relacionamento",
-    "Saúde",
-    "Sono",
-    "Dinheiro",
-    "Nada em especial"
+    { "id": "trabalho", "pt-BR": "Trabalho", "en": null, "fr": null, "es": null },
+    { "id": "estudos", "pt-BR": "Estudos", "en": null, "fr": null, "es": null },
+    { "id": "familia", "pt-BR": "Família", "en": null, "fr": null, "es": null },
+    { "id": "relacionamento", "pt-BR": "Relacionamento", "en": null, "fr": null, "es": null },
+    { "id": "saude", "pt-BR": "Saúde", "en": null, "fr": null, "es": null },
+    { "id": "sono", "pt-BR": "Sono", "en": null, "fr": null, "es": null },
+    { "id": "dinheiro", "pt-BR": "Dinheiro", "en": null, "fr": null, "es": null },
+    { "id": "nada_em_especial", "pt-BR": "Nada em especial", "en": null, "fr": null, "es": null }
   ],
-  "regra": "Múltipla escolha, opcional. 'Nada em especial' é exclusiva. Salvo só no aparelho."
+  "regra": "Múltipla escolha, opcional. 'nada_em_especial' é exclusiva. Salvo só no aparelho."
 }
