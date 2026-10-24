@@ -7,6 +7,7 @@
   },
   "main": "expo-router/entry",
   "dependencies": {
+    "@shopify/react-native-skia": "2.14.0",
     "expo": "~58.0.19",
     "expo-constants": "~58.0.13",
     "expo-font": "~58.0.10",
@@ -38,6 +39,9 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
+    "build:ios": "bash scripts/ios.sh",
+    "build:android": "bash scripts/android.sh",
+    "doctor": "bash scripts/doctor.sh",
     "lint": "expo lint",
     "typecheck": "tsc --noEmit",
     "test": "jest"
