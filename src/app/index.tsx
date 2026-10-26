@@ -6,6 +6,7 @@ import { useSharedValue } from 'react-native-reanimated';
 
 import { MotorAudio } from '@/audio/MotorAudio';
 import { configurarSessaoAudio } from '@/audio/sessao';
+import { getEstados } from '@/conteudo';
 import { abrirBanco } from '@/data/db';
 import type { Clima, Pesos } from '@/domain/tipos';
 import { IDIOMAS_SUPORTADOS, trocarIdioma, type Idioma } from '@/i18n';
@@ -71,7 +72,9 @@ export default function Index() {
   const [retBotaoSom, setRetBotaoSom] = useState<RetanguloLayout | null>(null);
   const [retBotaoBanco, setRetBotaoBanco] = useState<RetanguloLayout | null>(null);
   const [retBotaoIdioma, setRetBotaoIdioma] = useState<RetanguloLayout | null>(null);
+  const [retBotaoConteudo, setRetBotaoConteudo] = useState<RetanguloLayout | null>(null);
   const [statusBanco, setStatusBanco] = useState('banco: não testado ainda');
+  const [statusConteudo, setStatusConteudo] = useState('conteúdo: não testado ainda');
   const motorRef = useRef<MotorAudio | null>(null);
   const pararSessaoRef = useRef<(() => void) | null>(null);
 
@@ -139,6 +142,16 @@ export default function Index() {
     }
   }
 
+  async function testarConteudo() {
+    setStatusConteudo('conteúdo: lendo...');
+    try {
+      const dados = (await getEstados()) as { versao?: string; idiomas?: string[] };
+      setStatusConteudo(`conteúdo: ok — estados versão ${dados.versao}, idiomas [${dados.idiomas?.join(', ')}]`);
+    } catch (erro) {
+      setStatusConteudo(`conteúdo: erro — ${String(erro)}`);
+    }
+  }
+
   return (
     <View style={styles.container}>
       <FundoClima largura={width} altura={height} pesosAlvo={pesosAlvo} esmaecidoAlvo={esmaecidoAlvo}>
@@ -147,6 +160,7 @@ export default function Index() {
         {retBotaoSom && <VidroGrupo {...retBotaoSom} raio={RAIO_BOTAO} cor={CORES.escuro.vidro} />}
         {retBotaoBanco && <VidroGrupo {...retBotaoBanco} raio={RAIO_BOTAO} cor={CORES.escuro.vidro} />}
         {retBotaoIdioma && <VidroGrupo {...retBotaoIdioma} raio={RAIO_BOTAO} cor={CORES.escuro.vidro} />}
+        {retBotaoConteudo && <VidroGrupo {...retBotaoConteudo} raio={RAIO_BOTAO} cor={CORES.escuro.vidro} />}
       </FundoClima>
       <Text style={styles.title}>{t('app.nome')}</Text>
       <Text style={styles.subtitle}>{t('demo.subtitulo')}</Text>
@@ -197,6 +211,17 @@ export default function Index() {
       >
         <Text style={styles.botaoTexto}>{t('demo.botaoBanco')}</Text>
       </Pressable>
+      <Pressable
+        onPress={testarConteudo}
+        style={styles.botao}
+        onLayout={(e) => {
+          const { x, y, width: largura, height: altura } = e.nativeEvent.layout;
+          setRetBotaoConteudo({ x, y, largura, altura });
+        }}
+      >
+        <Text style={styles.botaoTexto}>Testar conteúdo (toque para ler estados.json)</Text>
+      </Pressable>
+      <Text style={styles.subtitle}>{statusConteudo}</Text>
       <Text style={styles.subtitle}>{statusBanco}</Text>
     </View>
   );

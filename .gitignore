@@ -51,3 +51,6 @@ __pycache__/
 coverage/
 .sonar/
 *.log
+
+# Conteúdo gerado (ver scripts/sync-conteudo.js) — fonte editável é product/refugio-sensorial/conteudo/
+src/conteudo/bundled/

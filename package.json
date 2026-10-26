@@ -14,6 +14,7 @@
     "expo": "~58.0.19",
     "expo-constants": "~58.0.13",
     "expo-crypto": "~58.0.7",
+    "expo-file-system": "~58.0.11",
     "expo-font": "~58.0.10",
     "expo-localization": "~58.0.5",
     "expo-router": "~58.0.26",
@@ -52,6 +53,7 @@
     "build:ios": "bash scripts/ios.sh",
     "build:android": "bash scripts/android.sh",
     "doctor": "bash scripts/doctor.sh",
+    "sync-conteudo": "node scripts/sync-conteudo.js",
     "lint": "expo lint",
     "typecheck": "tsc --noEmit",
     "test": "jest"

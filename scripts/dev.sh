@@ -4,4 +4,5 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 source scripts/_node.sh
+node scripts/sync-conteudo.js
 npx expo start
