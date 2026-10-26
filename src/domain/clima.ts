@@ -49,6 +49,7 @@ export function normalize(w: Pesos): Pesos | null {
  * para que a composição alfa resulte exatamente na média ponderada. Neutro sempre por baixo de tudo.
  */
 export function layerOpacities(w: Pesos): LayerOpacities {
+  'worklet';
   const n = normalize(w);
   if (!n) return { neutro: 1, tempestade: 0, nevoa: 0, clareira: 0, wc: 0 };
   const rest = 1 - n.clareira;
@@ -63,6 +64,7 @@ export function layerOpacities(w: Pesos): LayerOpacities {
 
 /** Texto escuro quando a Clareira passa de 55% da mistura (fundo claro) e o app não está esmaecido. */
 export function isLight(w: Pesos, stale: boolean): boolean {
+  'worklet';
   const n = normalize(w);
   return !!n && n.clareira >= 0.55 && !stale;
 }

@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
 
 import { MotorAudio } from '@/audio/MotorAudio';
 import { configurarSessaoAudio } from '@/audio/sessao';
 import type { Pesos } from '@/domain/tipos';
 import { CORES, TIPOGRAFIA } from '@/visual/tokens';
+import { FundoClima } from '@/visual/FundoClima';
 import { FormaPontos, type ConfigForma } from '@/visual/FormaPontos';
 
 // Tela de prova de conceito da Fase 0 (issues #5 e #4: forma de pontos + motor de áudio).
@@ -37,15 +38,18 @@ const CLIMAS: Record<string, ConfigForma> = {
     respiracao: { periodoS: 8, fracaoInspira: 0.5, escalaMin: 0.62, escalaMax: 1.15 },
   },
 };
-const PESOS_POR_CLIMA: Record<string, Partial<Pesos>> = {
-  tempestade: { tempestade: 1 },
-  nevoa: { nevoa: 1 },
-  clareira: { clareira: 1 },
+const PESOS_POR_CLIMA: Record<string, Pesos> = {
+  tempestade: { tempestade: 1, nevoa: 0, clareira: 0 },
+  nevoa: { tempestade: 0, nevoa: 1, clareira: 0 },
+  clareira: { tempestade: 0, nevoa: 0, clareira: 1 },
 };
 const ORDEM_CLIMAS = Object.keys(CLIMAS) as (keyof typeof CLIMAS)[];
 
 export default function Index() {
+  const { width, height } = useWindowDimensions();
   const configAlvo = useSharedValue<ConfigForma>(CLIMAS.tempestade);
+  const pesosAlvo = useSharedValue<Pesos>(PESOS_POR_CLIMA.tempestade);
+  const esmaecidoAlvo = useSharedValue(false);
   const [climaAtual, setClimaAtual] = useState<keyof typeof CLIMAS>('tempestade');
   const [somLigado, setSomLigado] = useState(false);
   const motorRef = useRef<MotorAudio | null>(null);
@@ -64,6 +68,7 @@ export default function Index() {
     const novo = ORDEM_CLIMAS[indice];
     setClimaAtual(novo);
     configAlvo.value = CLIMAS[novo];
+    pesosAlvo.value = PESOS_POR_CLIMA[novo];
     motorRef.current?.definirMistura(PESOS_POR_CLIMA[novo]);
   }
 
@@ -86,8 +91,9 @@ export default function Index() {
 
   return (
     <View style={styles.container}>
+      <FundoClima largura={width} altura={height} pesosAlvo={pesosAlvo} esmaecidoAlvo={esmaecidoAlvo} />
       <Text style={styles.title}>Refúgio Sensorial</Text>
-      <Text style={styles.subtitle}>Prova de conceito — forma de pontos + áudio</Text>
+      <Text style={styles.subtitle}>Prova de conceito — fundo + forma de pontos + áudio</Text>
       <FormaPontos tamanho={280} configAlvo={configAlvo} />
       <Pressable onPress={proximoClima} style={styles.botao}>
         <Text style={styles.botaoTexto}>Clima: {climaAtual} (toque para trocar)</Text>
@@ -105,7 +111,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 24,
-    backgroundColor: '#0E0E14',
   },
   title: {
     color: CORES.escuro.tinta,
