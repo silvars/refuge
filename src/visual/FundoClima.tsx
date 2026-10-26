@@ -9,16 +9,22 @@ import {
   type SharedValue,
 } from 'react-native-reanimated';
 
-import { isLight, layerOpacities } from '@/domain/clima';
 import type { Pesos } from '@/domain/tipos';
 
 import { pontosDoAngulo } from './geometria';
 
 // Porta de FundoClima (ver 02-sdd.md, seção 7.1): 5 camadas Skia empilhadas — neutro sempre
-// visível por baixo, 3 degradês de clima (as opacidades de motor-clima.js/layerOpacities fazem a
-// composição alfa dar exatamente a média ponderada) e uma sobreposição de esmaecimento por cima.
-// Ângulo e paradas de cor replicam conteudo/estados.json
-// (linear-gradient(165deg, c0 0%, c1 55%, c2 100%)).
+// visível por baixo, 3 degradês de clima (as opacidades fazem a composição alfa dar exatamente a
+// média ponderada) e uma sobreposição de esmaecimento por cima. Ângulo e paradas de cor replicam
+// conteudo/estados.json (linear-gradient(165deg, c0 0%, c1 55%, c2 100%)).
+//
+// A matemática de normalize/layerOpacities/isLight é DUPLICADA aqui (em vez de importada de
+// domain/clima.ts) porque chamar uma função 'worklet' importada de outro módulo dentro de um
+// useDerivedValue lança "[Worklets] Tried to synchronously call a Remote Function" em runtime —
+// o compilador de worklets não workletiza corretamente funções cross-module nesta versão do
+// react-native-worklets. Funções 'worklet' só funcionam de forma confiável quando definidas no
+// MESMO arquivo que as chama (ver FormaPontos.tsx, easeRespiracao). clima.ts continua sendo a
+// fonte de verdade testada (28 testes); qualquer mudança na regra precisa ser replicada aqui.
 
 const COR_NEUTRA = '#0E0E14';
 const COR_ESMAECIDO = '#3A3A44';
@@ -33,6 +39,27 @@ const DEGRADES: Record<keyof Pesos, string[]> = {
   nevoa: ['#4B3E72', '#7D6699', '#B48EA6'],
   clareira: ['#F4EDCB', '#E1EDCB', '#C6DEBA'],
 };
+
+function normalizarPesos(w: Pesos): Pesos | null {
+  'worklet';
+  const s = w.tempestade + w.nevoa + w.clareira;
+  if (s <= 0) return null;
+  return { tempestade: w.tempestade / s, nevoa: w.nevoa / s, clareira: w.clareira / s };
+}
+
+function opacidadesDeCamada(w: Pesos): Pesos {
+  'worklet';
+  const n = normalizarPesos(w);
+  if (!n) return { tempestade: 0, nevoa: 0, clareira: 0 };
+  const rest = 1 - n.clareira;
+  return { tempestade: 1, nevoa: rest > 0.001 ? Math.min(1, n.nevoa / rest) : 0, clareira: n.clareira };
+}
+
+function textoClaro(w: Pesos, esmaecido: boolean): boolean {
+  'worklet';
+  const n = normalizarPesos(w);
+  return !!n && n.clareira >= 0.55 && !esmaecido;
+}
 
 export interface FundoClimaProps {
   largura: number;
@@ -55,16 +82,16 @@ export function FundoClima({ largura, altura, pesosAlvo, esmaecidoAlvo, children
   const fim = vec(fimPlano.x, fimPlano.y);
 
   const opTempestade = useDerivedValue(() =>
-    withTiming(layerOpacities(pesosAlvo.value).tempestade, {
+    withTiming(opacidadesDeCamada(pesosAlvo.value).tempestade, {
       duration: DURACAO_TRANSICAO_MS,
       easing: CURVA_TRANSICAO,
     }),
   );
   const opNevoa = useDerivedValue(() =>
-    withTiming(layerOpacities(pesosAlvo.value).nevoa, { duration: DURACAO_TRANSICAO_MS, easing: CURVA_TRANSICAO }),
+    withTiming(opacidadesDeCamada(pesosAlvo.value).nevoa, { duration: DURACAO_TRANSICAO_MS, easing: CURVA_TRANSICAO }),
   );
   const opClareira = useDerivedValue(() =>
-    withTiming(layerOpacities(pesosAlvo.value).clareira, {
+    withTiming(opacidadesDeCamada(pesosAlvo.value).clareira, {
       duration: DURACAO_TRANSICAO_MS,
       easing: CURVA_TRANSICAO,
     }),
@@ -105,7 +132,7 @@ export function FundoClima({ largura, altura, pesosAlvo, esmaecidoAlvo, children
 /** Cor de texto animada entre escuro (#FCFCFC) e claro (#231F20) — ver 02-sdd.md, seção 7.1. */
 export function useCorTintaAnimada(pesosAlvo: SharedValue<Pesos>, esmaecidoAlvo: SharedValue<boolean>): SharedValue<string> {
   return useDerivedValue(() => {
-    const alvo = isLight(pesosAlvo.value, esmaecidoAlvo.value) ? 1 : 0;
+    const alvo = textoClaro(pesosAlvo.value, esmaecidoAlvo.value) ? 1 : 0;
     return interpolateColor(withTiming(alvo, { duration: 1600 }), [0, 1], ['#FCFCFC', '#231F20']);
   });
 }
