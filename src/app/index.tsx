@@ -5,6 +5,7 @@ import { useSharedValue } from 'react-native-reanimated';
 import { MotorAudio } from '@/audio/MotorAudio';
 import { configurarSessaoAudio } from '@/audio/sessao';
 import type { Pesos } from '@/domain/tipos';
+import { CORES, TIPOGRAFIA } from '@/visual/tokens';
 import { FormaPontos, type ConfigForma } from '@/visual/FormaPontos';
 
 // Tela de prova de conceito da Fase 0 (issues #5 e #4: forma de pontos + motor de áudio).
@@ -107,23 +108,22 @@ const styles = StyleSheet.create({
     backgroundColor: '#0E0E14',
   },
   title: {
-    color: '#FCFCFC',
-    fontSize: 28,
-    fontWeight: '300',
+    color: CORES.escuro.tinta,
+    ...TIPOGRAFIA.tituloTela,
   },
   subtitle: {
-    color: 'rgba(252,252,252,0.6)',
-    fontSize: 13,
+    color: CORES.escuro.tintaSecundaria,
+    ...TIPOGRAFIA.rotulo,
   },
   botao: {
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 999,
     borderWidth: 1,
-    borderColor: 'rgba(252,252,252,0.36)',
+    borderColor: CORES.escuro.fio,
   },
   botaoTexto: {
-    color: '#FCFCFC',
-    fontSize: 15,
+    color: CORES.escuro.tinta,
+    ...TIPOGRAFIA.corpo,
   },
 });

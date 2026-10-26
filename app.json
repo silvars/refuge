@@ -34,7 +34,8 @@
           "imageWidth": 76
         }
       ],
-      "react-native-audio-api"
+      "react-native-audio-api",
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true,
