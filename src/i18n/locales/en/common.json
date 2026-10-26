@@ -1,0 +1,16 @@
+{
+  "app": {
+    "nome": "Sensory Refuge"
+  },
+  "demo": {
+    "subtitulo": "Proof of concept — background + point shape + audio + glass + database",
+    "botaoClima": "Weather: {{clima}} (tap to change)",
+    "botaoSomLigado": "Sound: on (tap to toggle)",
+    "botaoSomDesligado": "Sound: off (tap to toggle)",
+    "botaoBanco": "Test database (tap to save a check-in)"
+  },
+  "ajuda": {
+    "cvv": { "rotulo": "Ligar para o CVV · 188" },
+    "samu": { "rotulo": "Ligar para o SAMU · 192" }
+  }
+}

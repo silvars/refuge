@@ -1,7 +1,9 @@
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
+import { abrirBanco } from '@/data/db';
+import { iniciarI18n, obterIdiomaInicial } from '@/i18n';
 import { useFontesCarregadas } from '@/visual/fontes';
 
 SplashScreen.preventAutoHideAsync();
@@ -10,12 +12,24 @@ SplashScreen.preventAutoHideAsync();
 // Ajuda global entram quando as telas reais forem implementadas.
 export default function RootLayout() {
   const fontesCarregadas = useFontesCarregadas();
+  const [i18nPronto, setI18nPronto] = useState(false);
 
   useEffect(() => {
-    if (fontesCarregadas) SplashScreen.hideAsync();
-  }, [fontesCarregadas]);
+    (async () => {
+      const db = await abrirBanco();
+      const idioma = await obterIdiomaInicial(db);
+      await iniciarI18n(idioma);
+      setI18nPronto(true);
+    })();
+  }, []);
 
-  if (!fontesCarregadas) return null;
+  const pronto = fontesCarregadas && i18nPronto;
+
+  useEffect(() => {
+    if (pronto) SplashScreen.hideAsync();
+  }, [pronto]);
+
+  if (!pronto) return null;
 
   return <Stack screenOptions={{ headerShown: false }} />;
 }

@@ -1,11 +1,14 @@
 import * as Crypto from 'expo-crypto';
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
 
 import { MotorAudio } from '@/audio/MotorAudio';
 import { configurarSessaoAudio } from '@/audio/sessao';
+import { abrirBanco } from '@/data/db';
 import type { Clima, Pesos } from '@/domain/tipos';
+import { IDIOMAS_SUPORTADOS, trocarIdioma, type Idioma } from '@/i18n';
 import { useRefugioStore } from '@/store';
 import { CORES, RAIO_BOTAO, TIPOGRAFIA } from '@/visual/tokens';
 import { FundoClima } from '@/visual/FundoClima';
@@ -56,6 +59,7 @@ const PESOS_POR_CLIMA: Record<string, Pesos> = {
 const ORDEM_CLIMAS = Object.keys(CLIMAS) as (keyof typeof CLIMAS)[];
 
 export default function Index() {
+  const { t, i18n } = useTranslation();
   const { width, height } = useWindowDimensions();
   const configAlvo = useSharedValue<ConfigForma>(CLIMAS.tempestade);
   const pesosAlvo = useSharedValue<Pesos>(PESOS_POR_CLIMA.tempestade);
@@ -66,6 +70,7 @@ export default function Index() {
   const [retBotaoClima, setRetBotaoClima] = useState<RetanguloLayout | null>(null);
   const [retBotaoSom, setRetBotaoSom] = useState<RetanguloLayout | null>(null);
   const [retBotaoBanco, setRetBotaoBanco] = useState<RetanguloLayout | null>(null);
+  const [retBotaoIdioma, setRetBotaoIdioma] = useState<RetanguloLayout | null>(null);
   const [statusBanco, setStatusBanco] = useState('banco: não testado ainda');
   const motorRef = useRef<MotorAudio | null>(null);
   const pararSessaoRef = useRef<(() => void) | null>(null);
@@ -104,6 +109,12 @@ export default function Index() {
     setSomLigado(!somLigado);
   }
 
+  async function proximoIdioma() {
+    const indice = (IDIOMAS_SUPORTADOS.indexOf(i18n.language as Idioma) + 1) % IDIOMAS_SUPORTADOS.length;
+    const db = await abrirBanco();
+    await trocarIdioma(IDIOMAS_SUPORTADOS[indice], db);
+  }
+
   async function testarBanco() {
     setStatusBanco('banco: gravando...');
     try {
@@ -135,9 +146,10 @@ export default function Index() {
         {retBotaoClima && <VidroGrupo {...retBotaoClima} raio={RAIO_BOTAO} cor={CORES.escuro.vidro} />}
         {retBotaoSom && <VidroGrupo {...retBotaoSom} raio={RAIO_BOTAO} cor={CORES.escuro.vidro} />}
         {retBotaoBanco && <VidroGrupo {...retBotaoBanco} raio={RAIO_BOTAO} cor={CORES.escuro.vidro} />}
+        {retBotaoIdioma && <VidroGrupo {...retBotaoIdioma} raio={RAIO_BOTAO} cor={CORES.escuro.vidro} />}
       </FundoClima>
-      <Text style={styles.title}>Refúgio Sensorial</Text>
-      <Text style={styles.subtitle}>Prova de conceito — fundo + forma de pontos + áudio + vidro + banco</Text>
+      <Text style={styles.title}>{t('app.nome')}</Text>
+      <Text style={styles.subtitle}>{t('demo.subtitulo')}</Text>
       <View
         style={styles.espacoForma}
         onLayout={(e) => {
@@ -153,7 +165,7 @@ export default function Index() {
           setRetBotaoClima({ x, y, largura, altura });
         }}
       >
-        <Text style={styles.botaoTexto}>Clima: {climaAtual} (toque para trocar)</Text>
+        <Text style={styles.botaoTexto}>{t('demo.botaoClima', { clima: climaAtual })}</Text>
       </Pressable>
       <Pressable
         onPress={alternarSom}
@@ -163,7 +175,17 @@ export default function Index() {
           setRetBotaoSom({ x, y, largura, altura });
         }}
       >
-        <Text style={styles.botaoTexto}>Som: {somLigado ? 'ligado' : 'desligado'} (toque para alternar)</Text>
+        <Text style={styles.botaoTexto}>{t(somLigado ? 'demo.botaoSomLigado' : 'demo.botaoSomDesligado')}</Text>
+      </Pressable>
+      <Pressable
+        onPress={proximoIdioma}
+        style={styles.botao}
+        onLayout={(e) => {
+          const { x, y, width: largura, height: altura } = e.nativeEvent.layout;
+          setRetBotaoIdioma({ x, y, largura, altura });
+        }}
+      >
+        <Text style={styles.botaoTexto}>Idioma: {i18n.language} (toque para trocar)</Text>
       </Pressable>
       <Pressable
         onPress={testarBanco}
@@ -173,7 +195,7 @@ export default function Index() {
           setRetBotaoBanco({ x, y, largura, altura });
         }}
       >
-        <Text style={styles.botaoTexto}>Testar banco (toque para gravar um check-in)</Text>
+        <Text style={styles.botaoTexto}>{t('demo.botaoBanco')}</Text>
       </Pressable>
       <Text style={styles.subtitle}>{statusBanco}</Text>
     </View>

@@ -1,0 +1,16 @@
+{
+  "app": {
+    "nome": "Refuge Sensoriel"
+  },
+  "demo": {
+    "subtitulo": "Preuve de concept — fond + forme de points + audio + verre + base de données",
+    "botaoClima": "Climat : {{clima}} (touchez pour changer)",
+    "botaoSomLigado": "Son : activé (touchez pour basculer)",
+    "botaoSomDesligado": "Son : désactivé (touchez pour basculer)",
+    "botaoBanco": "Tester la base de données (touchez pour enregistrer un bilan)"
+  },
+  "ajuda": {
+    "cvv": { "rotulo": "Ligar para o CVV · 188" },
+    "samu": { "rotulo": "Ligar para o SAMU · 192" }
+  }
+}
