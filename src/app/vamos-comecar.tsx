@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   },
   espacoForma: {
     width: TAMANHO_FORMA,
-    height: TAMANHO_FORMA * 0.68,
+    height: TAMANHO_FORMA,
   },
   frases: {
     alignItems: 'center',
