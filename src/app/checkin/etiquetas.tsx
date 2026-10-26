@@ -7,6 +7,7 @@ import { useSharedValue } from 'react-native-reanimated';
 import { useCheckinSessao } from '@/checkin/sessao';
 import { getEtiquetas } from '@/conteudo';
 import type { ConteudoEtiquetas } from '@/conteudo/tipos';
+import { definirMisturaTrilha } from '@/audio/trilha';
 import { normalize, totals } from '@/domain/clima';
 import type { Pesos } from '@/domain/tipos';
 import type { Idioma } from '@/i18n/idioma';
@@ -55,7 +56,9 @@ export default function Etiquetas() {
 
   useEffect(() => {
     if (!sessao) return;
-    pesosAlvo.value = totals(perguntas, sessao.respostas, sessao.climaAnterior);
+    const mistura = totals(perguntas, sessao.respostas, sessao.climaAnterior);
+    pesosAlvo.value = mistura;
+    definirMisturaTrilha(mistura);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessao]);
 

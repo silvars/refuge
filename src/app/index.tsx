@@ -5,6 +5,7 @@ import { Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-na
 import { useSharedValue } from 'react-native-reanimated';
 
 import { getEstados } from '@/conteudo';
+import { definirMisturaTrilha } from '@/audio/trilha';
 import { shouldSuggestPorto } from '@/domain/clima';
 import type { Pesos } from '@/domain/tipos';
 import { useReduzirMovimento } from '@/hooks/useReduzirMovimento';
@@ -15,7 +16,6 @@ import { FormaPontosGrupo, type ConfigForma } from '@/visual/FormaPontos';
 import { FundoClima } from '@/visual/FundoClima';
 import { VidroGrupo } from '@/visual/Vidro';
 import { CORES, RAIO_BOTAO, TIPOGRAFIA, ehModoClaro } from '@/visual/tokens';
-
 // Tela principal (ver especificação F7). Versão mínima que fecha o fluxo de check-in da Fase 2 —
 // Ajuda global e card de frase do dia entram na Fase 3 (02-sdd.md, seção 13).
 
@@ -72,6 +72,7 @@ export default function Principal() {
     if (!climaAtual || !misturaAtual) {
       pesosAlvo.value = PESOS_NEUTRO;
       configAlvo.value = CONFIG_SEM_CHECKIN;
+      definirMisturaTrilha(null);
       Promise.resolve().then(() => setNomeClima(null));
       return;
     }
@@ -81,6 +82,7 @@ export default function Principal() {
       nevoa: misturaAtual.nevoa / 100,
       clareira: misturaAtual.clareira / 100,
     };
+    definirMisturaTrilha(pesosAlvo.value);
 
     const claro = !esmaecido && ehModoClaro(misturaAtual.clareira / 100);
     getEstados().then((estados) => {

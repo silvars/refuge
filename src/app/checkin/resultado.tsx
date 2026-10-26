@@ -8,6 +8,7 @@ import { useCheckinSessao } from '@/checkin/sessao';
 import { getEstados, getEtiquetas, getFrases } from '@/conteudo';
 import type { Frase, LinhaConteudo } from '@/conteudo/tipos';
 import { frasesElegiveis, escolherFrase } from '@/conteudo/selecaoFrases';
+import { definirMisturaTrilha } from '@/audio/trilha';
 import { finish, KEYS } from '@/domain/clima';
 import type { Checkin, Clima, Pesos } from '@/domain/tipos';
 import { abrirBanco } from '@/data/db';
@@ -63,6 +64,7 @@ export default function Resultado() {
       const respostas = sessao.respostas.map((r) => r ?? 0);
       const { mood, mix } = finish(perguntas, respostas);
       pesosAlvo.value = { tempestade: mix.tempestade / 100, nevoa: mix.nevoa / 100, clareira: mix.clareira / 100 };
+      definirMisturaTrilha(pesosAlvo.value);
       setModoClaro(ehModoClaro(mix.clareira / 100));
 
       if (vibracaoLigada) hapticRevelarClima().catch(() => {});
