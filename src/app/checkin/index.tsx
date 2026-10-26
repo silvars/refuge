@@ -64,6 +64,7 @@ export default function Checkin() {
   const [fase, setFase] = useState<Fase>('idle');
   const [opcaoEscolhida, setOpcaoEscolhida] = useState<number | null>(null);
   const [mostrarPausa, setMostrarPausa] = useState(false);
+  const [climaParaPausa, setClimaParaPausa] = useState<Clima>('clareira');
   const pesosAlvo = useSharedValue<Pesos>({ tempestade: 0, nevoa: 0, clareira: 0 });
   const esmaecidoAlvo = useSharedValue(false);
   const blocoOpacidade = useSharedValue(1);
@@ -145,6 +146,7 @@ export default function Checkin() {
     setOpcaoEscolhida(null);
 
     if (ehPausa) {
+      setClimaParaPausa(dominant(pesosAlvo.value) ?? climaAtual ?? 'clareira');
       setMostrarPausa(true);
       return;
     }
@@ -171,8 +173,7 @@ export default function Checkin() {
   }
 
   if (mostrarPausa) {
-    const climaDaPausa: Clima = dominant(pesosAlvo.value) ?? climaAtual ?? 'clareira';
-    return <PausaRespiracao clima={climaDaPausa} rotulo={t('pausa.rotuloCheckin')} aoContinuar={continuarAposPausa} />;
+    return <PausaRespiracao clima={climaParaPausa} rotulo={t('pausa.rotuloCheckin')} aoContinuar={continuarAposPausa} />;
   }
 
   const totalPalavras = palavras.length;
