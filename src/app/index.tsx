@@ -1,10 +1,12 @@
+import * as Crypto from 'expo-crypto';
 import { useEffect, useRef, useState } from 'react';
 import { Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
 
 import { MotorAudio } from '@/audio/MotorAudio';
 import { configurarSessaoAudio } from '@/audio/sessao';
-import type { Pesos } from '@/domain/tipos';
+import type { Clima, Pesos } from '@/domain/tipos';
+import { useRefugioStore } from '@/store';
 import { CORES, RAIO_BOTAO, TIPOGRAFIA } from '@/visual/tokens';
 import { FundoClima } from '@/visual/FundoClima';
 import { FormaPontosGrupo, type ConfigForma } from '@/visual/FormaPontos';
@@ -63,6 +65,8 @@ export default function Index() {
   const [origemForma, setOrigemForma] = useState({ x: 0, y: 0 });
   const [retBotaoClima, setRetBotaoClima] = useState<RetanguloLayout | null>(null);
   const [retBotaoSom, setRetBotaoSom] = useState<RetanguloLayout | null>(null);
+  const [retBotaoBanco, setRetBotaoBanco] = useState<RetanguloLayout | null>(null);
+  const [statusBanco, setStatusBanco] = useState('banco: não testado ainda');
   const motorRef = useRef<MotorAudio | null>(null);
   const pararSessaoRef = useRef<(() => void) | null>(null);
 
@@ -100,15 +104,40 @@ export default function Index() {
     setSomLigado(!somLigado);
   }
 
+  async function testarBanco() {
+    setStatusBanco('banco: gravando...');
+    try {
+      const store = useRefugioStore.getState();
+      await store.carregar();
+      const pesos = PESOS_POR_CLIMA[climaAtual];
+      await store.registrarCheckin({
+        id: Crypto.randomUUID(),
+        em: Date.now(),
+        // climaAtual é uma chave de CLIMAS (tempestade/nevoa/clareira) — mesmas 3 chaves de Clima.
+        clima: climaAtual as Clima,
+        mistura: { tempestade: pesos.tempestade * 100, nevoa: pesos.nevoa * 100, clareira: pesos.clareira * 100 },
+        respostas: [],
+        etiquetas: [],
+      });
+      const { estadoDerivado } = useRefugioStore.getState();
+      setStatusBanco(
+        `banco: ok — clima ${estadoDerivado.climaAtual}, sequência ${estadoDerivado.sequencia}`,
+      );
+    } catch (erro) {
+      setStatusBanco(`banco: erro — ${String(erro)}`);
+    }
+  }
+
   return (
     <View style={styles.container}>
       <FundoClima largura={width} altura={height} pesosAlvo={pesosAlvo} esmaecidoAlvo={esmaecidoAlvo}>
         <FormaPontosGrupo tamanho={280} configAlvo={configAlvo} origem={origemForma} />
         {retBotaoClima && <VidroGrupo {...retBotaoClima} raio={RAIO_BOTAO} cor={CORES.escuro.vidro} />}
         {retBotaoSom && <VidroGrupo {...retBotaoSom} raio={RAIO_BOTAO} cor={CORES.escuro.vidro} />}
+        {retBotaoBanco && <VidroGrupo {...retBotaoBanco} raio={RAIO_BOTAO} cor={CORES.escuro.vidro} />}
       </FundoClima>
       <Text style={styles.title}>Refúgio Sensorial</Text>
-      <Text style={styles.subtitle}>Prova de conceito — fundo + forma de pontos + áudio + vidro</Text>
+      <Text style={styles.subtitle}>Prova de conceito — fundo + forma de pontos + áudio + vidro + banco</Text>
       <View
         style={styles.espacoForma}
         onLayout={(e) => {
@@ -136,6 +165,17 @@ export default function Index() {
       >
         <Text style={styles.botaoTexto}>Som: {somLigado ? 'ligado' : 'desligado'} (toque para alternar)</Text>
       </Pressable>
+      <Pressable
+        onPress={testarBanco}
+        style={styles.botao}
+        onLayout={(e) => {
+          const { x, y, width: largura, height: altura } = e.nativeEvent.layout;
+          setRetBotaoBanco({ x, y, largura, altura });
+        }}
+      >
+        <Text style={styles.botaoTexto}>Testar banco (toque para gravar um check-in)</Text>
+      </Pressable>
+      <Text style={styles.subtitle}>{statusBanco}</Text>
     </View>
   );
 }

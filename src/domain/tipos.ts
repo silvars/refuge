@@ -31,3 +31,45 @@ export interface LayerOpacities {
   readonly clareira: number;
   readonly wc: number;
 }
+
+/** Um check-in persistido (ver 02-sdd.md, seção 4 e seção 5 — tabela `checkin`). */
+export interface Checkin {
+  readonly id: string;
+  readonly em: number;
+  readonly clima: Clima;
+  readonly mistura: Mistura;
+  readonly respostas: readonly { perguntaId: string; opcaoId: string }[];
+  readonly etiquetas: readonly string[];
+}
+
+export interface Preferencias {
+  linhas: { neutra: boolean; espiritual: boolean; filosofica: boolean };
+  som: boolean;
+  vibracao: boolean;
+  lembretes: boolean;
+  /** Padrão `false` — opt-in explícito (ver especificação, seção F12). */
+  mensagensApoio: boolean;
+  bloqueio: boolean;
+  silencio: { inicio: string; fim: string };
+  onboardingFeito: boolean;
+}
+
+export interface EstadoDerivado {
+  climaAtual: Clima | null;
+  misturaAtual: Mistura | null;
+  /** Check-ins seguidos em Tempestade/Névoa (ver clima.nextStreak/shouldSuggestPorto). */
+  sequencia: number;
+  ultimoCheckinEm: number | null;
+  /** `agora - ultimoCheckinEm > 12h` (ver clima.isStale). */
+  esmaecido: boolean;
+}
+
+/** Resumo de um dia para a Nebulosa (ver especificação, seção F9; 02-sdd.md, seção 5). */
+export interface ResumoDia {
+  readonly dia: string;
+  readonly contagem: number;
+  readonly climaPredominante: Clima | null;
+  readonly misturaMedia: Mistura;
+  readonly etiquetas: readonly string[];
+  readonly portoSeguro: boolean;
+}
