@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState, type ElementRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
@@ -57,6 +57,9 @@ export default function Principal() {
   const [retMedir, setRetMedir] = useState<RetanguloLayout | null>(null);
   const [retPorto, setRetPorto] = useState<RetanguloLayout | null>(null);
   const [retNebulosa, setRetNebulosa] = useState<RetanguloLayout | null>(null);
+  const refMedir = useRef<ElementRef<typeof Pressable>>(null);
+  const refPorto = useRef<ElementRef<typeof Pressable>>(null);
+  const refNebulosa = useRef<ElementRef<typeof Pressable>>(null);
 
   useEffect(() => {
     if (!carregado) useRefugioStore.getState().carregar();
@@ -150,29 +153,29 @@ export default function Principal() {
 
       <View style={styles.botoes}>
         <Pressable
+          ref={refMedir}
           onPress={() => router.push('/vamos-comecar')}
           style={styles.botao}
-          onLayout={(e) => {
-            const { x, y, width: largura, height: altura } = e.nativeEvent.layout;
-            setRetMedir({ x, y, largura, altura });
+          onLayout={() => {
+            refMedir.current?.measureInWindow((x, y, largura, altura) => setRetMedir({ x, y, largura, altura }));
           }}
         >
           <Text style={[styles.botaoTexto, { color: tinta }]}>{t('principal.medirMeuClima')}</Text>
         </Pressable>
         <Pressable
+          ref={refPorto}
           style={styles.botao}
-          onLayout={(e) => {
-            const { x, y, width: largura, height: altura } = e.nativeEvent.layout;
-            setRetPorto({ x, y, largura, altura });
+          onLayout={() => {
+            refPorto.current?.measureInWindow((x, y, largura, altura) => setRetPorto({ x, y, largura, altura }));
           }}
         >
           <Text style={[styles.botaoTexto, { color: tinta }]}>{t('principal.compartilharPortoSeguro')}</Text>
         </Pressable>
         <Pressable
+          ref={refNebulosa}
           style={styles.botao}
-          onLayout={(e) => {
-            const { x, y, width: largura, height: altura } = e.nativeEvent.layout;
-            setRetNebulosa({ x, y, largura, altura });
+          onLayout={() => {
+            refNebulosa.current?.measureInWindow((x, y, largura, altura) => setRetNebulosa({ x, y, largura, altura }));
           }}
         >
           <Text style={[styles.botaoTexto, { color: tinta }]}>{t('principal.minhaNebulosa')}</Text>

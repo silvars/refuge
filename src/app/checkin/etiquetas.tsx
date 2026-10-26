@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState, type ElementRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
@@ -42,6 +42,9 @@ export default function Etiquetas() {
   const [retPular, setRetPular] = useState<RetanguloLayout | null>(null);
   const [retVer, setRetVer] = useState<RetanguloLayout | null>(null);
   const [retChips, setRetChips] = useState<Record<string, RetanguloLayout>>({});
+  const refPular = useRef<ElementRef<typeof Pressable>>(null);
+  const refVer = useRef<ElementRef<typeof Pressable>>(null);
+  const refsChips = useRef<Record<string, ElementRef<typeof Pressable> | null>>({});
 
   const pesosAlvo = useSharedValue<Pesos>({ tempestade: 0, nevoa: 0, clareira: 0 });
   const esmaecidoAlvo = useSharedValue(false);
@@ -100,11 +103,15 @@ export default function Etiquetas() {
             {conteudo.opcoes.map((opcao) => (
               <Pressable
                 key={opcao.id}
+                ref={(ref) => {
+                  refsChips.current[opcao.id] = ref;
+                }}
                 onPress={() => alternar(opcao.id)}
                 style={styles.chip}
-                onLayout={(e) => {
-                  const { x, y, width: largura, height: altura } = e.nativeEvent.layout;
-                  setRetChips((r) => ({ ...r, [opcao.id]: { x, y, largura, altura } }));
+                onLayout={() => {
+                  refsChips.current[opcao.id]?.measureInWindow((x, y, largura, altura) =>
+                    setRetChips((r) => ({ ...r, [opcao.id]: { x, y, largura, altura } })),
+                  );
                 }}
               >
                 <Text style={[styles.chipTexto, { color: tokens.tinta }]}>{opcao[idioma] ?? opcao['pt-BR'] ?? ''}</Text>
@@ -116,21 +123,21 @@ export default function Etiquetas() {
 
       <View style={styles.botoes}>
         <Pressable
+          ref={refPular}
           onPress={() => continuar([])}
           style={styles.botaoSecundario}
-          onLayout={(e) => {
-            const { x, y, width: largura, height: altura } = e.nativeEvent.layout;
-            setRetPular({ x, y, largura, altura });
+          onLayout={() => {
+            refPular.current?.measureInWindow((x, y, largura, altura) => setRetPular({ x, y, largura, altura }));
           }}
         >
           <Text style={[styles.botaoTexto, { color: tokens.tinta }]}>{t('etiquetas.pular')}</Text>
         </Pressable>
         <Pressable
+          ref={refVer}
           onPress={() => continuar(selecionadas)}
           style={styles.botao}
-          onLayout={(e) => {
-            const { x, y, width: largura, height: altura } = e.nativeEvent.layout;
-            setRetVer({ x, y, largura, altura });
+          onLayout={() => {
+            refVer.current?.measureInWindow((x, y, largura, altura) => setRetVer({ x, y, largura, altura }));
           }}
         >
           <Text style={[styles.botaoTexto, { color: tokens.tinta }]}>{t('etiquetas.verMeuClima')}</Text>
