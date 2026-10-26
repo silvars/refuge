@@ -2,12 +2,39 @@
   "app": {
     "nome": "Refuge Sensoriel"
   },
-  "demo": {
-    "subtitulo": "Preuve de concept — fond + forme de points + audio + verre + base de données",
-    "botaoClima": "Climat : {{clima}} (touchez pour changer)",
-    "botaoSomLigado": "Son : activé (touchez pour basculer)",
-    "botaoSomDesligado": "Son : désactivé (touchez pour basculer)",
-    "botaoBanco": "Tester la base de données (touchez pour enregistrer un bilan)"
+  "vamosComecar": {
+    "seAcomode": "Installez-vous confortablement.",
+    "respireFundo": "Respirez profondément.",
+    "pergunta": "On commence ?",
+    "botao": "Commencer"
+  },
+  "checkin": {
+    "progresso": "{{dimensao}} · {{n}} sur {{total}}"
+  },
+  "pausa": {
+    "rotuloCheckin": "Une pause à mi-chemin",
+    "rotuloPortoSeguro": "Un souffle rien que pour vous",
+    "continuar": "Continuer"
+  },
+  "etiquetas": {
+    "verMeuClima": "Voir mon climat",
+    "pular": "Passer"
+  },
+  "resultado": {
+    "seuClimaAgora": "Votre climat maintenant",
+    "misturaTitulo": "Aujourd'hui, c'était un peu de tout",
+    "oQueMexeu": "Ce qui vous a touché",
+    "irParaRefugio": "Aller à mon refuge"
+  },
+  "principal": {
+    "seuClimaAgora": "Votre climat maintenant",
+    "semCheckinAinda": "On fait votre premier bilan ?",
+    "medirMeuClima": "Mesurer mon climat",
+    "compartilharPortoSeguro": "Partager avec un Port d'Attache",
+    "minhaNebulosa": "Ma Nébuleuse",
+    "esmaecidoTexto": "Votre dernier bilan date de plus de 12 heures. Comment est le climat là-dedans maintenant ?",
+    "esmaecidoBotao": "Faire un nouveau bilan",
+    "sequenciaTexto": "Les derniers jours ont été lourds. Et si vous appeliez quelqu'un qui vous fait du bien ?"
   },
   "ajuda": {
     "cvv": { "rotulo": "Ligar para o CVV · 188" },

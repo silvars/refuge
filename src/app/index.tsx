@@ -1,20 +1,36 @@
-import * as Crypto from 'expo-crypto';
-import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'expo-router';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
 
-import { MotorAudio } from '@/audio/MotorAudio';
-import { configurarSessaoAudio } from '@/audio/sessao';
 import { getEstados } from '@/conteudo';
-import { abrirBanco } from '@/data/db';
-import type { Clima, Pesos } from '@/domain/tipos';
-import { IDIOMAS_SUPORTADOS, trocarIdioma, type Idioma } from '@/i18n';
+import { shouldSuggestPorto } from '@/domain/clima';
+import type { Pesos } from '@/domain/tipos';
+import { useReduzirMovimento } from '@/hooks/useReduzirMovimento';
+import type { Idioma } from '@/i18n/idioma';
+import { textoLocalizado } from '@/i18n/textoLocalizado';
 import { useRefugioStore } from '@/store';
-import { CORES, RAIO_BOTAO, TIPOGRAFIA } from '@/visual/tokens';
-import { FundoClima } from '@/visual/FundoClima';
 import { FormaPontosGrupo, type ConfigForma } from '@/visual/FormaPontos';
+import { FundoClima } from '@/visual/FundoClima';
 import { VidroGrupo } from '@/visual/Vidro';
+import { CORES, RAIO_BOTAO, TIPOGRAFIA, ehModoClaro } from '@/visual/tokens';
+
+// Tela principal (ver especificação F7). Versão mínima que fecha o fluxo de check-in da Fase 2 —
+// Ajuda global e card de frase do dia entram na Fase 3 (02-sdd.md, seção 13).
+
+const PESOS_NEUTRO: Pesos = { tempestade: 0, nevoa: 0, clareira: 0 };
+const TAMANHO_FORMA = 280;
+/** Respiração da forma na tela principal é sempre a mesma, independente do clima (ver protótipo). */
+const RESPIRACAO_PRINCIPAL = { periodoS: 6, fracaoInspira: 0.5, escalaMin: 0.96, escalaMax: 1.04 };
+const CONFIG_SEM_CHECKIN: ConfigForma = {
+  amp: 1,
+  speed: 1,
+  rot: 0.22,
+  col: [252, 252, 252],
+  raioFracao: 0.33,
+  respiracao: RESPIRACAO_PRINCIPAL,
+};
 
 interface RetanguloLayout {
   x: number;
@@ -23,147 +39,107 @@ interface RetanguloLayout {
   altura: number;
 }
 
-// Tela de prova de conceito da Fase 0 (issues #5 e #4: forma de pontos + motor de áudio).
-// Substituída pela tela principal de verdade na Fase 2/3 — ver 02-sdd.md, seção 13.
-
-const CLIMAS: Record<string, ConfigForma> = {
-  tempestade: {
-    amp: 1.6,
-    speed: 1.9,
-    rot: 0.42,
-    col: [96, 150, 214],
-    raioFracao: 0.33,
-    respiracao: { periodoS: 11, fracaoInspira: 4 / 11, escalaMin: 0.62, escalaMax: 1.15 },
-  },
-  nevoa: {
-    amp: 0.8,
-    speed: 0.55,
-    rot: 0.14,
-    col: [178, 140, 228],
-    raioFracao: 0.33,
-    respiracao: { periodoS: 10, fracaoInspira: 0.5, escalaMin: 0.62, escalaMax: 1.15 },
-  },
-  clareira: {
-    amp: 0.45,
-    speed: 0.35,
-    rot: 0.11,
-    col: [246, 206, 96],
-    raioFracao: 0.33,
-    respiracao: { periodoS: 8, fracaoInspira: 0.5, escalaMin: 0.62, escalaMax: 1.15 },
-  },
-};
-const PESOS_POR_CLIMA: Record<string, Pesos> = {
-  tempestade: { tempestade: 1, nevoa: 0, clareira: 0 },
-  nevoa: { tempestade: 0, nevoa: 1, clareira: 0 },
-  clareira: { tempestade: 0, nevoa: 0, clareira: 1 },
-};
-const ORDEM_CLIMAS = Object.keys(CLIMAS) as (keyof typeof CLIMAS)[];
-
-export default function Index() {
+export default function Principal() {
   const { t, i18n } = useTranslation();
+  const idioma = i18n.language as Idioma;
+  const router = useRouter();
   const { width, height } = useWindowDimensions();
-  const configAlvo = useSharedValue<ConfigForma>(CLIMAS.tempestade);
-  const pesosAlvo = useSharedValue<Pesos>(PESOS_POR_CLIMA.tempestade);
+  const reduzirMovimento = useReduzirMovimento();
+
+  const carregado = useRefugioStore((s) => s.carregado);
+  const estadoDerivado = useRefugioStore((s) => s.estadoDerivado);
+
+  const [nomeClima, setNomeClima] = useState<string | null>(null);
+  const pesosAlvo = useSharedValue<Pesos>(PESOS_NEUTRO);
   const esmaecidoAlvo = useSharedValue(false);
-  const [climaAtual, setClimaAtual] = useState<keyof typeof CLIMAS>('tempestade');
-  const [somLigado, setSomLigado] = useState(false);
+  const configAlvo = useSharedValue<ConfigForma>(CONFIG_SEM_CHECKIN);
   const [origemForma, setOrigemForma] = useState({ x: 0, y: 0 });
-  const [retBotaoClima, setRetBotaoClima] = useState<RetanguloLayout | null>(null);
-  const [retBotaoSom, setRetBotaoSom] = useState<RetanguloLayout | null>(null);
-  const [retBotaoBanco, setRetBotaoBanco] = useState<RetanguloLayout | null>(null);
-  const [retBotaoIdioma, setRetBotaoIdioma] = useState<RetanguloLayout | null>(null);
-  const [retBotaoConteudo, setRetBotaoConteudo] = useState<RetanguloLayout | null>(null);
-  const [statusBanco, setStatusBanco] = useState('banco: não testado ainda');
-  const [statusConteudo, setStatusConteudo] = useState('conteúdo: não testado ainda');
-  const motorRef = useRef<MotorAudio | null>(null);
-  const pararSessaoRef = useRef<(() => void) | null>(null);
+  const [retMedir, setRetMedir] = useState<RetanguloLayout | null>(null);
+  const [retPorto, setRetPorto] = useState<RetanguloLayout | null>(null);
+  const [retNebulosa, setRetNebulosa] = useState<RetanguloLayout | null>(null);
 
-  useEffect(
-    () => () => {
-      pararSessaoRef.current?.();
-      motorRef.current?.descartar();
-    },
-    [],
-  );
+  useEffect(() => {
+    if (!carregado) useRefugioStore.getState().carregar();
+  }, [carregado]);
 
-  function proximoClima() {
-    const indice = (ORDEM_CLIMAS.indexOf(climaAtual) + 1) % ORDEM_CLIMAS.length;
-    const novo = ORDEM_CLIMAS[indice];
-    setClimaAtual(novo);
-    configAlvo.value = CLIMAS[novo];
-    pesosAlvo.value = PESOS_POR_CLIMA[novo];
-    motorRef.current?.definirMistura(PESOS_POR_CLIMA[novo]);
-  }
+  useEffect(() => {
+    const { climaAtual, misturaAtual, esmaecido } = estadoDerivado;
+    esmaecidoAlvo.value = esmaecido;
 
-  function alternarSom() {
-    if (!motorRef.current) {
-      motorRef.current = new MotorAudio();
-      motorRef.current.iniciar();
-      motorRef.current.definirMistura(PESOS_POR_CLIMA[climaAtual]);
-      pararSessaoRef.current = configurarSessaoAudio(motorRef.current);
-      setSomLigado(true);
+    if (!climaAtual || !misturaAtual) {
+      pesosAlvo.value = PESOS_NEUTRO;
+      configAlvo.value = CONFIG_SEM_CHECKIN;
+      Promise.resolve().then(() => setNomeClima(null));
       return;
     }
-    if (somLigado) {
-      motorRef.current.pausar();
-    } else {
-      motorRef.current.retomar();
-    }
-    setSomLigado(!somLigado);
-  }
 
-  async function proximoIdioma() {
-    const indice = (IDIOMAS_SUPORTADOS.indexOf(i18n.language as Idioma) + 1) % IDIOMAS_SUPORTADOS.length;
-    const db = await abrirBanco();
-    await trocarIdioma(IDIOMAS_SUPORTADOS[indice], db);
-  }
+    pesosAlvo.value = {
+      tempestade: misturaAtual.tempestade / 100,
+      nevoa: misturaAtual.nevoa / 100,
+      clareira: misturaAtual.clareira / 100,
+    };
 
-  async function testarBanco() {
-    setStatusBanco('banco: gravando...');
-    try {
-      const store = useRefugioStore.getState();
-      await store.carregar();
-      const pesos = PESOS_POR_CLIMA[climaAtual];
-      await store.registrarCheckin({
-        id: Crypto.randomUUID(),
-        em: Date.now(),
-        // climaAtual é uma chave de CLIMAS (tempestade/nevoa/clareira) — mesmas 3 chaves de Clima.
-        clima: climaAtual as Clima,
-        mistura: { tempestade: pesos.tempestade * 100, nevoa: pesos.nevoa * 100, clareira: pesos.clareira * 100 },
-        respostas: [],
-        etiquetas: [],
-      });
-      const { estadoDerivado } = useRefugioStore.getState();
-      setStatusBanco(
-        `banco: ok — clima ${estadoDerivado.climaAtual}, sequência ${estadoDerivado.sequencia}`,
-      );
-    } catch (erro) {
-      setStatusBanco(`banco: erro — ${String(erro)}`);
-    }
-  }
+    const claro = !esmaecido && ehModoClaro(misturaAtual.clareira / 100);
+    getEstados().then((estados) => {
+      const estado = estados.estados[climaAtual];
+      setNomeClima(textoLocalizado(estado.nome, idioma));
+      configAlvo.value = {
+        amp: estado.forma_tela_principal.amplitude,
+        speed: estado.forma_tela_principal.velocidade,
+        rot: estado.forma_tela_principal.rotacao,
+        col: claro ? [35, 31, 32] : [252, 252, 252],
+        raioFracao: 0.3,
+        respiracao: RESPIRACAO_PRINCIPAL,
+      };
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [estadoDerivado, idioma]);
 
-  async function testarConteudo() {
-    setStatusConteudo('conteúdo: lendo...');
-    try {
-      const dados = (await getEstados()) as { versao?: string; idiomas?: string[] };
-      setStatusConteudo(`conteúdo: ok — estados versão ${dados.versao}, idiomas [${dados.idiomas?.join(', ')}]`);
-    } catch (erro) {
-      setStatusConteudo(`conteúdo: erro — ${String(erro)}`);
-    }
-  }
+  const emModoClaro =
+    !estadoDerivado.esmaecido &&
+    !!estadoDerivado.misturaAtual &&
+    ehModoClaro(estadoDerivado.misturaAtual.clareira / 100);
+  const tinta = emModoClaro ? CORES.claro.tinta : CORES.escuro.tinta;
+  const tintaSecundaria = emModoClaro ? CORES.claro.tintaSecundaria : CORES.escuro.tintaSecundaria;
+  const corFio = emModoClaro ? CORES.claro.fio : CORES.escuro.fio;
+  const corVidroForte = emModoClaro ? CORES.claro.vidroForte : CORES.escuro.vidroForte;
+  const corVidro = emModoClaro ? CORES.claro.vidro : CORES.escuro.vidro;
 
   return (
     <View style={styles.container}>
       <FundoClima largura={width} altura={height} pesosAlvo={pesosAlvo} esmaecidoAlvo={esmaecidoAlvo}>
-        <FormaPontosGrupo tamanho={280} configAlvo={configAlvo} origem={origemForma} />
-        {retBotaoClima && <VidroGrupo {...retBotaoClima} raio={RAIO_BOTAO} cor={CORES.escuro.vidro} />}
-        {retBotaoSom && <VidroGrupo {...retBotaoSom} raio={RAIO_BOTAO} cor={CORES.escuro.vidro} />}
-        {retBotaoBanco && <VidroGrupo {...retBotaoBanco} raio={RAIO_BOTAO} cor={CORES.escuro.vidro} />}
-        {retBotaoIdioma && <VidroGrupo {...retBotaoIdioma} raio={RAIO_BOTAO} cor={CORES.escuro.vidro} />}
-        {retBotaoConteudo && <VidroGrupo {...retBotaoConteudo} raio={RAIO_BOTAO} cor={CORES.escuro.vidro} />}
+        <FormaPontosGrupo
+          tamanho={TAMANHO_FORMA}
+          configAlvo={configAlvo}
+          reduzirMovimento={reduzirMovimento}
+          origem={origemForma}
+        />
+        {retMedir && <VidroGrupo {...retMedir} raio={RAIO_BOTAO} cor={corVidroForte} corFio={corFio} />}
+        {retPorto && <VidroGrupo {...retPorto} raio={RAIO_BOTAO} cor={corVidro} corFio={corFio} />}
+        {retNebulosa && <VidroGrupo {...retNebulosa} raio={RAIO_BOTAO} cor={corVidro} corFio={corFio} />}
       </FundoClima>
-      <Text style={styles.title}>{t('app.nome')}</Text>
-      <Text style={styles.subtitle}>{t('demo.subtitulo')}</Text>
+
+      <View style={styles.topo}>
+        <Text style={[styles.rotulo, { color: tintaSecundaria }]}>{t('principal.seuClimaAgora')}</Text>
+        <Text style={[styles.nomeClima, { color: tinta }]}>{nomeClima ?? t('principal.semCheckinAinda')}</Text>
+
+        {estadoDerivado.esmaecido && (
+          <View style={styles.banner}>
+            <Text style={[styles.bannerTexto, { color: tintaSecundaria }]}>{t('principal.esmaecidoTexto')}</Text>
+            <Pressable onPress={() => router.push('/vamos-comecar')}>
+              <Text style={[styles.bannerLink, { color: tinta }]}>{t('principal.esmaecidoBotao')}</Text>
+            </Pressable>
+          </View>
+        )}
+
+        {!estadoDerivado.esmaecido && shouldSuggestPorto(estadoDerivado.sequencia) && (
+          <View style={styles.banner}>
+            <Text style={[styles.bannerTexto, { color: tintaSecundaria }]}>{t('principal.sequenciaTexto')}</Text>
+            <Text style={[styles.bannerLink, { color: tinta }]}>{t('principal.compartilharPortoSeguro')}</Text>
+          </View>
+        )}
+      </View>
+
       <View
         style={styles.espacoForma}
         onLayout={(e) => {
@@ -171,58 +147,37 @@ export default function Index() {
           setOrigemForma({ x, y });
         }}
       />
-      <Pressable
-        onPress={proximoClima}
-        style={styles.botao}
-        onLayout={(e) => {
-          const { x, y, width: largura, height: altura } = e.nativeEvent.layout;
-          setRetBotaoClima({ x, y, largura, altura });
-        }}
-      >
-        <Text style={styles.botaoTexto}>{t('demo.botaoClima', { clima: climaAtual })}</Text>
-      </Pressable>
-      <Pressable
-        onPress={alternarSom}
-        style={styles.botao}
-        onLayout={(e) => {
-          const { x, y, width: largura, height: altura } = e.nativeEvent.layout;
-          setRetBotaoSom({ x, y, largura, altura });
-        }}
-      >
-        <Text style={styles.botaoTexto}>{t(somLigado ? 'demo.botaoSomLigado' : 'demo.botaoSomDesligado')}</Text>
-      </Pressable>
-      <Pressable
-        onPress={proximoIdioma}
-        style={styles.botao}
-        onLayout={(e) => {
-          const { x, y, width: largura, height: altura } = e.nativeEvent.layout;
-          setRetBotaoIdioma({ x, y, largura, altura });
-        }}
-      >
-        <Text style={styles.botaoTexto}>Idioma: {i18n.language} (toque para trocar)</Text>
-      </Pressable>
-      <Pressable
-        onPress={testarBanco}
-        style={styles.botao}
-        onLayout={(e) => {
-          const { x, y, width: largura, height: altura } = e.nativeEvent.layout;
-          setRetBotaoBanco({ x, y, largura, altura });
-        }}
-      >
-        <Text style={styles.botaoTexto}>{t('demo.botaoBanco')}</Text>
-      </Pressable>
-      <Pressable
-        onPress={testarConteudo}
-        style={styles.botao}
-        onLayout={(e) => {
-          const { x, y, width: largura, height: altura } = e.nativeEvent.layout;
-          setRetBotaoConteudo({ x, y, largura, altura });
-        }}
-      >
-        <Text style={styles.botaoTexto}>Testar conteúdo (toque para ler estados.json)</Text>
-      </Pressable>
-      <Text style={styles.subtitle}>{statusConteudo}</Text>
-      <Text style={styles.subtitle}>{statusBanco}</Text>
+
+      <View style={styles.botoes}>
+        <Pressable
+          onPress={() => router.push('/vamos-comecar')}
+          style={styles.botao}
+          onLayout={(e) => {
+            const { x, y, width: largura, height: altura } = e.nativeEvent.layout;
+            setRetMedir({ x, y, largura, altura });
+          }}
+        >
+          <Text style={[styles.botaoTexto, { color: tinta }]}>{t('principal.medirMeuClima')}</Text>
+        </Pressable>
+        <Pressable
+          style={styles.botao}
+          onLayout={(e) => {
+            const { x, y, width: largura, height: altura } = e.nativeEvent.layout;
+            setRetPorto({ x, y, largura, altura });
+          }}
+        >
+          <Text style={[styles.botaoTexto, { color: tinta }]}>{t('principal.compartilharPortoSeguro')}</Text>
+        </Pressable>
+        <Pressable
+          style={styles.botao}
+          onLayout={(e) => {
+            const { x, y, width: largura, height: altura } = e.nativeEvent.layout;
+            setRetNebulosa({ x, y, largura, altura });
+          }}
+        >
+          <Text style={[styles.botaoTexto, { color: tinta }]}>{t('principal.minhaNebulosa')}</Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
@@ -231,27 +186,49 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    gap: 24,
+    justifyContent: 'space-between',
+    paddingTop: 72,
+    paddingBottom: 40,
+    paddingHorizontal: 24,
+    gap: 16,
   },
-  title: {
-    color: CORES.escuro.tinta,
-    ...TIPOGRAFIA.tituloTela,
+  topo: {
+    alignItems: 'center',
+    gap: 8,
   },
-  subtitle: {
-    color: CORES.escuro.tintaSecundaria,
+  rotulo: {
     ...TIPOGRAFIA.rotulo,
   },
+  nomeClima: {
+    ...TIPOGRAFIA.nomeClima,
+  },
+  banner: {
+    alignItems: 'center',
+    gap: 4,
+    marginTop: 16,
+  },
+  bannerTexto: {
+    textAlign: 'center',
+    ...TIPOGRAFIA.corpo,
+  },
+  bannerLink: {
+    ...TIPOGRAFIA.destaque,
+  },
   espacoForma: {
-    width: 280,
-    height: 280,
+    width: TAMANHO_FORMA,
+    height: TAMANHO_FORMA,
+  },
+  botoes: {
+    width: '100%',
+    gap: 12,
   },
   botao: {
-    paddingVertical: 12,
-    paddingHorizontal: 20,
+    height: 52,
+    borderRadius: RAIO_BOTAO,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   botaoTexto: {
-    color: CORES.escuro.tinta,
-    ...TIPOGRAFIA.corpo,
+    ...TIPOGRAFIA.destaque,
   },
 });

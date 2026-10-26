@@ -32,6 +32,18 @@ export interface LayerOpacities {
   readonly wc: number;
 }
 
+/** Sessão de check-in em andamento, em memória (ver 02-sdd.md, seção 4). */
+export interface SessaoCheckin {
+  readonly id: string;
+  readonly iniciadoEm: number;
+  /** Índices embaralhados por pergunta — fixos durante toda a sessão. */
+  readonly ordens: readonly (readonly number[])[];
+  /** Índice ORIGINAL da opção escolhida em cada pergunta; `null` = ainda sem resposta. */
+  readonly respostas: readonly (number | null)[];
+  readonly pausaFeita: boolean;
+  readonly climaAnterior: Clima | null;
+}
+
 /** Um check-in persistido (ver 02-sdd.md, seção 4 e seção 5 — tabela `checkin`). */
 export interface Checkin {
   readonly id: string;

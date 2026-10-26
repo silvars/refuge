@@ -2,12 +2,39 @@
   "app": {
     "nome": "Sensory Refuge"
   },
-  "demo": {
-    "subtitulo": "Proof of concept — background + point shape + audio + glass + database",
-    "botaoClima": "Weather: {{clima}} (tap to change)",
-    "botaoSomLigado": "Sound: on (tap to toggle)",
-    "botaoSomDesligado": "Sound: off (tap to toggle)",
-    "botaoBanco": "Test database (tap to save a check-in)"
+  "vamosComecar": {
+    "seAcomode": "Get comfortable.",
+    "respireFundo": "Take a deep breath.",
+    "pergunta": "Shall we begin?",
+    "botao": "Begin"
+  },
+  "checkin": {
+    "progresso": "{{dimensao}} · {{n}} of {{total}}"
+  },
+  "pausa": {
+    "rotuloCheckin": "A pause along the way",
+    "rotuloPortoSeguro": "A breath just for you",
+    "continuar": "Continue"
+  },
+  "etiquetas": {
+    "verMeuClima": "See my weather",
+    "pular": "Skip"
+  },
+  "resultado": {
+    "seuClimaAgora": "Your weather now",
+    "misturaTitulo": "Today was a bit of everything",
+    "oQueMexeu": "What moved you",
+    "irParaRefugio": "Go to my refuge"
+  },
+  "principal": {
+    "seuClimaAgora": "Your weather now",
+    "semCheckinAinda": "Shall we do your first check-in?",
+    "medirMeuClima": "Check my weather",
+    "compartilharPortoSeguro": "Share with a Safe Harbor",
+    "minhaNebulosa": "My Nebula",
+    "esmaecidoTexto": "Your last check-in was more than 12 hours ago. How's the weather in there now?",
+    "esmaecidoBotao": "Do a new check-in",
+    "sequenciaTexto": "The last few days have been heavy. How about calling someone who makes you feel good?"
   },
   "ajuda": {
     "cvv": { "rotulo": "Ligar para o CVV · 188" },

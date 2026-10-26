@@ -8,12 +8,11 @@ import perguntas from './bundled/perguntas.json';
 import portoSeguro from './bundled/porto-seguro.json';
 import respiracao from './bundled/respiracao.json';
 import { atualizarSeNecessario } from './remoto';
+import type { ConteudoEstados, ConteudoEtiquetas, ConteudoFrases, ConteudoPerguntas, ConteudoRespiracao } from './tipos';
 
 // Fachada de leitura (ver 02-sdd.md, seção 16): sempre lê do cache local se existir, senão do
 // bundled — NUNCA espera rede. A checagem do CDN roda em paralelo, sem bloquear, e só passa a
-// valer na próxima leitura (seção 16.2). Tipos de retorno ainda são `unknown`: o esquema detalhado
-// de cada arquivo (além de `versao`) será modelado quando as telas que os consomem forem
-// implementadas (Fase 2/3) — aqui a responsabilidade é só a cadeia de fallback + cache.
+// valer na próxima leitura (seção 16.2).
 
 const BUNDLED: Record<ArquivoConteudo, unknown> = {
   estados,
@@ -51,21 +50,21 @@ async function ler(nome: ArquivoConteudo): Promise<unknown> {
   return dado;
 }
 
-export function getEstados(): Promise<unknown> {
-  return ler('estados');
+export function getEstados(): Promise<ConteudoEstados> {
+  return ler('estados') as Promise<ConteudoEstados>;
 }
-export function getEtiquetas(): Promise<unknown> {
-  return ler('etiquetas');
+export function getEtiquetas(): Promise<ConteudoEtiquetas> {
+  return ler('etiquetas') as Promise<ConteudoEtiquetas>;
 }
-export function getFrases(): Promise<unknown> {
-  return ler('frases');
+export function getFrases(): Promise<ConteudoFrases> {
+  return ler('frases') as Promise<ConteudoFrases>;
 }
-export function getPerguntas(): Promise<unknown> {
-  return ler('perguntas');
+export function getPerguntas(): Promise<ConteudoPerguntas> {
+  return ler('perguntas') as Promise<ConteudoPerguntas>;
 }
 export function getPortoSeguro(): Promise<unknown> {
   return ler('porto-seguro');
 }
-export function getRespiracao(): Promise<unknown> {
-  return ler('respiracao');
+export function getRespiracao(): Promise<ConteudoRespiracao> {
+  return ler('respiracao') as Promise<ConteudoRespiracao>;
 }

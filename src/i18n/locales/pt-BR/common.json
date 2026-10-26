@@ -2,12 +2,39 @@
   "app": {
     "nome": "Refúgio Sensorial"
   },
-  "demo": {
-    "subtitulo": "Prova de conceito — fundo + forma de pontos + áudio + vidro + banco",
-    "botaoClima": "Clima: {{clima}} (toque para trocar)",
-    "botaoSomLigado": "Som: ligado (toque para alternar)",
-    "botaoSomDesligado": "Som: desligado (toque para alternar)",
-    "botaoBanco": "Testar banco (toque para gravar um check-in)"
+  "vamosComecar": {
+    "seAcomode": "Se acomode.",
+    "respireFundo": "Respire fundo.",
+    "pergunta": "Vamos começar?",
+    "botao": "Começar"
+  },
+  "checkin": {
+    "progresso": "{{dimensao}} · {{n}} de {{total}}"
+  },
+  "pausa": {
+    "rotuloCheckin": "Uma pausa no meio do caminho",
+    "rotuloPortoSeguro": "Um respiro só para você",
+    "continuar": "Continuar"
+  },
+  "etiquetas": {
+    "verMeuClima": "Ver meu clima",
+    "pular": "Pular"
+  },
+  "resultado": {
+    "seuClimaAgora": "Seu clima agora",
+    "misturaTitulo": "Hoje teve um pouco de tudo",
+    "oQueMexeu": "O que mexeu com você",
+    "irParaRefugio": "Ir para o meu refúgio"
+  },
+  "principal": {
+    "seuClimaAgora": "Seu clima agora",
+    "semCheckinAinda": "Vamos fazer seu primeiro check-in?",
+    "medirMeuClima": "Medir meu clima",
+    "compartilharPortoSeguro": "Compartilhar com um Porto Seguro",
+    "minhaNebulosa": "Minha Nebulosa",
+    "esmaecidoTexto": "Seu último check-in foi há mais de 12 horas. Como está o clima aí dentro agora?",
+    "esmaecidoBotao": "Fazer um novo check-in",
+    "sequenciaTexto": "Os últimos dias têm pesado. Que tal chamar alguém que te faz bem?"
   },
   "ajuda": {
     "cvv": { "rotulo": "Ligar para o CVV · 188" },
