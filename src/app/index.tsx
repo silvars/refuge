@@ -5,9 +5,17 @@ import { useSharedValue } from 'react-native-reanimated';
 import { MotorAudio } from '@/audio/MotorAudio';
 import { configurarSessaoAudio } from '@/audio/sessao';
 import type { Pesos } from '@/domain/tipos';
-import { CORES, TIPOGRAFIA } from '@/visual/tokens';
+import { CORES, RAIO_BOTAO, TIPOGRAFIA } from '@/visual/tokens';
 import { FundoClima } from '@/visual/FundoClima';
 import { FormaPontosGrupo, type ConfigForma } from '@/visual/FormaPontos';
+import { VidroGrupo } from '@/visual/Vidro';
+
+interface RetanguloLayout {
+  x: number;
+  y: number;
+  largura: number;
+  altura: number;
+}
 
 // Tela de prova de conceito da Fase 0 (issues #5 e #4: forma de pontos + motor de áudio).
 // Substituída pela tela principal de verdade na Fase 2/3 — ver 02-sdd.md, seção 13.
@@ -53,6 +61,8 @@ export default function Index() {
   const [climaAtual, setClimaAtual] = useState<keyof typeof CLIMAS>('tempestade');
   const [somLigado, setSomLigado] = useState(false);
   const [origemForma, setOrigemForma] = useState({ x: 0, y: 0 });
+  const [retBotaoClima, setRetBotaoClima] = useState<RetanguloLayout | null>(null);
+  const [retBotaoSom, setRetBotaoSom] = useState<RetanguloLayout | null>(null);
   const motorRef = useRef<MotorAudio | null>(null);
   const pararSessaoRef = useRef<(() => void) | null>(null);
 
@@ -94,9 +104,11 @@ export default function Index() {
     <View style={styles.container}>
       <FundoClima largura={width} altura={height} pesosAlvo={pesosAlvo} esmaecidoAlvo={esmaecidoAlvo}>
         <FormaPontosGrupo tamanho={280} configAlvo={configAlvo} origem={origemForma} />
+        {retBotaoClima && <VidroGrupo {...retBotaoClima} raio={RAIO_BOTAO} cor={CORES.escuro.vidro} />}
+        {retBotaoSom && <VidroGrupo {...retBotaoSom} raio={RAIO_BOTAO} cor={CORES.escuro.vidro} />}
       </FundoClima>
       <Text style={styles.title}>Refúgio Sensorial</Text>
-      <Text style={styles.subtitle}>Prova de conceito — fundo + forma de pontos + áudio</Text>
+      <Text style={styles.subtitle}>Prova de conceito — fundo + forma de pontos + áudio + vidro</Text>
       <View
         style={styles.espacoForma}
         onLayout={(e) => {
@@ -104,10 +116,24 @@ export default function Index() {
           setOrigemForma({ x, y });
         }}
       />
-      <Pressable onPress={proximoClima} style={styles.botao}>
+      <Pressable
+        onPress={proximoClima}
+        style={styles.botao}
+        onLayout={(e) => {
+          const { x, y, width: largura, height: altura } = e.nativeEvent.layout;
+          setRetBotaoClima({ x, y, largura, altura });
+        }}
+      >
         <Text style={styles.botaoTexto}>Clima: {climaAtual} (toque para trocar)</Text>
       </Pressable>
-      <Pressable onPress={alternarSom} style={styles.botao}>
+      <Pressable
+        onPress={alternarSom}
+        style={styles.botao}
+        onLayout={(e) => {
+          const { x, y, width: largura, height: altura } = e.nativeEvent.layout;
+          setRetBotaoSom({ x, y, largura, altura });
+        }}
+      >
         <Text style={styles.botaoTexto}>Som: {somLigado ? 'ligado' : 'desligado'} (toque para alternar)</Text>
       </Pressable>
     </View>
@@ -136,9 +162,6 @@ const styles = StyleSheet.create({
   botao: {
     paddingVertical: 12,
     paddingHorizontal: 20,
-    borderRadius: 999,
-    borderWidth: 1,
-    borderColor: CORES.escuro.fio,
   },
   botaoTexto: {
     color: CORES.escuro.tinta,
