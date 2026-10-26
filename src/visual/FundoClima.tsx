@@ -1,4 +1,5 @@
 import { Canvas, Group, LinearGradient, Rect, vec } from '@shopify/react-native-skia';
+import type { ReactNode } from 'react';
 import { StyleSheet } from 'react-native';
 import {
   Easing,
@@ -40,9 +41,15 @@ export interface FundoClimaProps {
   pesosAlvo: SharedValue<Pesos>;
   /** Esmaecimento por inatividade (ver clima.isStale). */
   esmaecidoAlvo: SharedValue<boolean>;
+  /**
+   * Outro conteúdo Skia (ex. FormaPontosGrupo) desenhado por cima do fundo, no MESMO Canvas.
+   * Dois `<Canvas>` do Skia empilhados não compositam direito nesta versão (cada um é sua
+   * própria superfície Metal/GPU) — por isso o resto do conteúdo da tela entra aqui dentro.
+   */
+  children?: ReactNode;
 }
 
-export function FundoClima({ largura, altura, pesosAlvo, esmaecidoAlvo }: FundoClimaProps) {
+export function FundoClima({ largura, altura, pesosAlvo, esmaecidoAlvo, children }: FundoClimaProps) {
   const { inicio: inicioPlano, fim: fimPlano } = pontosDoAngulo(ANGULO_GRAUS, largura, altura);
   const inicio = vec(inicioPlano.x, inicioPlano.y);
   const fim = vec(fimPlano.x, fimPlano.y);
@@ -90,6 +97,7 @@ export function FundoClima({ largura, altura, pesosAlvo, esmaecidoAlvo }: FundoC
       <Group opacity={opEsmaecido}>
         <Rect x={0} y={0} width={largura} height={altura} color={COR_ESMAECIDO} />
       </Group>
+      {children}
     </Canvas>
   );
 }

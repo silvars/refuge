@@ -1,4 +1,4 @@
-import { Canvas, Path, Skia, select } from '@shopify/react-native-skia';
+import { Canvas, Group, Path, Skia, select } from '@shopify/react-native-skia';
 import { useMemo } from 'react';
 import { StyleSheet } from 'react-native';
 import { useDerivedValue, useFrameCallback, useSharedValue, type SharedValue } from 'react-native-reanimated';
@@ -54,14 +54,18 @@ function esferaFibonacci(n: number): Ponto3D[] {
   return pontos;
 }
 
-interface FormaPontosProps {
-  /** Lado do canvas (quadrado), em dp. */
+interface FormaPontosGrupoProps {
+  /** Lado da forma (quadrado), em dp. */
   tamanho: number;
   /** Configuração-alvo; muda discretamente (ex. troca de clima), a forma suaviza sozinha. */
   configAlvo: SharedValue<ConfigForma>;
   /** Com "reduzir movimento" do sistema, desenha um quadro estático (sem useFrameCallback ativo). */
   reduzirMovimento?: boolean;
+  /** Posição do canto superior esquerdo da forma dentro do Canvas ambiente (padrão: origem 0,0). */
+  origem?: { x: number; y: number };
 }
+
+type FormaPontosProps = FormaPontosGrupoProps;
 
 /** Um balde de opacidade: um único Path (todos os círculos daquela faixa de alfa) + sua cor. */
 function useBalde(projecao: SharedValue<PontoProjetado[]>, cur: SharedValue<ConfigForma['col']>, indiceBalde: number) {
@@ -82,7 +86,13 @@ function useBalde(projecao: SharedValue<PontoProjetado[]>, cur: SharedValue<Conf
   });
 }
 
-export function FormaPontos({ tamanho, configAlvo, reduzirMovimento = false }: FormaPontosProps) {
+/**
+ * Conteúdo da forma de pontos (sem Canvas próprio) — embuta num Canvas ambiente, ex. o de
+ * FundoClima. Dois `<Canvas>` do Skia empilhados na mesma tela não compositam direito nesta
+ * versão (cada um é sua própria superfície Metal/GPU); por isso só o fundo possui Canvas e o
+ * resto do conteúdo visual da tela entra como filho dele.
+ */
+export function FormaPontosGrupo({ tamanho, configAlvo, reduzirMovimento = false, origem = { x: 0, y: 0 } }: FormaPontosGrupoProps) {
   const n = tamanho > 200 ? 1400 : 900;
   const pontos = useMemo(() => esferaFibonacci(n), [n]);
 
@@ -179,10 +189,19 @@ export function FormaPontos({ tamanho, configAlvo, reduzirMovimento = false }: F
   const baldes = [balde0, balde1, balde2, balde3, balde4, balde5, balde6, balde7, balde8, balde9, balde10, balde11];
 
   return (
-    <Canvas style={[styles.canvas, { width: tamanho, height: tamanho }]}>
+    <Group transform={[{ translateX: origem.x }, { translateY: origem.y }]}>
       {baldes.map((balde, i) => (
         <Path key={i} path={select(balde, 'path')} color={select(balde, 'color')} style="fill" />
       ))}
+    </Group>
+  );
+}
+
+/** Uso isolado (fora de outro Canvas), ex. telas/provas de conceito dedicadas só à forma. */
+export function FormaPontos(props: FormaPontosProps) {
+  return (
+    <Canvas style={[styles.canvas, { width: props.tamanho, height: props.tamanho }]}>
+      <FormaPontosGrupo {...props} />
     </Canvas>
   );
 }

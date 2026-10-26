@@ -7,7 +7,7 @@ import { configurarSessaoAudio } from '@/audio/sessao';
 import type { Pesos } from '@/domain/tipos';
 import { CORES, TIPOGRAFIA } from '@/visual/tokens';
 import { FundoClima } from '@/visual/FundoClima';
-import { FormaPontos, type ConfigForma } from '@/visual/FormaPontos';
+import { FormaPontosGrupo, type ConfigForma } from '@/visual/FormaPontos';
 
 // Tela de prova de conceito da Fase 0 (issues #5 e #4: forma de pontos + motor de áudio).
 // Substituída pela tela principal de verdade na Fase 2/3 — ver 02-sdd.md, seção 13.
@@ -52,6 +52,7 @@ export default function Index() {
   const esmaecidoAlvo = useSharedValue(false);
   const [climaAtual, setClimaAtual] = useState<keyof typeof CLIMAS>('tempestade');
   const [somLigado, setSomLigado] = useState(false);
+  const [origemForma, setOrigemForma] = useState({ x: 0, y: 0 });
   const motorRef = useRef<MotorAudio | null>(null);
   const pararSessaoRef = useRef<(() => void) | null>(null);
 
@@ -91,10 +92,18 @@ export default function Index() {
 
   return (
     <View style={styles.container}>
-      <FundoClima largura={width} altura={height} pesosAlvo={pesosAlvo} esmaecidoAlvo={esmaecidoAlvo} />
+      <FundoClima largura={width} altura={height} pesosAlvo={pesosAlvo} esmaecidoAlvo={esmaecidoAlvo}>
+        <FormaPontosGrupo tamanho={280} configAlvo={configAlvo} origem={origemForma} />
+      </FundoClima>
       <Text style={styles.title}>Refúgio Sensorial</Text>
       <Text style={styles.subtitle}>Prova de conceito — fundo + forma de pontos + áudio</Text>
-      <FormaPontos tamanho={280} configAlvo={configAlvo} />
+      <View
+        style={styles.espacoForma}
+        onLayout={(e) => {
+          const { x, y } = e.nativeEvent.layout;
+          setOrigemForma({ x, y });
+        }}
+      />
       <Pressable onPress={proximoClima} style={styles.botao}>
         <Text style={styles.botaoTexto}>Clima: {climaAtual} (toque para trocar)</Text>
       </Pressable>
@@ -119,6 +128,10 @@ const styles = StyleSheet.create({
   subtitle: {
     color: CORES.escuro.tintaSecundaria,
     ...TIPOGRAFIA.rotulo,
+  },
+  espacoForma: {
+    width: 280,
+    height: 280,
   },
   botao: {
     paddingVertical: 12,
