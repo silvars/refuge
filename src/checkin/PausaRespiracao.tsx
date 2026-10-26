@@ -42,6 +42,7 @@ export function PausaRespiracao({ clima, rotulo, aoContinuar }: PausaRespiracaoP
 
   const [conteudoPausa, setConteudoPausa] = useState<PausaRespiracaoConteudo | null>(null);
   const [faseRespiracao, setFaseRespiracao] = useState<'inspira' | 'expira'>('inspira');
+  const [origemForma, setOrigemForma] = useState({ x: 0, y: 0 });
   const pesosAlvo = useSharedValue<Pesos>(PESOS_POR_CLIMA[clima]);
   const esmaecidoAlvo = useSharedValue(false);
   const configAlvo = useSharedValue<ConfigForma>({
@@ -110,12 +111,18 @@ export function PausaRespiracao({ clima, rotulo, aoContinuar }: PausaRespiracaoP
           tamanho={TAMANHO_FORMA}
           configAlvo={configAlvo}
           reduzirMovimento={reduzirMovimento}
-          origem={{ x: width / 2 - TAMANHO_FORMA / 2, y: height * 0.26 }}
+          origem={origemForma}
         />
       </FundoClima>
       <Text style={[styles.rotuloSuperior, { color: tokens.tintaSecundaria }]}>{rotulo}</Text>
       <Text style={[styles.titulo, { color: tokens.tinta }]}>{textoLocalizado(conteudoPausa.titulo, idioma)}</Text>
-      <View style={styles.espacoForma} />
+      <View
+        style={styles.espacoForma}
+        onLayout={(e) => {
+          const { x, y } = e.nativeEvent.layout;
+          setOrigemForma({ x, y });
+        }}
+      />
       <Animated.Text
         key={faseRespiracao}
         entering={reduzirMovimento ? undefined : FadeIn.duration(300)}
@@ -139,7 +146,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 16,
+    gap: 24,
     paddingHorizontal: 32,
     paddingBottom: 48,
   },
