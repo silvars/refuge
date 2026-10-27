@@ -15,20 +15,36 @@ describe('diaLocal', () => {
 });
 
 describe('calcularSequencia', () => {
+  function c(clima: Checkin['clima'], em: number) {
+    return { clima, em };
+  }
+
   it('zero quando o mais recente já é clareira', () => {
-    expect(calcularSequencia(['clareira', 'tempestade', 'nevoa'])).toBe(0);
+    expect(calcularSequencia([c('clareira', 3), c('tempestade', 2), c('nevoa', 1)])).toBe(0);
   });
 
   it('conta tempestade/névoa seguidos até a primeira clareira', () => {
-    expect(calcularSequencia(['tempestade', 'nevoa', 'tempestade', 'clareira', 'nevoa'])).toBe(3);
+    expect(
+      calcularSequencia([c('tempestade', 5), c('nevoa', 4), c('tempestade', 3), c('clareira', 2), c('nevoa', 1)]),
+    ).toBe(3);
   });
 
   it('conta tudo se nunca houve clareira no histórico', () => {
-    expect(calcularSequencia(['tempestade', 'nevoa', 'tempestade'])).toBe(3);
+    expect(calcularSequencia([c('tempestade', 3), c('nevoa', 2), c('tempestade', 1)])).toBe(3);
   });
 
   it('zero para histórico vazio', () => {
     expect(calcularSequencia([])).toBe(0);
+  });
+
+  it('zera a sequência em check-ins anteriores a um compartilhamento com Porto Seguro', () => {
+    const checkins = [c('tempestade', 5), c('nevoa', 4), c('tempestade', 3), c('nevoa', 2), c('tempestade', 1)];
+    expect(calcularSequencia(checkins, 3)).toBe(2);
+  });
+
+  it('ignora o Porto Seguro se ele foi antes de todos os check-ins considerados', () => {
+    const checkins = [c('tempestade', 5), c('nevoa', 4)];
+    expect(calcularSequencia(checkins, 1)).toBe(2);
   });
 });
 

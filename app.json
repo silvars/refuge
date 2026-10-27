@@ -37,7 +37,13 @@
       "react-native-audio-api",
       "expo-font",
       "expo-secure-store",
-      "expo-localization"
+      "expo-localization",
+      [
+        "expo-contacts",
+        {
+          "contactsPermission": "Usado só na hora de escolher um Porto Seguro pra compartilhar sua mensagem — nenhum contato é salvo no app."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

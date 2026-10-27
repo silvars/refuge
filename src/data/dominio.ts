@@ -16,15 +16,26 @@ export function diaLocal(epochMs: number): string {
   return `${ano}-${mes}-${dia}`;
 }
 
+/** Clima de um check-in com seu horário — usado por `calcularSequencia` pra cruzar com Porto Seguro. */
+export interface ClimaComHorario {
+  readonly clima: Clima;
+  readonly em: number;
+}
+
 /**
  * Check-ins seguidos em Tempestade/Névoa, olhando o histórico do mais recente pro mais antigo
- * (mesma regra de `clima.nextStreak`: zera em Clareira). `climasRecentesPrimeiro` deve vir
- * ordenado por `em DESC`.
+ * (mesma regra de `clima.nextStreak`: zera em Clareira). `checkinsRecentesPrimeiro` deve vir
+ * ordenado por `em DESC`. Compartilhar com um Porto Seguro também zera a sequência (ver
+ * especificação F8, item 9): check-ins anteriores a esse compartilhamento não contam mais.
  */
-export function calcularSequencia(climasRecentesPrimeiro: readonly Clima[]): number {
+export function calcularSequencia(
+  checkinsRecentesPrimeiro: readonly ClimaComHorario[],
+  ultimoPortoSeguroEm: number | null = null,
+): number {
   let sequencia = 0;
-  for (const clima of climasRecentesPrimeiro) {
-    if (clima === 'clareira') break;
+  for (const c of checkinsRecentesPrimeiro) {
+    if (ultimoPortoSeguroEm !== null && c.em <= ultimoPortoSeguroEm) break;
+    if (c.clima === 'clareira') break;
     sequencia++;
   }
   return sequencia;

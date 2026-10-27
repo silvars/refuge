@@ -88,6 +88,12 @@ export async function houvePortoSeguroNoDia(db: DB, dia: string): Promise<boolea
   return r.rows.length > 0;
 }
 
+/** Horário do compartilhamento com Porto Seguro mais recente (qualquer dia), ou `null`. */
+export async function ultimoEventoPortoSeguro(db: DB): Promise<number | null> {
+  const r = await db.execute(`SELECT em FROM evento_dia WHERE tipo = 'porto_seguro' ORDER BY em DESC LIMIT 1`);
+  return r.rows[0] ? Number(r.rows[0].em) : null;
+}
+
 export async function registrarFraseExibida(db: DB, fraseId: string, em: number): Promise<void> {
   await db.execute(`INSERT INTO frase_exibida (frase_id, em) VALUES (?, ?)`, [fraseId, em]);
 }
@@ -121,11 +127,13 @@ export async function estadoDerivado(db: DB, agora: number): Promise<EstadoDeriv
   if (!ultimo) {
     return { climaAtual: null, misturaAtual: null, sequencia: 0, ultimoCheckinEm: null, esmaecido: false };
   }
-  const recentes = await climasRecentes(db, JANELA_SEQUENCIA);
+  const r = await db.execute(`SELECT clima, em FROM checkin ORDER BY em DESC LIMIT ?`, [JANELA_SEQUENCIA]);
+  const recentes = r.rows.map((row) => ({ clima: row.clima as Clima, em: Number(row.em) }));
+  const ultimoPortoSeguro = await ultimoEventoPortoSeguro(db);
   return {
     climaAtual: ultimo.clima,
     misturaAtual: ultimo.mistura,
-    sequencia: calcularSequencia(recentes),
+    sequencia: calcularSequencia(recentes, ultimoPortoSeguro),
     ultimoCheckinEm: ultimo.em,
     esmaecido: isStale(ultimo.em, agora),
   };

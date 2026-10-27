@@ -47,5 +47,20 @@
   },
   "comum": {
     "voltar": "Volver"
+  },
+  "portoSeguro": {
+    "titulo": "Compartir con un Puerto Seguro",
+    "subtitulo": "Armamos un mensaje a partir de tu clima. Si quieres, cámbialo a tu manera.",
+    "seuClimaAgora": "Tu clima ahora · {{clima}}",
+    "sugerirOutra": "Sugerir otro mensaje",
+    "escolherContato": "Elegir un Puerto Seguro",
+    "semNumeroValido": "Ese contacto no tiene un número que podamos usar. ¿Probamos con otro?"
+  },
+  "acolhimento": {
+    "titulo": "Diste un paso importante.",
+    "subtitulo": "{{nome}} va a ver tu mensaje cuando pueda. La respuesta puede tardar un poco, y está bien.",
+    "subtituloSemNome": "Esa persona va a ver tu mensaje cuando pueda. La respuesta puede tardar un poco, y está bien.",
+    "respirar": "Respirar un poco mientras tanto",
+    "voltar": "Volver a mi refugio"
   }
 }

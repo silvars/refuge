@@ -90,3 +90,10 @@ export interface ConteudoEstados {
   readonly versao: string;
   readonly estados: Record<Clima, EstadoConteudo>;
 }
+
+export type MensagemPortoSeguro = { readonly id: string } & TextoLocalizado;
+
+export interface ConteudoPortoSeguro {
+  readonly versao: string;
+  readonly mensagens: Record<Clima, readonly MensagemPortoSeguro[]>;
+}

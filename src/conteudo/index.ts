@@ -8,7 +8,14 @@ import perguntas from './bundled/perguntas.json';
 import portoSeguro from './bundled/porto-seguro.json';
 import respiracao from './bundled/respiracao.json';
 import { atualizarSeNecessario } from './remoto';
-import type { ConteudoEstados, ConteudoEtiquetas, ConteudoFrases, ConteudoPerguntas, ConteudoRespiracao } from './tipos';
+import type {
+  ConteudoEstados,
+  ConteudoEtiquetas,
+  ConteudoFrases,
+  ConteudoPerguntas,
+  ConteudoPortoSeguro,
+  ConteudoRespiracao,
+} from './tipos';
 
 // Fachada de leitura (ver 02-sdd.md, seção 16): sempre lê do cache local se existir, senão do
 // bundled — NUNCA espera rede. A checagem do CDN roda em paralelo, sem bloquear, e só passa a
@@ -62,8 +69,8 @@ export function getFrases(): Promise<ConteudoFrases> {
 export function getPerguntas(): Promise<ConteudoPerguntas> {
   return ler('perguntas') as Promise<ConteudoPerguntas>;
 }
-export function getPortoSeguro(): Promise<unknown> {
-  return ler('porto-seguro');
+export function getPortoSeguro(): Promise<ConteudoPortoSeguro> {
+  return ler('porto-seguro') as Promise<ConteudoPortoSeguro>;
 }
 export function getRespiracao(): Promise<ConteudoRespiracao> {
   return ler('respiracao') as Promise<ConteudoRespiracao>;

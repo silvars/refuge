@@ -144,7 +144,9 @@ export default function Principal() {
         {!estadoDerivado.esmaecido && shouldSuggestPorto(estadoDerivado.sequencia) && (
           <View style={styles.banner}>
             <Text style={[styles.bannerTexto, { color: tintaSecundaria }]}>{t('principal.sequenciaTexto')}</Text>
-            <Text style={[styles.bannerLink, { color: tinta }]}>{t('principal.compartilharPortoSeguro')}</Text>
+            <Pressable onPress={() => router.push('/porto-seguro')}>
+              <Text style={[styles.bannerLink, { color: tinta }]}>{t('principal.compartilharPortoSeguro')}</Text>
+            </Pressable>
           </View>
         )}
       </View>
@@ -170,6 +172,7 @@ export default function Principal() {
         </Pressable>
         <Pressable
           ref={refPorto}
+          onPress={() => router.push('/porto-seguro')}
           style={styles.botao}
           onLayout={() => {
             refPorto.current?.measureInWindow((x, y, largura, altura) => setRetPorto({ x, y, largura, altura }));

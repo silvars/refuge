@@ -103,6 +103,7 @@ export default function Ajuda() {
 
           <Pressable
             ref={refPorto}
+            onPress={() => router.push('/porto-seguro')}
             style={styles.botao}
             onLayout={() => {
               refPorto.current?.measureInWindow((x, y, largura, altura) => setRetPorto({ x, y, largura, altura }));

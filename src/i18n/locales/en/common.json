@@ -47,5 +47,20 @@
   },
   "comum": {
     "voltar": "Back"
+  },
+  "portoSeguro": {
+    "titulo": "Share with a Safe Harbor",
+    "subtitulo": "We put together a message based on your weather. Feel free to change it your way.",
+    "seuClimaAgora": "Your weather now · {{clima}}",
+    "sugerirOutra": "Suggest another message",
+    "escolherContato": "Choose a Safe Harbor",
+    "semNumeroValido": "That contact doesn't have a number we can use. Try another one?"
+  },
+  "acolhimento": {
+    "titulo": "You just took an important step.",
+    "subtitulo": "{{nome}} will see your message when they can. The reply might take a while, and that's okay.",
+    "subtituloSemNome": "They'll see your message when they can. The reply might take a while, and that's okay.",
+    "respirar": "Breathe for a bit while you wait",
+    "voltar": "Back to my refuge"
   }
 }

@@ -47,5 +47,20 @@
   },
   "comum": {
     "voltar": "Retour"
+  },
+  "portoSeguro": {
+    "titulo": "Partager avec un Port d'Attache",
+    "subtitulo": "Nous avons préparé un message à partir de votre climat. Modifiez-le à votre façon si vous voulez.",
+    "seuClimaAgora": "Votre climat maintenant · {{clima}}",
+    "sugerirOutra": "Suggérer un autre message",
+    "escolherContato": "Choisir un Port d'Attache",
+    "semNumeroValido": "Ce contact n'a pas de numéro que nous puissions utiliser. Essayer un autre ?"
+  },
+  "acolhimento": {
+    "titulo": "Vous venez de faire un pas important.",
+    "subtitulo": "{{nome}} verra votre message dès que possible. La réponse peut prendre du temps, et c'est normal.",
+    "subtituloSemNome": "Cette personne verra votre message dès que possible. La réponse peut prendre du temps, et c'est normal.",
+    "respirar": "Respirer un peu en attendant",
+    "voltar": "Retour à mon refuge"
   }
 }

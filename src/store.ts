@@ -3,7 +3,8 @@ import { create } from 'zustand';
 import type { Checkin, EstadoDerivado, Preferencias } from '@/domain/tipos';
 
 import { abrirBanco, apagarTudo as apagarBanco } from './data/db';
-import { estadoDerivado, inserirCheckin, lerPreferencia, salvarPreferencia } from './data/repositorios';
+import { diaLocal } from './data/dominio';
+import { estadoDerivado, inserirCheckin, lerPreferencia, registrarEventoDia, salvarPreferencia } from './data/repositorios';
 
 // Estado global de sessão e preferências (ver 02-sdd.md, seção 3/4). Carrega do banco
 // criptografado ao iniciar; as ações já persistem antes de atualizar o estado em memória.
@@ -37,6 +38,8 @@ interface RefugioStore {
   carregar: () => Promise<void>;
   atualizarPreferencias: (parcial: Partial<Preferencias>) => Promise<void>;
   registrarCheckin: (checkin: Checkin) => Promise<void>;
+  /** Marca o dia como "compartilhou com um Porto Seguro" e zera a sequência (especificação F8, item 9). */
+  registrarCompartilhamentoPortoSeguro: () => Promise<void>;
   apagarTudo: () => Promise<void>;
 }
 
@@ -64,6 +67,14 @@ export const useRefugioStore = create<RefugioStore>((set, get) => ({
     const db = await abrirBanco();
     await inserirCheckin(db, checkin);
     const derivado = await estadoDerivado(db, Date.now());
+    set({ estadoDerivado: derivado });
+  },
+
+  async registrarCompartilhamentoPortoSeguro() {
+    const db = await abrirBanco();
+    const agora = Date.now();
+    await registrarEventoDia(db, diaLocal(agora), 'porto_seguro', agora);
+    const derivado = await estadoDerivado(db, agora);
     set({ estadoDerivado: derivado });
   },
 

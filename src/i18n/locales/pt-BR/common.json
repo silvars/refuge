@@ -47,5 +47,20 @@
   },
   "comum": {
     "voltar": "Voltar"
+  },
+  "portoSeguro": {
+    "titulo": "Compartilhar com um Porto Seguro",
+    "subtitulo": "Montamos uma mensagem a partir do seu clima. Se quiser, mude do seu jeito.",
+    "seuClimaAgora": "Seu clima agora · {{clima}}",
+    "sugerirOutra": "Sugerir outra mensagem",
+    "escolherContato": "Escolher um Porto Seguro",
+    "semNumeroValido": "Esse contato não tem um número que a gente consiga usar. Tenta outro?"
+  },
+  "acolhimento": {
+    "titulo": "Você deu um passo importante.",
+    "subtitulo": "{{nome}} vai ver sua mensagem quando puder. A resposta pode demorar um pouco, e tudo bem.",
+    "subtituloSemNome": "Essa pessoa vai ver sua mensagem quando puder. A resposta pode demorar um pouco, e tudo bem.",
+    "respirar": "Respirar um pouco enquanto isso",
+    "voltar": "Voltar ao meu refúgio"
   }
 }
