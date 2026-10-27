@@ -73,6 +73,34 @@ export default function Etiquetas() {
     });
   }
 
+  /**
+   * Mede TODOS os chips de uma vez, disparado pelo onLayout do container (que só assenta depois
+   * que o flex-wrap de todos os filhos já terminou) — evita que medições individuais por chip
+   * (uma por `onLayout` de cada Pressable) cheguem fora de ordem e sobrescrevam posições corretas
+   * com posições de um reflow anterior (foi o que causava os vidros das linhas sobrepostos).
+   */
+  function medirTodosOsChips() {
+    if (!conteudo) return;
+    const pendentes = conteudo.opcoes.map(
+      (opcao) =>
+        new Promise<[string, RetanguloLayout] | null>((resolve) => {
+          const ref = refsChips.current[opcao.id];
+          if (!ref) {
+            resolve(null);
+            return;
+          }
+          ref.measureInWindow((x, y, largura, altura) => resolve([opcao.id, { x, y, largura, altura }]));
+        }),
+    );
+    Promise.all(pendentes).then((resultados) => {
+      const novo: Record<string, RetanguloLayout> = {};
+      for (const r of resultados) {
+        if (r) novo[r[0]] = r[1];
+      }
+      setRetChips(novo);
+    });
+  }
+
   function continuar(ids: string[]) {
     definirEtiquetas(ids);
     router.push('/checkin/resultado');
@@ -106,7 +134,7 @@ export default function Etiquetas() {
       {conteudo && (
         <>
           <Text style={[styles.titulo, { color: tokens.tinta }]}>{textoLocalizado(conteudo.titulo, idioma)}</Text>
-          <View style={styles.chips}>
+          <View style={styles.chips} onLayout={medirTodosOsChips}>
             {conteudo.opcoes.map((opcao) => (
               <Pressable
                 key={opcao.id}
@@ -115,11 +143,6 @@ export default function Etiquetas() {
                 }}
                 onPress={() => alternar(opcao.id)}
                 style={styles.chip}
-                onLayout={() => {
-                  refsChips.current[opcao.id]?.measureInWindow((x, y, largura, altura) =>
-                    setRetChips((r) => ({ ...r, [opcao.id]: { x, y, largura, altura } })),
-                  );
-                }}
               >
                 <Text style={[styles.chipTexto, { color: tokens.tinta }]}>{opcao[idioma] ?? opcao['pt-BR'] ?? ''}</Text>
               </Pressable>
