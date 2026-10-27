@@ -6,6 +6,7 @@ import Animated, { FadeInDown, useSharedValue } from 'react-native-reanimated';
 
 import type { Pesos } from '@/domain/tipos';
 import { useReduzirMovimento } from '@/hooks/useReduzirMovimento';
+import { useBarraSuperior } from '@/components/useBarraSuperior';
 import { FormaPontosGrupo, type ConfigForma } from '@/visual/FormaPontos';
 import { FundoClima } from '@/visual/FundoClima';
 import { CORES, RAIO_BOTAO, TIPOGRAFIA } from '@/visual/tokens';
@@ -49,6 +50,8 @@ export default function VamosComecar() {
     router.replace('/checkin');
   }
 
+  const { vidro: barraVidro, barra } = useBarraSuperior({ tokens: CORES.escuro, aoVoltar: () => router.back() });
+
   return (
     <View style={styles.container}>
       <FundoClima largura={width} altura={height} pesosAlvo={pesosAlvo} esmaecidoAlvo={esmaecidoAlvo}>
@@ -58,7 +61,9 @@ export default function VamosComecar() {
           reduzirMovimento={reduzirMovimento}
           origem={{ x: width / 2 - TAMANHO_FORMA / 2, y: height * 0.16 }}
         />
+        {barraVidro}
       </FundoClima>
+      {barra}
       <View style={styles.espacoForma} />
       <View style={styles.frases}>
         <Animated.Text

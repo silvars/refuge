@@ -37,7 +37,15 @@
     "sequenciaTexto": "Los últimos días han pesado. ¿Qué tal llamar a alguien que te hace bien?"
   },
   "ajuda": {
-    "cvv": { "rotulo": "Ligar para o CVV · 188" },
-    "samu": { "rotulo": "Ligar para o SAMU · 192" }
+    "botao": "Ayuda",
+    "titulo1": "No tienes que pasar por esto sin apoyo.",
+    "titulo2": "Habla ahora con alguien listo para escucharte.",
+    "cvv": { "rotulo": "Ligar para o CVV · 188", "descricao": "Apoyo emocional, 24 horas, gratis" },
+    "samu": { "rotulo": "Ligar para o SAMU · 192", "descricao": "Emergencia médica" },
+    "portoSeguro": { "rotulo": "Compartir con un Puerto Seguro", "descricao": "Mensaje listo para alguien de confianza" },
+    "rodape": "Esta pantalla funciona sin internet y aparece con un toque en cualquier parte de la app."
+  },
+  "comum": {
+    "voltar": "Volver"
   }
 }

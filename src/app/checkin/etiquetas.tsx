@@ -12,6 +12,7 @@ import { normalize, totals } from '@/domain/clima';
 import type { Pesos } from '@/domain/tipos';
 import type { Idioma } from '@/i18n/idioma';
 import { textoLocalizado } from '@/i18n/textoLocalizado';
+import { useBarraSuperior } from '@/components/useBarraSuperior';
 import { FundoClima } from '@/visual/FundoClima';
 import { VidroGrupo } from '@/visual/Vidro';
 import { CORES, RAIO_BOTAO, TIPOGRAFIA, ehModoClaro } from '@/visual/tokens';
@@ -79,10 +80,12 @@ export default function Etiquetas() {
 
   const n = sessao ? normalize(totals(perguntas, sessao.respostas, sessao.climaAnterior)) : null;
   const tokens = n && ehModoClaro(n.clareira) ? CORES.claro : CORES.escuro;
+  const { vidro: barraVidro, barra } = useBarraSuperior({ tokens, aoVoltar: () => router.back() });
 
   return (
     <View style={styles.container}>
       <FundoClima largura={width} altura={height} pesosAlvo={pesosAlvo} esmaecidoAlvo={esmaecidoAlvo}>
+        {barraVidro}
         {Object.entries(retChips).map(([id, ret]) => {
           const ativa = selecionadas.includes(id);
           return (
@@ -98,6 +101,7 @@ export default function Etiquetas() {
         {retPular && <VidroGrupo {...retPular} raio={RAIO_BOTAO} cor={tokens.vidro} corFio={tokens.fio} />}
         {retVer && <VidroGrupo {...retVer} raio={RAIO_BOTAO} cor={tokens.vidroForte} corFio={tokens.fio} />}
       </FundoClima>
+      {barra}
 
       {conteudo && (
         <>

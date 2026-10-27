@@ -24,6 +24,12 @@ export function definirMisturaTrilha(pesos: Partial<Pesos> | null): void {
   motorAtivo().definirMistura(pesos);
 }
 
+/** Só mexe no volume se a trilha já estiver tocando — nunca liga o motor só por causa disso
+ * (ex. abrir a tela de Ajuda antes do primeiro check-in não deve começar a tocar nada). */
+export function definirVolumeGeralTrilhaSeAtiva(v: number): void {
+  motor?.definirVolumeGeral(v);
+}
+
 export function pararTrilha(): void {
   pararSessao?.();
   motor?.descartar();

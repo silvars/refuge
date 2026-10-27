@@ -16,6 +16,7 @@ import { foiFraseExibidaRecentemente, registrarFraseExibida } from '@/data/repos
 import { hapticRevelarClima } from '@/haptics';
 import type { Idioma } from '@/i18n/idioma';
 import { textoLocalizado } from '@/i18n/textoLocalizado';
+import { useBarraSuperior } from '@/components/useBarraSuperior';
 import { useRefugioStore } from '@/store';
 import { FundoClima } from '@/visual/FundoClima';
 import { VidroGrupo } from '@/visual/Vidro';
@@ -135,15 +136,18 @@ export default function Resultado() {
   }
 
   const tokens = modoClaro ? CORES.claro : CORES.escuro;
+  const { vidro: barraVidro, barra } = useBarraSuperior({ tokens });
 
   return (
     <View style={styles.container}>
       <FundoClima largura={width} altura={height} pesosAlvo={pesosAlvo} esmaecidoAlvo={esmaecidoAlvo}>
+        {barraVidro}
         {frase && (
           <VidroGrupo x={24} y={height - 220} largura={width - 48} altura={96} raio={RAIO_CARD} cor={tokens.vidro} corFio={tokens.fio} />
         )}
         {retBotao && <VidroGrupo {...retBotao} raio={RAIO_BOTAO} cor={tokens.vidroForte} corFio={tokens.fio} />}
       </FundoClima>
+      {barra}
 
       <View style={styles.conteudo}>
         <Text style={[styles.rotulo, { color: tokens.tintaSecundaria }]}>{t('resultado.seuClimaAgora')}</Text>

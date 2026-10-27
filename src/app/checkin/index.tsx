@@ -14,6 +14,7 @@ import { hapticEscolha } from '@/haptics';
 import type { Idioma } from '@/i18n/idioma';
 import { textoLocalizado } from '@/i18n/textoLocalizado';
 import { useReduzirMovimento } from '@/hooks/useReduzirMovimento';
+import { useBarraSuperior } from '@/components/useBarraSuperior';
 import { useRefugioStore } from '@/store';
 import { CORES, TIPOGRAFIA, ehModoClaro } from '@/visual/tokens';
 import { FundoClima } from '@/visual/FundoClima';
@@ -97,6 +98,13 @@ export default function Checkin() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessao?.respostas]);
 
+  const tokens = (() => {
+    if (!sessao) return CORES.escuro;
+    const n = normalize(totals(perguntas, sessao.respostas, sessao.climaAnterior));
+    return n && ehModoClaro(n.clareira) ? CORES.claro : CORES.escuro;
+  })();
+  const { vidro: barraVidro, barra } = useBarraSuperior({ tokens });
+
   useEffect(() => {
     // react-hooks/immutability não reconhece a mutação de SharedValue do Reanimated como segura,
     // mesmo sendo exatamente o padrão documentado da lib (ver nota "use no memo" no topo do arquivo).
@@ -110,7 +118,10 @@ export default function Checkin() {
   if (!sessao || !conteudo || perguntas.length === 0) {
     return (
       <View style={styles.container}>
-        <FundoClima largura={width} altura={height} pesosAlvo={pesosAlvo} esmaecidoAlvo={esmaecidoAlvo} />
+        <FundoClima largura={width} altura={height} pesosAlvo={pesosAlvo} esmaecidoAlvo={esmaecidoAlvo}>
+          {barraVidro}
+        </FundoClima>
+        {barra}
       </View>
     );
   }
@@ -179,12 +190,13 @@ export default function Checkin() {
   const totalPalavras = palavras.length;
   const atrasoOpcoesBase =
     ATRASO_INICIO_PALAVRAS_MS + totalPalavras * INTERVALO_PALAVRAS_MS + ATRASO_OPCOES_APOS_PALAVRAS_MS;
-  const n = normalize(totals(perguntas, sessao.respostas, sessao.climaAnterior));
-  const tokens = n && ehModoClaro(n.clareira) ? CORES.claro : CORES.escuro;
 
   return (
     <View style={styles.container}>
-      <FundoClima largura={width} altura={height} pesosAlvo={pesosAlvo} esmaecidoAlvo={esmaecidoAlvo} />
+      <FundoClima largura={width} altura={height} pesosAlvo={pesosAlvo} esmaecidoAlvo={esmaecidoAlvo}>
+        {barraVidro}
+      </FundoClima>
+      {barra}
       <View style={styles.topo}>
         <Pressable onPress={voltar} hitSlop={16}>
           <Text style={[styles.voltar, { color: tokens.tinta }]}>‹</Text>

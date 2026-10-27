@@ -9,6 +9,7 @@ import type { Clima, Pesos } from '@/domain/tipos';
 import { useReduzirMovimento } from '@/hooks/useReduzirMovimento';
 import type { Idioma } from '@/i18n/idioma';
 import { textoLocalizado } from '@/i18n/textoLocalizado';
+import { useBarraSuperior } from '@/components/useBarraSuperior';
 import { FormaPontosGrupo, type ConfigForma } from '@/visual/FormaPontos';
 import { FundoClima } from '@/visual/FundoClima';
 import { CORES, RAIO_BOTAO, TIPOGRAFIA } from '@/visual/tokens';
@@ -90,10 +91,16 @@ export function PausaRespiracao({ clima, rotulo, aoContinuar }: PausaRespiracaoP
     return () => clearInterval(id);
   }, [conteudoPausa, reduzirMovimento, configAlvo, clima]);
 
+  const tokens = clima === 'clareira' ? CORES.claro : CORES.escuro;
+  const { vidro: barraVidro, barra } = useBarraSuperior({ tokens });
+
   if (!conteudoPausa) {
     return (
       <View style={styles.container}>
-        <FundoClima largura={width} altura={height} pesosAlvo={pesosAlvo} esmaecidoAlvo={esmaecidoAlvo} />
+        <FundoClima largura={width} altura={height} pesosAlvo={pesosAlvo} esmaecidoAlvo={esmaecidoAlvo}>
+          {barraVidro}
+        </FundoClima>
+        {barra}
       </View>
     );
   }
@@ -102,7 +109,6 @@ export function PausaRespiracao({ clima, rotulo, aoContinuar }: PausaRespiracaoP
     faseRespiracao === 'inspira'
       ? textoLocalizado(conteudoPausa.rotulo_inspira, idioma)
       : textoLocalizado(conteudoPausa.rotulo_expira, idioma);
-  const tokens = clima === 'clareira' ? CORES.claro : CORES.escuro;
 
   return (
     <View style={styles.container}>
@@ -113,7 +119,9 @@ export function PausaRespiracao({ clima, rotulo, aoContinuar }: PausaRespiracaoP
           reduzirMovimento={reduzirMovimento}
           origem={origemForma}
         />
+        {barraVidro}
       </FundoClima>
+      {barra}
       <Text style={[styles.rotuloSuperior, { color: tokens.tintaSecundaria }]}>{rotulo}</Text>
       <Text style={[styles.titulo, { color: tokens.tinta }]}>{textoLocalizado(conteudoPausa.titulo, idioma)}</Text>
       <View

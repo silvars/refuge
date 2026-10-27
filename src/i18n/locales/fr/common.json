@@ -37,7 +37,15 @@
     "sequenciaTexto": "Les derniers jours ont été lourds. Et si vous appeliez quelqu'un qui vous fait du bien ?"
   },
   "ajuda": {
-    "cvv": { "rotulo": "Ligar para o CVV · 188" },
-    "samu": { "rotulo": "Ligar para o SAMU · 192" }
+    "botao": "Aide",
+    "titulo1": "Vous n'avez pas à traverser cela sans soutien.",
+    "titulo2": "Parlez maintenant à quelqu'un prêt à vous écouter.",
+    "cvv": { "rotulo": "Ligar para o CVV · 188", "descricao": "Soutien émotionnel, 24h/24, gratuit" },
+    "samu": { "rotulo": "Ligar para o SAMU · 192", "descricao": "Urgence médicale" },
+    "portoSeguro": { "rotulo": "Partager avec un Port d'Attache", "descricao": "Message prêt pour quelqu'un de confiance" },
+    "rodape": "Cet écran fonctionne sans connexion et apparaît en un geste depuis n'importe où dans l'application."
+  },
+  "comum": {
+    "voltar": "Retour"
   }
 }

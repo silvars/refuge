@@ -37,7 +37,15 @@
     "sequenciaTexto": "The last few days have been heavy. How about calling someone who makes you feel good?"
   },
   "ajuda": {
-    "cvv": { "rotulo": "Ligar para o CVV · 188" },
-    "samu": { "rotulo": "Ligar para o SAMU · 192" }
+    "botao": "Help",
+    "titulo1": "You don't have to go through this without support.",
+    "titulo2": "Talk now with someone ready to listen.",
+    "cvv": { "rotulo": "Ligar para o CVV · 188", "descricao": "Emotional support, 24 hours, free" },
+    "samu": { "rotulo": "Ligar para o SAMU · 192", "descricao": "Medical emergency" },
+    "portoSeguro": { "rotulo": "Share with a Safe Harbor", "descricao": "Ready-made message for someone you trust" },
+    "rodape": "This screen works without internet and appears with one tap anywhere in the app."
+  },
+  "comum": {
+    "voltar": "Back"
   }
 }

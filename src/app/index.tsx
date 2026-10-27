@@ -12,6 +12,7 @@ import { useReduzirMovimento } from '@/hooks/useReduzirMovimento';
 import type { Idioma } from '@/i18n/idioma';
 import { textoLocalizado } from '@/i18n/textoLocalizado';
 import { useRefugioStore } from '@/store';
+import { useBarraSuperior } from '@/components/useBarraSuperior';
 import { FormaPontosGrupo, type ConfigForma } from '@/visual/FormaPontos';
 import { FundoClima } from '@/visual/FundoClima';
 import { VidroGrupo } from '@/visual/Vidro';
@@ -109,6 +110,7 @@ export default function Principal() {
   const corFio = emModoClaro ? CORES.claro.fio : CORES.escuro.fio;
   const corVidroForte = emModoClaro ? CORES.claro.vidroForte : CORES.escuro.vidroForte;
   const corVidro = emModoClaro ? CORES.claro.vidro : CORES.escuro.vidro;
+  const { vidro: barraVidro, barra } = useBarraSuperior({ tokens: emModoClaro ? CORES.claro : CORES.escuro });
 
   return (
     <View style={styles.container}>
@@ -122,7 +124,9 @@ export default function Principal() {
         {retMedir && <VidroGrupo {...retMedir} raio={RAIO_BOTAO} cor={corVidroForte} corFio={corFio} />}
         {retPorto && <VidroGrupo {...retPorto} raio={RAIO_BOTAO} cor={corVidro} corFio={corFio} />}
         {retNebulosa && <VidroGrupo {...retNebulosa} raio={RAIO_BOTAO} cor={corVidro} corFio={corFio} />}
+        {barraVidro}
       </FundoClima>
+      {barra}
 
       <View style={styles.topo}>
         <Text style={[styles.rotulo, { color: tintaSecundaria }]}>{t('principal.seuClimaAgora')}</Text>
