@@ -182,6 +182,7 @@ export default function Principal() {
         </Pressable>
         <Pressable
           ref={refNebulosa}
+          onPress={() => router.push('/nebulosa')}
           style={styles.botao}
           onLayout={() => {
             refNebulosa.current?.measureInWindow((x, y, largura, altura) => setRetNebulosa({ x, y, largura, altura }));

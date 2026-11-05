@@ -57,6 +57,17 @@
     "semNumeroValido": "That contact doesn't have a number we can use. Try another one?",
     "falhaAoEnviar": "We couldn't open WhatsApp or SMS right now. Try again?"
   },
+  "nebulosa": {
+    "titulo": "My Nebula",
+    "emDias_one": "on {{count}} day",
+    "emDias_other": "on {{count}} days",
+    "resumoSemanaPrefixo": "This week: {{resumo}}.",
+    "semRegistroNaSemana": "No check-ins this week yet.",
+    "dica": "Each star is a day. The more check-ins, the brighter it shines. Tap a star to revisit that day.",
+    "checkins_one": "{{count}} check-in",
+    "checkins_other": "{{count}} check-ins",
+    "portoSeguroNesteDia": "You shared with a Safe Harbor on this day."
+  },
   "acolhimento": {
     "titulo": "You just took an important step.",
     "subtitulo": "{{nome}} will see your message when they can. The reply might take a while, and that's okay.",

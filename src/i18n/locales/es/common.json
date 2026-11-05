@@ -57,6 +57,17 @@
     "semNumeroValido": "Ese contacto no tiene un número que podamos usar. ¿Probamos con otro?",
     "falhaAoEnviar": "No pudimos abrir WhatsApp ni los SMS ahora. ¿Intentamos de nuevo?"
   },
+  "nebulosa": {
+    "titulo": "Mi Nebulosa",
+    "emDias_one": "en {{count}} día",
+    "emDias_other": "en {{count}} días",
+    "resumoSemanaPrefixo": "Esta semana: {{resumo}}.",
+    "semRegistroNaSemana": "Todavía no hay registros esta semana.",
+    "dica": "Cada estrella es un día. Cuantos más check-ins, más brilla. Toca una estrella para recordar ese día.",
+    "checkins_one": "{{count}} check-in",
+    "checkins_other": "{{count}} check-ins",
+    "portoSeguroNesteDia": "Compartiste con un Puerto Seguro ese día."
+  },
   "acolhimento": {
     "titulo": "Diste un paso importante.",
     "subtitulo": "{{nome}} va a ver tu mensaje cuando pueda. La respuesta puede tardar un poco, y está bien.",

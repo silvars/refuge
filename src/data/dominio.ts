@@ -16,6 +16,49 @@ export function diaLocal(epochMs: number): string {
   return `${ano}-${mes}-${dia}`;
 }
 
+/** Monta o mesmo formato de `diaLocal` a partir de ano/mês (1-indexado)/dia já separados. */
+export function diaDoMes(ano: number, mes1Indexado: number, dia: number): string {
+  return `${ano}-${String(mes1Indexado).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
+}
+
+/** Quantidade de dias no mês (mês 1-indexado, ex. outubro = 10). */
+export function numeroDeDiasNoMes(ano: number, mes1Indexado: number): number {
+  return new Date(ano, mes1Indexado, 0).getDate();
+}
+
+/**
+ * Semanas domingo–sábado que cobrem o mês (ver especificação F9, "Nebulosa"): a primeira e a
+ * última podem ser parciais. Ex. outubro/2026 (começa numa quinta): [[1,3],[4,10],...,[25,31]].
+ */
+export function semanasDoMes(ano: number, mes1Indexado: number): readonly (readonly [number, number])[] {
+  const numDias = numeroDeDiasNoMes(ano, mes1Indexado);
+  const semanas: (readonly [number, number])[] = [];
+  let inicio = 1;
+  while (inicio <= numDias) {
+    const diaDaSemana = new Date(ano, mes1Indexado - 1, inicio).getDay();
+    const fim = Math.min(numDias, inicio + (6 - diaDaSemana));
+    semanas.push([inicio, fim]);
+    inicio = fim + 1;
+  }
+  return semanas;
+}
+
+/** Contagem de dias por clima predominante numa semana — ver especificação F9 "resumo da semana". */
+export function resumoSemana(
+  resumos: Readonly<Record<string, Pick<ResumoDia, 'climaPredominante'>>>,
+  ano: number,
+  mes1Indexado: number,
+  semana: readonly [number, number],
+): Mistura {
+  const contagem: Mistura = { tempestade: 0, nevoa: 0, clareira: 0 };
+  const [inicio, fim] = semana;
+  for (let dia = inicio; dia <= fim; dia++) {
+    const clima = resumos[diaDoMes(ano, mes1Indexado, dia)]?.climaPredominante;
+    if (clima) contagem[clima]++;
+  }
+  return contagem;
+}
+
 /** Clima de um check-in com seu horário — usado por `calcularSequencia` pra cruzar com Porto Seguro. */
 export interface ClimaComHorario {
   readonly clima: Clima;

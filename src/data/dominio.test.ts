@@ -1,6 +1,6 @@
 import type { Checkin } from '@/domain/tipos';
 
-import { calcularSequencia, diaLocal, resumoDoDia } from './dominio';
+import { calcularSequencia, diaDoMes, diaLocal, numeroDeDiasNoMes, resumoDoDia, resumoSemana, semanasDoMes } from './dominio';
 
 describe('diaLocal', () => {
   it('formata epoch ms em YYYY-MM-DD no fuso local', () => {
@@ -85,5 +85,58 @@ describe('resumoDoDia', () => {
       checkin({ mistura: { tempestade: 10, nevoa: 80, clareira: 10 } }),
     ];
     expect(resumoDoDia('2026-10-24', checkins, false)?.climaPredominante).toBe('nevoa');
+  });
+});
+
+describe('diaDoMes', () => {
+  it('monta YYYY-MM-DD com zero à esquerda', () => {
+    expect(diaDoMes(2026, 1, 5)).toBe('2026-01-05');
+    expect(diaDoMes(2026, 10, 24)).toBe('2026-10-24');
+  });
+});
+
+describe('numeroDeDiasNoMes', () => {
+  it('conta os dias de meses de 28/30/31 dias', () => {
+    expect(numeroDeDiasNoMes(2026, 10)).toBe(31);
+    expect(numeroDeDiasNoMes(2026, 11)).toBe(30);
+    expect(numeroDeDiasNoMes(2026, 2)).toBe(28);
+  });
+});
+
+describe('semanasDoMes', () => {
+  it('divide outubro/2026 (começa numa quinta) em semanas domingo–sábado, bordas parciais', () => {
+    expect(semanasDoMes(2026, 10)).toEqual([
+      [1, 3],
+      [4, 10],
+      [11, 17],
+      [18, 24],
+      [25, 31],
+    ]);
+  });
+
+  it('divide fevereiro/2026 (começa num domingo) sem semana parcial no início', () => {
+    expect(semanasDoMes(2026, 2)).toEqual([
+      [1, 7],
+      [8, 14],
+      [15, 21],
+      [22, 28],
+    ]);
+  });
+});
+
+describe('resumoSemana', () => {
+  it('conta o clima predominante de cada dia da semana que tem resumo', () => {
+    const resumos: Record<string, { climaPredominante: Checkin['clima'] }> = {
+      '2026-10-18': { climaPredominante: 'clareira' },
+      '2026-10-19': { climaPredominante: 'clareira' },
+      '2026-10-20': { climaPredominante: 'nevoa' },
+      // 21-23 sem registro
+      '2026-10-24': { climaPredominante: 'tempestade' },
+    };
+    expect(resumoSemana(resumos, 2026, 10, [18, 24])).toEqual({ tempestade: 1, nevoa: 1, clareira: 2 });
+  });
+
+  it('zero em todas quando a semana não tem nenhum registro', () => {
+    expect(resumoSemana({}, 2026, 10, [18, 24])).toEqual({ tempestade: 0, nevoa: 0, clareira: 0 });
   });
 });

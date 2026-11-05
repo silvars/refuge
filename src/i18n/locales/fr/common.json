@@ -57,6 +57,17 @@
     "semNumeroValido": "Ce contact n'a pas de numéro que nous puissions utiliser. Essayer un autre ?",
     "falhaAoEnviar": "Impossible d'ouvrir WhatsApp ou les SMS pour le moment. Réessayer ?"
   },
+  "nebulosa": {
+    "titulo": "Ma Nébuleuse",
+    "emDias_one": "{{count}} jour",
+    "emDias_other": "{{count}} jours",
+    "resumoSemanaPrefixo": "Cette semaine : {{resumo}}.",
+    "semRegistroNaSemana": "Aucun bilan cette semaine pour l'instant.",
+    "dica": "Chaque étoile est un jour. Plus il y a de bilans, plus elle brille. Touchez une étoile pour revoir ce jour.",
+    "checkins_one": "{{count}} bilan",
+    "checkins_other": "{{count}} bilans",
+    "portoSeguroNesteDia": "Vous avez partagé avec un Port d'Attache ce jour-là."
+  },
   "acolhimento": {
     "titulo": "Vous venez de faire un pas important.",
     "subtitulo": "{{nome}} verra votre message dès que possible. La réponse peut prendre du temps, et c'est normal.",

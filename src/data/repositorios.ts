@@ -5,6 +5,9 @@ import type { Checkin, Clima, EstadoDerivado, ResumoDia } from '@/domain/tipos';
 
 import { calcularSequencia, diaLocal, resumoDoDia } from './dominio';
 
+/** 'YYYY-MM', ex. '2026-10' — ver resumosDoMesRepositorio. */
+export type AnoMes = string;
+
 // Repositórios do banco criptografado (ver 02-sdd.md, seção 5). Sem teste automatizado — ver
 // nota no topo de dominio.ts.
 
@@ -65,6 +68,29 @@ export async function listarCheckinsDoDia(db: DB, dia: string): Promise<Checkin[
   const r = await db.execute(`SELECT * FROM checkin WHERE dia = ? ORDER BY em ASC`, [dia]);
   const linhas = r.rows as unknown as LinhaCheckin[];
   return Promise.all(linhas.map((l) => linhaParaCheckin(db, l)));
+}
+
+/** Resumo (Nebulosa) de cada dia do mês que teve ao menos um check-in, indexado por 'YYYY-MM-DD'. */
+export async function resumosDoMesRepositorio(db: DB, anoMes: AnoMes): Promise<Record<string, ResumoDia>> {
+  const r = await db.execute(`SELECT * FROM checkin WHERE dia LIKE ? ORDER BY em ASC`, [`${anoMes}-%`]);
+  const linhas = r.rows as unknown as LinhaCheckin[];
+  const checkins = await Promise.all(linhas.map((l) => linhaParaCheckin(db, l)));
+
+  const checkinsPorDia = new Map<string, Checkin[]>();
+  for (const c of checkins) {
+    const dia = diaLocal(c.em);
+    checkinsPorDia.set(dia, [...(checkinsPorDia.get(dia) ?? []), c]);
+  }
+
+  const re = await db.execute(`SELECT dia FROM evento_dia WHERE tipo = 'porto_seguro' AND dia LIKE ?`, [`${anoMes}-%`]);
+  const diasComPortoSeguro = new Set(re.rows.map((row) => String(row.dia)));
+
+  const resumos: Record<string, ResumoDia> = {};
+  for (const [dia, checkinsDoDia] of checkinsPorDia) {
+    const resumo = resumoDoDia(dia, checkinsDoDia, diasComPortoSeguro.has(dia));
+    if (resumo) resumos[dia] = resumo;
+  }
+  return resumos;
 }
 
 /** Climas do mais recente pro mais antigo — ver dominio.calcularSequencia. */
