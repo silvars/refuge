@@ -198,7 +198,7 @@ export default function Checkin() {
       </FundoClima>
       {barra}
       <View style={styles.topo}>
-        <Pressable onPress={voltar} hitSlop={16}>
+        <Pressable onPress={voltar} hitSlop={16} accessibilityLabel={t('comum.voltar')}>
           <Text style={[styles.voltar, { color: tokens.tinta }]}>‹</Text>
         </Pressable>
         <View style={[styles.progressoTrilho, { backgroundColor: tokens.fio }]}>
@@ -220,7 +220,9 @@ export default function Checkin() {
 
       <View key={pergunta.id} style={styles.conteudo}>
         <Animated.View style={[styles.blocoPergunta, estiloBloco]}>
-          <Text style={[styles.textoPergunta, { color: tokens.tinta }]}>
+          {/* Leitor de tela: a pergunta inteira via aria-label, já que as palavras entram uma a uma
+              em nós de texto separados (ver especificação, seção 12). */}
+          <Text style={[styles.textoPergunta, { color: tokens.tinta }]} accessibilityLabel={textoLocalizado(pergunta.texto, idioma)}>
             {palavras.map((palavra, i) => (
               <Animated.Text
                 key={i}
@@ -259,6 +261,8 @@ export default function Checkin() {
                         finalizarPergunta(indiceOriginal);
                       }}
                       style={[styles.opcao, { borderBottomColor: tokens.fio }, escolhida && { borderBottomColor: tokens.tinta }]}
+                      accessibilityRole="radio"
+                      accessibilityState={{ selected: escolhida, disabled: fase !== 'idle' }}
                     >
                       <Text style={[styles.opcaoTexto, { color: tokens.tintaSecundaria }]}>
                         {textoLocalizado(opcao.texto, idioma)}

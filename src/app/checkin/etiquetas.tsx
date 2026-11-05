@@ -143,6 +143,8 @@ export default function Etiquetas() {
                 }}
                 onPress={() => alternar(opcao.id)}
                 style={styles.chip}
+                accessibilityRole="checkbox"
+                accessibilityState={{ checked: selecionadas.includes(opcao.id) }}
               >
                 <Text style={[styles.chipTexto, { color: tokens.tinta }]}>{opcao[idioma] ?? opcao['pt-BR'] ?? ''}</Text>
               </Pressable>

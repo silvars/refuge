@@ -142,7 +142,7 @@ export default function Ajustes() {
           {interruptores.map((item, i) => (
             <View key={item.chave} style={[styles.linha, i === interruptores.length - 1 && styles.linhaSemBorda, { borderColor: tokens.fio }]}>
               <Text style={[styles.linhaTexto, { color: tokens.tinta }]}>{item.rotulo}</Text>
-              <Switch value={item.valor} onValueChange={item.aoMudar} />
+              <Switch value={item.valor} onValueChange={item.aoMudar} accessibilityLabel={item.rotulo} />
             </View>
           ))}
         </View>
@@ -153,6 +153,8 @@ export default function Ajustes() {
             <Pressable
               key={idioma}
               onPress={() => aoTrocarIdioma(idioma)}
+              accessibilityRole="button"
+              accessibilityState={{ selected: idioma === idiomaAtivo }}
               style={[
                 styles.pilulaIdioma,
                 { borderColor: tokens.fio },
