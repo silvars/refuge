@@ -1,10 +1,15 @@
+import i18next from 'i18next';
 import { create } from 'zustand';
 
+import type { LinhaConteudo } from '@/conteudo/tipos';
 import type { Checkin, EstadoDerivado, Preferencias } from '@/domain/tipos';
+import type { Idioma } from '@/i18n/idioma';
 
+import { aplicarPreferenciaSom } from './audio/trilha';
 import { abrirBanco, apagarTudo as apagarBanco } from './data/db';
 import { diaLocal } from './data/dominio';
 import { estadoDerivado, inserirCheckin, lerPreferencia, registrarEventoDia, salvarPreferencia } from './data/repositorios';
+import { cancelarLembrete, cancelarMensagemApoio, cancelarTudo, reagendarLembrete, reagendarMensagemApoio } from './notificacoes';
 
 // Estado global de sessão e preferências (ver 02-sdd.md, seção 3/4). Carrega do banco
 // criptografado ao iniciar; as ações já persistem antes de atualizar o estado em memória.
@@ -31,6 +36,10 @@ const ESTADO_DERIVADO_INICIAL: EstadoDerivado = {
 
 const CHAVE_PREFERENCIAS = 'preferencias';
 
+function linhasAtivasDe(preferencias: Preferencias): LinhaConteudo[] {
+  return (['neutra', 'espiritual', 'filosofica'] as const).filter((l) => preferencias.linhas[l]);
+}
+
 interface RefugioStore {
   carregado: boolean;
   preferencias: Preferencias;
@@ -54,6 +63,15 @@ export const useRefugioStore = create<RefugioStore>((set, get) => ({
     const preferencias: Preferencias = salvas ? { ...PREFERENCIAS_PADRAO, ...JSON.parse(salvas) } : PREFERENCIAS_PADRAO;
     const derivado = await estadoDerivado(db, Date.now());
     set({ preferencias, estadoDerivado: derivado, carregado: true });
+    aplicarPreferenciaSom(preferencias.som);
+    // Reagenda ao abrir o app (o sistema pode descartar agendamentos — 02-sdd.md, seção 10, regra 4).
+    reagendarMensagemApoio(db, {
+      clima: derivado.climaAtual,
+      linhasAtivas: linhasAtivasDe(preferencias),
+      idioma: i18next.language as Idioma,
+      mensagensApoioLigadas: preferencias.mensagensApoio,
+      silencio: preferencias.silencio,
+    }).catch(() => {});
   },
 
   async atualizarPreferencias(parcial) {
@@ -61,6 +79,20 @@ export const useRefugioStore = create<RefugioStore>((set, get) => ({
     const db = await abrirBanco();
     await salvarPreferencia(db, CHAVE_PREFERENCIAS, JSON.stringify(preferencias));
     set({ preferencias });
+
+    if (parcial.som !== undefined) aplicarPreferenciaSom(parcial.som);
+    if (parcial.lembretes === false) cancelarLembrete().catch(() => {});
+    if (parcial.mensagensApoio === false) cancelarMensagemApoio().catch(() => {});
+    if (parcial.mensagensApoio === true) {
+      const derivado = get().estadoDerivado;
+      reagendarMensagemApoio(db, {
+        clima: derivado.climaAtual,
+        linhasAtivas: linhasAtivasDe(preferencias),
+        idioma: i18next.language as Idioma,
+        mensagensApoioLigadas: true,
+        silencio: preferencias.silencio,
+      }).catch(() => {});
+    }
   },
 
   async registrarCheckin(checkin) {
@@ -68,6 +100,16 @@ export const useRefugioStore = create<RefugioStore>((set, get) => ({
     await inserirCheckin(db, checkin);
     const derivado = await estadoDerivado(db, Date.now());
     set({ estadoDerivado: derivado });
+
+    const preferencias = get().preferencias;
+    reagendarLembrete(checkin, preferencias.lembretes, preferencias.silencio).catch(() => {});
+    reagendarMensagemApoio(db, {
+      clima: checkin.clima,
+      linhasAtivas: linhasAtivasDe(preferencias),
+      idioma: i18next.language as Idioma,
+      mensagensApoioLigadas: preferencias.mensagensApoio,
+      silencio: preferencias.silencio,
+    }).catch(() => {});
   },
 
   async registrarCompartilhamentoPortoSeguro() {
@@ -79,6 +121,7 @@ export const useRefugioStore = create<RefugioStore>((set, get) => ({
   },
 
   async apagarTudo() {
+    await cancelarTudo().catch(() => {});
     await apagarBanco();
     set({ preferencias: PREFERENCIAS_PADRAO, estadoDerivado: ESTADO_DERIVADO_INICIAL, carregado: false });
   },

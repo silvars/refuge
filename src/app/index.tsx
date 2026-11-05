@@ -110,7 +110,7 @@ export default function Principal() {
   const corFio = emModoClaro ? CORES.claro.fio : CORES.escuro.fio;
   const corVidroForte = emModoClaro ? CORES.claro.vidroForte : CORES.escuro.vidroForte;
   const corVidro = emModoClaro ? CORES.claro.vidro : CORES.escuro.vidro;
-  const { vidro: barraVidro, barra } = useBarraSuperior({ tokens: emModoClaro ? CORES.claro : CORES.escuro });
+  const { vidro: barraVidro, barra } = useBarraSuperior({ tokens: emModoClaro ? CORES.claro : CORES.escuro, comAjustes: true });
 
   return (
     <View style={styles.container}>

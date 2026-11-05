@@ -74,5 +74,40 @@
     "subtituloSemNome": "Esa persona va a ver tu mensaje cuando pueda. La respuesta puede tardar un poco, y está bien.",
     "respirar": "Respirar un poco mientras tanto",
     "voltar": "Volver a mi refugio"
+  },
+  "ajustes": {
+    "titulo": "Ajustes",
+    "linhaNeutra": "Línea neutra",
+    "linhaEspiritual": "Línea espiritual",
+    "linhaFilosofica": "Línea filosófica",
+    "som": "Sonido ambiente",
+    "vibracao": "Vibración suave",
+    "lembretes": "Recordatorios de recalibración",
+    "mensagensApoio": "Mensajes de apoyo",
+    "bloqueio": {
+      "titulo": "Bloquear la app",
+      "semBiometria": "Tu dispositivo no tiene biometría configurada. Configura antes un PIN, patrón o huella en los ajustes del sistema."
+    },
+    "idioma": "Idioma",
+    "apagarTudo": "Borrar todos mis datos",
+    "apagarTudoConfirmaTitulo": "¿Borrar todos tus datos?",
+    "apagarTudoConfirmaTexto": "Esto borra los check-ins, etiquetas y preferencias de este dispositivo. No se puede deshacer.",
+    "apagarTudoCancelar": "Cancelar",
+    "apagarTudoConfirmar": "Borrar todo",
+    "rodape": "Tus datos quedan solo en este dispositivo. Sin cuenta, sin servidor.",
+    "sobre": "Acerca de"
+  },
+  "bloqueio": {
+    "titulo": "App bloqueada",
+    "subtitulo": "Confirma tu identidad para continuar.",
+    "botao": "Desbloquear"
+  },
+  "sobre": {
+    "versao": "Versión {{versao}}",
+    "creditos": "Línea espiritual: Reina-Valera Antigua 1909, dominio público.",
+    "privacidade": "Tus datos quedan solo en este dispositivo. Sin cuenta, sin servidor."
+  },
+  "notificacoes": {
+    "lembrete": "Pasó un tiempo. ¿Quieres hacer un nuevo check-in?"
   }
 }

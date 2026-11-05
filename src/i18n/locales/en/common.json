@@ -74,5 +74,40 @@
     "subtituloSemNome": "They'll see your message when they can. The reply might take a while, and that's okay.",
     "respirar": "Breathe for a bit while you wait",
     "voltar": "Back to my refuge"
+  },
+  "ajustes": {
+    "titulo": "Settings",
+    "linhaNeutra": "Neutral line",
+    "linhaEspiritual": "Spiritual line",
+    "linhaFilosofica": "Philosophical line",
+    "som": "Ambient sound",
+    "vibracao": "Gentle vibration",
+    "lembretes": "Recalibration reminders",
+    "mensagensApoio": "Support messages",
+    "bloqueio": {
+      "titulo": "Lock the app",
+      "semBiometria": "Your device doesn't have biometrics set up. Set up a PIN, pattern, or fingerprint in your system settings first."
+    },
+    "idioma": "Language",
+    "apagarTudo": "Delete all my data",
+    "apagarTudoConfirmaTitulo": "Delete all my data?",
+    "apagarTudoConfirmaTexto": "This deletes check-ins, tags, and preferences on this device. It can't be undone.",
+    "apagarTudoCancelar": "Cancel",
+    "apagarTudoConfirmar": "Delete everything",
+    "rodape": "Your data stays only on this device. No account, no server.",
+    "sobre": "About"
+  },
+  "bloqueio": {
+    "titulo": "App locked",
+    "subtitulo": "Confirm it's you to continue.",
+    "botao": "Unlock"
+  },
+  "sobre": {
+    "versao": "Version {{versao}}",
+    "creditos": "Spiritual line: World English Bible, public domain.",
+    "privacidade": "Your data stays only on this device. No account, no server."
+  },
+  "notificacoes": {
+    "lembrete": "Some time has passed. Want to do a new check-in?"
   }
 }

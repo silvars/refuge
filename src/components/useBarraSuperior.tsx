@@ -23,19 +23,24 @@ export interface OpcoesBarraSuperior {
   tokens: TokensDeCor;
   /** Se ausente, não mostra o botão de voltar. */
   aoVoltar?: () => void;
+  /** Botão Ajustes, só na tela principal (ver especificação, seção 5). */
+  comAjustes?: boolean;
 }
 
-export function useBarraSuperior({ tokens, aoVoltar }: OpcoesBarraSuperior) {
+export function useBarraSuperior({ tokens, aoVoltar, comAjustes = false }: OpcoesBarraSuperior) {
   const { t } = useTranslation();
   const router = useRouter();
   const [retVoltar, setRetVoltar] = useState<RetanguloLayout | null>(null);
+  const [retAjustes, setRetAjustes] = useState<RetanguloLayout | null>(null);
   const [retAjuda, setRetAjuda] = useState<RetanguloLayout | null>(null);
   const refVoltar = useRef<ElementRef<typeof Pressable>>(null);
+  const refAjustes = useRef<ElementRef<typeof Pressable>>(null);
   const refAjuda = useRef<ElementRef<typeof Pressable>>(null);
 
   const vidro = (
     <>
       {retVoltar && <VidroGrupo {...retVoltar} raio={RAIO_BOTAO} cor={tokens.vidro} corFio={tokens.fio} />}
+      {retAjustes && <VidroGrupo {...retAjustes} raio={RAIO_BOTAO} cor={tokens.vidro} corFio={tokens.fio} />}
       {retAjuda && <VidroGrupo {...retAjuda} raio={RAIO_BOTAO} cor={tokens.vidroForte} corFio={tokens.fio} />}
     </>
   );
@@ -58,17 +63,32 @@ export function useBarraSuperior({ tokens, aoVoltar }: OpcoesBarraSuperior) {
       ) : (
         <View />
       )}
-      <Pressable
-        ref={refAjuda}
-        onPress={() => router.push('/ajuda')}
-        style={styles.botaoAjuda}
-        onLayout={() => {
-          refAjuda.current?.measureInWindow((x, y, largura, altura) => setRetAjuda({ x, y, largura, altura }));
-        }}
-      >
-        <View style={styles.pontoAjuda} />
-        <Text style={[styles.textoAjuda, { color: tokens.tinta }]}>{t('ajuda.botao')}</Text>
-      </Pressable>
+      <View style={styles.grupoDireita}>
+        {comAjustes && (
+          <Pressable
+            ref={refAjustes}
+            onPress={() => router.push('/ajustes')}
+            style={styles.botaoAjustes}
+            accessibilityLabel={t('ajustes.titulo')}
+            onLayout={() => {
+              refAjustes.current?.measureInWindow((x, y, largura, altura) => setRetAjustes({ x, y, largura, altura }));
+            }}
+          >
+            <Text style={[styles.textoAjustes, { color: tokens.tinta }]}>⚙︎</Text>
+          </Pressable>
+        )}
+        <Pressable
+          ref={refAjuda}
+          onPress={() => router.push('/ajuda')}
+          style={styles.botaoAjuda}
+          onLayout={() => {
+            refAjuda.current?.measureInWindow((x, y, largura, altura) => setRetAjuda({ x, y, largura, altura }));
+          }}
+        >
+          <View style={styles.pontoAjuda} />
+          <Text style={[styles.textoAjuda, { color: tokens.tinta }]}>{t('ajuda.botao')}</Text>
+        </Pressable>
+      </View>
     </View>
   );
 
@@ -93,6 +113,19 @@ const styles = StyleSheet.create({
   },
   textoVoltar: {
     fontSize: 28,
+  },
+  grupoDireita: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  botaoAjustes: {
+    width: 44,
+    height: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textoAjustes: {
+    fontSize: 20,
   },
   botaoAjuda: {
     flexDirection: 'row',

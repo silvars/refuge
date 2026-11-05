@@ -30,6 +30,15 @@ export function definirVolumeGeralTrilhaSeAtiva(v: number): void {
   motor?.definirVolumeGeral(v);
 }
 
+/** Volume "demais" padrão fora de telas especiais (ex. Ajuda usa 0,12) — ver especificação 7.2. */
+const VOLUME_PADRAO = 0.85;
+
+/** Interruptor "Som ambiente" (Ajustes/F10): muda o volume geral, nunca cria o motor só pra mutar. */
+export function aplicarPreferenciaSom(ligado: boolean): void {
+  if (!motor && !ligado) return;
+  motorAtivo().definirVolumeGeral(ligado ? VOLUME_PADRAO : 0);
+}
+
 export function pararTrilha(): void {
   pararSessao?.();
   motor?.descartar();

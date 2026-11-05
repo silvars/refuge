@@ -43,6 +43,13 @@
         {
           "contactsPermission": "Usado só na hora de escolher um Porto Seguro pra compartilhar sua mensagem — nenhum contato é salvo no app."
         }
+      ],
+      "expo-notifications",
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Usado só se você ligar o bloqueio do app em Ajustes, pra confirmar que é você quem está abrindo."
+        }
       ]
     ],
     "experiments": {

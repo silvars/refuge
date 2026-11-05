@@ -74,5 +74,40 @@
     "subtituloSemNome": "Cette personne verra votre message dès que possible. La réponse peut prendre du temps, et c'est normal.",
     "respirar": "Respirer un peu en attendant",
     "voltar": "Retour à mon refuge"
+  },
+  "ajustes": {
+    "titulo": "Réglages",
+    "linhaNeutra": "Ligne neutre",
+    "linhaEspiritual": "Ligne spirituelle",
+    "linhaFilosofica": "Ligne philosophique",
+    "som": "Son ambiant",
+    "vibracao": "Vibration douce",
+    "lembretes": "Rappels de recalibrage",
+    "mensagensApoio": "Messages de soutien",
+    "bloqueio": {
+      "titulo": "Verrouiller l'app",
+      "semBiometria": "Votre appareil n'a pas de biométrie configurée. Configurez d'abord un code, un schéma ou une empreinte dans les réglages système."
+    },
+    "idioma": "Langue",
+    "apagarTudo": "Supprimer toutes mes données",
+    "apagarTudoConfirmaTitulo": "Supprimer toutes vos données ?",
+    "apagarTudoConfirmaTexto": "Cela supprime les bilans, les étiquettes et les préférences de cet appareil. C'est irréversible.",
+    "apagarTudoCancelar": "Annuler",
+    "apagarTudoConfirmar": "Tout supprimer",
+    "rodape": "Vos données restent seulement sur cet appareil. Pas de compte, pas de serveur.",
+    "sobre": "À propos"
+  },
+  "bloqueio": {
+    "titulo": "App verrouillée",
+    "subtitulo": "Confirmez votre identité pour continuer.",
+    "botao": "Déverrouiller"
+  },
+  "sobre": {
+    "versao": "Version {{versao}}",
+    "creditos": "Ligne spirituelle : Louis Segond 1910, domaine public.",
+    "privacidade": "Vos données restent seulement sur cet appareil. Pas de compte, pas de serveur."
+  },
+  "notificacoes": {
+    "lembrete": "Du temps a passé. Envie de faire un nouveau bilan ?"
   }
 }

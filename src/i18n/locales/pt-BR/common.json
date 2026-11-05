@@ -74,5 +74,40 @@
     "subtituloSemNome": "Essa pessoa vai ver sua mensagem quando puder. A resposta pode demorar um pouco, e tudo bem.",
     "respirar": "Respirar um pouco enquanto isso",
     "voltar": "Voltar ao meu refúgio"
+  },
+  "ajustes": {
+    "titulo": "Ajustes",
+    "linhaNeutra": "Linha neutra",
+    "linhaEspiritual": "Linha espiritual",
+    "linhaFilosofica": "Linha filosófica",
+    "som": "Som ambiente",
+    "vibracao": "Vibração suave",
+    "lembretes": "Lembretes de recalibração",
+    "mensagensApoio": "Mensagens de apoio",
+    "bloqueio": {
+      "titulo": "Bloquear o app",
+      "semBiometria": "Seu aparelho não tem biometria cadastrada. Configure um PIN, padrão ou digital nos ajustes do sistema primeiro."
+    },
+    "idioma": "Idioma",
+    "apagarTudo": "Apagar todos os meus dados",
+    "apagarTudoConfirmaTitulo": "Apagar todos os meus dados?",
+    "apagarTudoConfirmaTexto": "Isso apaga check-ins, etiquetas e preferências deste aparelho. Não dá pra desfazer.",
+    "apagarTudoCancelar": "Cancelar",
+    "apagarTudoConfirmar": "Apagar tudo",
+    "rodape": "Seus dados ficam só neste aparelho. Sem conta, sem servidor.",
+    "sobre": "Sobre"
+  },
+  "bloqueio": {
+    "titulo": "App bloqueado",
+    "subtitulo": "Confirme sua identidade pra continuar.",
+    "botao": "Desbloquear"
+  },
+  "sobre": {
+    "versao": "Versão {{versao}}",
+    "creditos": "Linha espiritual: Bíblia Livre (BLIVRE), domínio público.",
+    "privacidade": "Seus dados ficam só neste aparelho. Sem conta, sem servidor."
+  },
+  "notificacoes": {
+    "lembrete": "Um tempo se passou. Quer fazer um novo check-in?"
   }
 }
