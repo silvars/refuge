@@ -1,23 +1,23 @@
 {
-  "versao": "2.0",
+  "versao": "2.1",
   "idiomas": ["pt-BR", "en", "fr", "es"],
   "idioma_origem": "pt-BR",
   "regra": "Mensagem escolhida pelo clima atual. 'Oi!' vira 'Oi, <primeiro nome>!' após escolher o contato, a menos que a pessoa tenha editado o texto. 'Sugerir outra mensagem' avança para a próxima do mesmo clima e descarta a edição. Traduções não são literais: adaptar o tom informal e afetivo a cada idioma (ver especificação, seção 16.5).",
   "mensagens": {
     "tempestade": [
-      { "id": "porto_tempestade_1", "pt-BR": "Oi! Hoje está tudo meio acelerado por aqui. Você tem um tempinho pra conversar?", "en": null, "fr": null, "es": null },
-      { "id": "porto_tempestade_2", "pt-BR": "Oi! Tô precisando desacelerar. Pode me ligar quando der?", "en": null, "fr": null, "es": null },
-      { "id": "porto_tempestade_3", "pt-BR": "Oi! O dia tá puxado. Topa conversar um pouquinho mais tarde?", "en": null, "fr": null, "es": null }
+      { "id": "porto_tempestade_1", "pt-BR": "Oi! Hoje está tudo meio acelerado por aqui. Você tem um tempinho pra conversar?", "en": "Hey! Everything's a bit much today. Got a little time to talk?", "fr": "Salut ! Tout va un peu vite aujourd'hui par ici. T'as un petit moment pour parler ?", "es": "¡Hola! Hoy está todo medio acelerado por acá. ¿Tienes un ratito para hablar?" },
+      { "id": "porto_tempestade_2", "pt-BR": "Oi! Tô precisando desacelerar. Pode me ligar quando der?", "en": "Hey! I really need to slow down. Can you call me when you can?", "fr": "Salut ! J'ai besoin de ralentir un peu. Tu peux m'appeler quand tu peux ?", "es": "¡Hola! Necesito desacelerar un poco. ¿Me puedes llamar cuando puedas?" },
+      { "id": "porto_tempestade_3", "pt-BR": "Oi! O dia tá puxado. Topa conversar um pouquinho mais tarde?", "en": "Hey! Rough day over here. Up for talking a bit later?", "fr": "Salut ! La journée est rude. Ça te dit qu'on parle un peu plus tard ?", "es": "¡Hola! El día está pesado. ¿Te animas a hablar un ratito más tarde?" }
     ],
     "nevoa": [
-      { "id": "porto_nevoa_1", "pt-BR": "Oi! Hoje está sendo um dia difícil pra mim. Você tem um tempinho pra conversar?", "en": null, "fr": null, "es": null },
-      { "id": "porto_nevoa_2", "pt-BR": "Oi! Tô meio pra baixo hoje. Um abraço, mesmo que de longe, ia ajudar.", "en": null, "fr": null, "es": null },
-      { "id": "porto_nevoa_3", "pt-BR": "Oi! Tô precisando de companhia hoje. Bora conversar?", "en": null, "fr": null, "es": null }
+      { "id": "porto_nevoa_1", "pt-BR": "Oi! Hoje está sendo um dia difícil pra mim. Você tem um tempinho pra conversar?", "en": "Hey! Today's been a hard day for me. Got a little time to talk?", "fr": "Salut ! Aujourd'hui c'est une journée difficile pour moi. T'as un petit moment pour parler ?", "es": "¡Hola! Hoy está siendo un día difícil para mí. ¿Tienes un ratito para hablar?" },
+      { "id": "porto_nevoa_2", "pt-BR": "Oi! Tô meio pra baixo hoje. Um abraço, mesmo que de longe, ia ajudar.", "en": "Hey! I'm feeling a bit down today. A hug, even from far away, would help.", "fr": "Salut ! Je suis un peu down aujourd'hui. Un câlin, même à distance, ça aiderait.", "es": "¡Hola! Hoy ando medio bajoneado/a. Un abrazo, aunque sea de lejos, ayudaría." },
+      { "id": "porto_nevoa_3", "pt-BR": "Oi! Tô precisando de companhia hoje. Bora conversar?", "en": "Hey! I could really use some company today. Want to talk?", "fr": "Salut ! J'ai besoin de compagnie aujourd'hui. On papote ?", "es": "¡Hola! Hoy necesito compañía. ¿Hablamos?" }
     ],
     "clareira": [
-      { "id": "porto_clareira_1", "pt-BR": "Oi! Hoje o dia tá leve e lembrei de você.", "en": null, "fr": null, "es": null },
-      { "id": "porto_clareira_2", "pt-BR": "Oi! Tô num dia bom e queria dividir isso com você!", "en": null, "fr": null, "es": null },
-      { "id": "porto_clareira_3", "pt-BR": "Oi! Passando pra dizer que você é importante pra mim.", "en": null, "fr": null, "es": null }
+      { "id": "porto_clareira_1", "pt-BR": "Oi! Hoje o dia tá leve e lembrei de você.", "en": "Hey! Today feels light and you came to mind.", "fr": "Salut ! Aujourd'hui je me sens léger(ère) et j'ai pensé à toi.", "es": "¡Hola! Hoy el día está liviano y me acordé de ti." },
+      { "id": "porto_clareira_2", "pt-BR": "Oi! Tô num dia bom e queria dividir isso com você!", "en": "Hey! I'm having a good day and wanted to share it with you!", "fr": "Salut ! Je passe une bonne journée et je voulais la partager avec toi !", "es": "¡Hola! Estoy teniendo un buen día y quería compartirlo contigo!" },
+      { "id": "porto_clareira_3", "pt-BR": "Oi! Passando pra dizer que você é importante pra mim.", "en": "Hey! Just stopping by to say you matter to me.", "fr": "Salut ! Je passe juste pour te dire que tu comptes pour moi.", "es": "¡Hola! Pasando para decirte que eres importante para mí." }
     ]
   }
 }

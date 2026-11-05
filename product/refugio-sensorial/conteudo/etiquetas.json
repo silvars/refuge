@@ -1,17 +1,17 @@
 {
-  "versao": "2.0",
+  "versao": "2.1",
   "idiomas": ["pt-BR", "en", "fr", "es"],
   "idioma_origem": "pt-BR",
-  "titulo": { "pt-BR": "Quer dar nome ao que mais mexeu com você hoje?", "en": null, "fr": null, "es": null },
+  "titulo": { "pt-BR": "Quer dar nome ao que mais mexeu com você hoje?", "en": "Want to name what moved you most today?", "fr": "Voulez-vous nommer ce qui vous a le plus touché aujourd'hui ?", "es": "¿Quieres ponerle nombre a lo que más te conmovió hoy?" },
   "opcoes": [
-    { "id": "trabalho", "pt-BR": "Trabalho", "en": null, "fr": null, "es": null },
-    { "id": "estudos", "pt-BR": "Estudos", "en": null, "fr": null, "es": null },
-    { "id": "familia", "pt-BR": "Família", "en": null, "fr": null, "es": null },
-    { "id": "relacionamento", "pt-BR": "Relacionamento", "en": null, "fr": null, "es": null },
-    { "id": "saude", "pt-BR": "Saúde", "en": null, "fr": null, "es": null },
-    { "id": "sono", "pt-BR": "Sono", "en": null, "fr": null, "es": null },
-    { "id": "dinheiro", "pt-BR": "Dinheiro", "en": null, "fr": null, "es": null },
-    { "id": "nada_em_especial", "pt-BR": "Nada em especial", "en": null, "fr": null, "es": null }
+    { "id": "trabalho", "pt-BR": "Trabalho", "en": "Work", "fr": "Travail", "es": "Trabajo" },
+    { "id": "estudos", "pt-BR": "Estudos", "en": "Studies", "fr": "Études", "es": "Estudios" },
+    { "id": "familia", "pt-BR": "Família", "en": "Family", "fr": "Famille", "es": "Familia" },
+    { "id": "relacionamento", "pt-BR": "Relacionamento", "en": "Relationship", "fr": "Relation", "es": "Relación" },
+    { "id": "saude", "pt-BR": "Saúde", "en": "Health", "fr": "Santé", "es": "Salud" },
+    { "id": "sono", "pt-BR": "Sono", "en": "Sleep", "fr": "Sommeil", "es": "Sueño" },
+    { "id": "dinheiro", "pt-BR": "Dinheiro", "en": "Money", "fr": "Argent", "es": "Dinero" },
+    { "id": "nada_em_especial", "pt-BR": "Nada em especial", "en": "Nothing in particular", "fr": "Rien de particulier", "es": "Nada en especial" }
   ],
   "regra": "Múltipla escolha, opcional. 'nada_em_especial' é exclusiva. Salvo só no aparelho."
 }

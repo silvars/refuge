@@ -1,5 +1,5 @@
 {
-  "versao": "2.0",
+  "versao": "2.1",
   "idiomas": ["pt-BR", "en", "fr", "es"],
   "idioma_origem": "pt-BR",
   "observacao": "Check-in de momento inspirado nas dimensões do DASS-21 e PHQ-9, sem validade clínica. Não incluir pergunta sobre pensamentos de morte ou autolesão (ver especificação, Protocolo de segurança). Campo interno, não traduzir.",
@@ -8,26 +8,26 @@
   "perguntas": [
     {
       "id": "mente",
-      "dimensao": { "pt-BR": "Mente", "en": null, "fr": null, "es": null },
-      "texto": { "pt-BR": "Se sua mente fosse um elemento da natureza agora, ela seria…", "en": null, "fr": null, "es": null },
+      "dimensao": { "pt-BR": "Mente", "en": "Mind", "fr": "Esprit", "es": "Mente" },
+      "texto": { "pt-BR": "Se sua mente fosse um elemento da natureza agora, ela seria…", "en": "If your mind were a force of nature right now, it would be…", "fr": "Si ton esprit était un élément de la nature en ce moment, il serait…", "es": "Si tu mente fuera un elemento de la naturaleza ahora, sería…" },
       "opcoes": [
         {
           "id": "mente_1",
-          "texto": { "pt-BR": "Uma represa cheia, prestes a transbordar", "en": null, "fr": null, "es": null },
+          "texto": { "pt-BR": "Uma represa cheia, prestes a transbordar", "en": "A full dam, about to overflow", "fr": "Un barrage plein, prêt à déborder", "es": "Una represa llena, a punto de desbordar" },
           "pesos": {
             "tempestade": 1
           }
         },
         {
           "id": "mente_2",
-          "texto": { "pt-BR": "Terra seca, sem chuva há dias", "en": null, "fr": null, "es": null },
+          "texto": { "pt-BR": "Terra seca, sem chuva há dias", "en": "Dry earth, no rain for days", "fr": "Une terre sèche, sans pluie depuis des jours", "es": "Tierra seca, sin lluvia hace días" },
           "pesos": {
             "nevoa": 1
           }
         },
         {
           "id": "mente_3",
-          "texto": { "pt-BR": "Neblina leve, que vai e vem", "en": null, "fr": null, "es": null },
+          "texto": { "pt-BR": "Neblina leve, que vai e vem", "en": "A light mist, coming and going", "fr": "Une brume légère, qui va et vient", "es": "Una neblina ligera, que va y viene" },
           "pesos": {
             "nevoa": 0.5,
             "clareira": 0.5
@@ -35,7 +35,7 @@
         },
         {
           "id": "mente_4",
-          "texto": { "pt-BR": "Um rio correndo calmo", "en": null, "fr": null, "es": null },
+          "texto": { "pt-BR": "Um rio correndo calmo", "en": "A calmly flowing river", "fr": "Une rivière qui coule calmement", "es": "Un río que corre tranquilo" },
           "pesos": {
             "clareira": 1
           }
@@ -44,26 +44,26 @@
     },
     {
       "id": "corpo",
-      "dimensao": { "pt-BR": "Corpo", "en": null, "fr": null, "es": null },
-      "texto": { "pt-BR": "Como o seu corpo está agora?", "en": null, "fr": null, "es": null },
+      "dimensao": { "pt-BR": "Corpo", "en": "Body", "fr": "Corps", "es": "Cuerpo" },
+      "texto": { "pt-BR": "Como o seu corpo está agora?", "en": "How is your body right now?", "fr": "Comment est ton corps en ce moment ?", "es": "¿Cómo está tu cuerpo ahora?" },
       "opcoes": [
         {
           "id": "corpo_1",
-          "texto": { "pt-BR": "Ombros duros, coração acelerado", "en": null, "fr": null, "es": null },
+          "texto": { "pt-BR": "Ombros duros, coração acelerado", "en": "Stiff shoulders, racing heart", "fr": "Épaules raides, cœur qui s'emballe", "es": "Hombros tensos, corazón acelerado" },
           "pesos": {
             "tempestade": 1
           }
         },
         {
           "id": "corpo_2",
-          "texto": { "pt-BR": "Pesado, como se carregasse uma mochila", "en": null, "fr": null, "es": null },
+          "texto": { "pt-BR": "Pesado, como se carregasse uma mochila", "en": "Heavy, like carrying a backpack", "fr": "Lourd, comme si je portais un sac à dos", "es": "Pesado, como si cargara una mochila" },
           "pesos": {
             "nevoa": 1
           }
         },
         {
           "id": "corpo_3",
-          "texto": { "pt-BR": "Cansado, mas tranquilo", "en": null, "fr": null, "es": null },
+          "texto": { "pt-BR": "Cansado, mas tranquilo", "en": "Tired, but calm", "fr": "Fatigué, mais tranquille", "es": "Cansado, pero tranquilo" },
           "pesos": {
             "nevoa": 0.4,
             "clareira": 0.6
@@ -71,7 +71,7 @@
         },
         {
           "id": "corpo_4",
-          "texto": { "pt-BR": "Leve, respirando fundo sem esforço", "en": null, "fr": null, "es": null },
+          "texto": { "pt-BR": "Leve, respirando fundo sem esforço", "en": "Light, breathing deeply without effort", "fr": "Léger, respirant profondément sans effort", "es": "Liviano, respirando profundo sin esfuerzo" },
           "pesos": {
             "clareira": 1
           }
@@ -80,26 +80,26 @@
     },
     {
       "id": "sono",
-      "dimensao": { "pt-BR": "Sono", "en": null, "fr": null, "es": null },
-      "texto": { "pt-BR": "E a sua última noite, como foi?", "en": null, "fr": null, "es": null },
+      "dimensao": { "pt-BR": "Sono", "en": "Sleep", "fr": "Sommeil", "es": "Sueño" },
+      "texto": { "pt-BR": "E a sua última noite, como foi?", "en": "And your last night's sleep, how was it?", "fr": "Et ta dernière nuit, comment était-elle ?", "es": "¿Y tu última noche, cómo fue?" },
       "opcoes": [
         {
           "id": "sono_1",
-          "texto": { "pt-BR": "Rolei na cama com a cabeça a mil", "en": null, "fr": null, "es": null },
+          "texto": { "pt-BR": "Rolei na cama com a cabeça a mil", "en": "Tossed and turned with my mind racing", "fr": "Je me suis tourné(e) dans le lit, la tête pleine de pensées", "es": "Di vueltas en la cama con la cabeza a mil" },
           "pesos": {
             "tempestade": 1
           }
         },
         {
           "id": "sono_2",
-          "texto": { "pt-BR": "Dormi muito e acordei sem vontade de levantar", "en": null, "fr": null, "es": null },
+          "texto": { "pt-BR": "Dormi muito e acordei sem vontade de levantar", "en": "Slept a lot and woke up not wanting to get up", "fr": "J'ai beaucoup dormi et je me suis réveillé(e) sans envie de me lever", "es": "Dormí mucho y me desperté sin ganas de levantarme" },
           "pesos": {
             "nevoa": 1
           }
         },
         {
           "id": "sono_3",
-          "texto": { "pt-BR": "Acordei algumas vezes, mas descansei", "en": null, "fr": null, "es": null },
+          "texto": { "pt-BR": "Acordei algumas vezes, mas descansei", "en": "Woke up a few times, but rested", "fr": "Je me suis réveillé(e) quelques fois, mais je me suis reposé(e)", "es": "Me desperté algunas veces, pero descansé" },
           "pesos": {
             "tempestade": 0.3,
             "clareira": 0.7
@@ -107,7 +107,7 @@
         },
         {
           "id": "sono_4",
-          "texto": { "pt-BR": "Descansei bem", "en": null, "fr": null, "es": null },
+          "texto": { "pt-BR": "Descansei bem", "en": "Rested well", "fr": "Je me suis bien reposé(e)", "es": "Descansé bien" },
           "pesos": {
             "clareira": 1
           }
@@ -116,26 +116,26 @@
     },
     {
       "id": "pensamentos",
-      "dimensao": { "pt-BR": "Pensamentos", "en": null, "fr": null, "es": null },
-      "texto": { "pt-BR": "Seus pensamentos hoje parecem…", "en": null, "fr": null, "es": null },
+      "dimensao": { "pt-BR": "Pensamentos", "en": "Thoughts", "fr": "Pensées", "es": "Pensamientos" },
+      "texto": { "pt-BR": "Seus pensamentos hoje parecem…", "en": "Your thoughts today feel like…", "fr": "Tes pensées aujourd'hui ressemblent à…", "es": "Tus pensamientos hoy parecen…" },
       "opcoes": [
         {
           "id": "pensamentos_1",
-          "texto": { "pt-BR": "Mil abas abertas no navegador", "en": null, "fr": null, "es": null },
+          "texto": { "pt-BR": "Mil abas abertas no navegador", "en": "A thousand browser tabs open", "fr": "Mille onglets ouverts dans le navigateur", "es": "Mil pestañas abiertas en el navegador" },
           "pesos": {
             "tempestade": 1
           }
         },
         {
           "id": "pensamentos_2",
-          "texto": { "pt-BR": "Um rádio chiando baixinho, fora de sintonia", "en": null, "fr": null, "es": null },
+          "texto": { "pt-BR": "Um rádio chiando baixinho, fora de sintonia", "en": "A radio crackling softly, out of tune", "fr": "Une radio qui grésille doucement, mal réglée", "es": "Una radio crepitando bajito, desafinada" },
           "pesos": {
             "nevoa": 1
           }
         },
         {
           "id": "pensamentos_3",
-          "texto": { "pt-BR": "Uma lista longa, mas organizada", "en": null, "fr": null, "es": null },
+          "texto": { "pt-BR": "Uma lista longa, mas organizada", "en": "A long list, but organized", "fr": "Une longue liste, mais organisée", "es": "Una lista larga, pero organizada" },
           "pesos": {
             "tempestade": 0.4,
             "clareira": 0.6
@@ -143,7 +143,7 @@
         },
         {
           "id": "pensamentos_4",
-          "texto": { "pt-BR": "Um céu limpo, com poucas nuvens", "en": null, "fr": null, "es": null },
+          "texto": { "pt-BR": "Um céu limpo, com poucas nuvens", "en": "A clear sky, with a few clouds", "fr": "Un ciel dégagé, avec quelques nuages", "es": "Un cielo despejado, con pocas nubes" },
           "pesos": {
             "clareira": 1
           }
@@ -152,26 +152,26 @@
     },
     {
       "id": "preocupacoes",
-      "dimensao": { "pt-BR": "Preocupações", "en": null, "fr": null, "es": null },
-      "texto": { "pt-BR": "E as preocupações, como estão hoje?", "en": null, "fr": null, "es": null },
+      "dimensao": { "pt-BR": "Preocupações", "en": "Worries", "fr": "Soucis", "es": "Preocupaciones" },
+      "texto": { "pt-BR": "E as preocupações, como estão hoje?", "en": "And your worries, how are they today?", "fr": "Et les soucis, comment vont-ils aujourd'hui ?", "es": "¿Y las preocupaciones, cómo están hoy?" },
       "opcoes": [
         {
           "id": "preocupacoes_1",
-          "texto": { "pt-BR": "Não saem da minha cabeça", "en": null, "fr": null, "es": null },
+          "texto": { "pt-BR": "Não saem da minha cabeça", "en": "They won't leave my head", "fr": "Elles ne quittent pas ma tête", "es": "No se me van de la cabeza" },
           "pesos": {
             "tempestade": 1
           }
         },
         {
           "id": "preocupacoes_2",
-          "texto": { "pt-BR": "Nem tenho forças para pensar nelas", "en": null, "fr": null, "es": null },
+          "texto": { "pt-BR": "Nem tenho forças para pensar nelas", "en": "I don't even have the strength to think about them", "fr": "Je n'ai même pas la force d'y penser", "es": "Ni tengo fuerzas para pensar en ellas" },
           "pesos": {
             "nevoa": 1
           }
         },
         {
           "id": "preocupacoes_3",
-          "texto": { "pt-BR": "Estão aqui, mas sob controle", "en": null, "fr": null, "es": null },
+          "texto": { "pt-BR": "Estão aqui, mas sob controle", "en": "They're here, but under control", "fr": "Elles sont là, mais sous contrôle", "es": "Están aquí, pero bajo control" },
           "pesos": {
             "tempestade": 0.3,
             "clareira": 0.7
@@ -179,7 +179,7 @@
         },
         {
           "id": "preocupacoes_4",
-          "texto": { "pt-BR": "Hoje estão bem quietas", "en": null, "fr": null, "es": null },
+          "texto": { "pt-BR": "Hoje estão bem quietas", "en": "Today they're pretty quiet", "fr": "Aujourd'hui elles sont bien calmes", "es": "Hoy están bien calladas" },
           "pesos": {
             "clareira": 1
           }
@@ -188,26 +188,26 @@
     },
     {
       "id": "energia",
-      "dimensao": { "pt-BR": "Energia", "en": null, "fr": null, "es": null },
-      "texto": { "pt-BR": "Se sua energia fosse a bateria do celular…", "en": null, "fr": null, "es": null },
+      "dimensao": { "pt-BR": "Energia", "en": "Energy", "fr": "Énergie", "es": "Energía" },
+      "texto": { "pt-BR": "Se sua energia fosse a bateria do celular…", "en": "If your energy were your phone battery…", "fr": "Si ton énergie était la batterie de ton téléphone…", "es": "Si tu energía fuera la batería del celular…" },
       "opcoes": [
         {
           "id": "energia_1",
-          "texto": { "pt-BR": "80%, mas esquentando", "en": null, "fr": null, "es": null },
+          "texto": { "pt-BR": "80%, mas esquentando", "en": "80%, but heating up", "fr": "80 %, mais en surchauffe", "es": "80%, pero calentándose" },
           "pesos": {
             "tempestade": 1
           }
         },
         {
           "id": "energia_2",
-          "texto": { "pt-BR": "10%, em modo economia", "en": null, "fr": null, "es": null },
+          "texto": { "pt-BR": "10%, em modo economia", "en": "10%, in power-saving mode", "fr": "10 %, en mode économie d'énergie", "es": "10%, en modo ahorro" },
           "pesos": {
             "nevoa": 1
           }
         },
         {
           "id": "energia_3",
-          "texto": { "pt-BR": "50%, dá pra chegar até a noite", "en": null, "fr": null, "es": null },
+          "texto": { "pt-BR": "50%, dá pra chegar até a noite", "en": "50%, enough to make it to tonight", "fr": "50 %, de quoi tenir jusqu'au soir", "es": "50%, alcanza para llegar hasta la noche" },
           "pesos": {
             "nevoa": 0.3,
             "clareira": 0.7
@@ -215,7 +215,7 @@
         },
         {
           "id": "energia_4",
-          "texto": { "pt-BR": "Carregada na medida certa", "en": null, "fr": null, "es": null },
+          "texto": { "pt-BR": "Carregada na medida certa", "en": "Charged just right", "fr": "Chargée juste comme il faut", "es": "Cargada en su justa medida" },
           "pesos": {
             "clareira": 1
           }
@@ -224,26 +224,26 @@
     },
     {
       "id": "pessoas",
-      "dimensao": { "pt-BR": "Pessoas", "en": null, "fr": null, "es": null },
-      "texto": { "pt-BR": "Como você se sente em relação às pessoas hoje?", "en": null, "fr": null, "es": null },
+      "dimensao": { "pt-BR": "Pessoas", "en": "People", "fr": "Gens", "es": "Personas" },
+      "texto": { "pt-BR": "Como você se sente em relação às pessoas hoje?", "en": "How do you feel about people today?", "fr": "Comment te sens-tu par rapport aux autres aujourd'hui ?", "es": "¿Cómo te sientes con las personas hoy?" },
       "opcoes": [
         {
           "id": "pessoas_1",
-          "texto": { "pt-BR": "Qualquer coisa me irrita", "en": null, "fr": null, "es": null },
+          "texto": { "pt-BR": "Qualquer coisa me irrita", "en": "Everything irritates me", "fr": "Tout m'agace", "es": "Cualquier cosa me irrita" },
           "pesos": {
             "tempestade": 1
           }
         },
         {
           "id": "pessoas_2",
-          "texto": { "pt-BR": "Sozinho, mesmo perto de gente", "en": null, "fr": null, "es": null },
+          "texto": { "pt-BR": "Sozinho, mesmo perto de gente", "en": "Alone, even around people", "fr": "Seul(e), même entouré(e) de monde", "es": "Solo/a, incluso cerca de gente" },
           "pesos": {
             "nevoa": 1
           }
         },
         {
           "id": "pessoas_3",
-          "texto": { "pt-BR": "Prefiro ficar no meu canto, e tudo bem", "en": null, "fr": null, "es": null },
+          "texto": { "pt-BR": "Prefiro ficar no meu canto, e tudo bem", "en": "I'd rather stay in my corner, and that's okay", "fr": "Je préfère rester dans mon coin, et c'est très bien", "es": "Prefiero quedarme en mi rincón, y está bien" },
           "pesos": {
             "nevoa": 0.4,
             "clareira": 0.6
@@ -251,7 +251,7 @@
         },
         {
           "id": "pessoas_4",
-          "texto": { "pt-BR": "Perto de quem importa", "en": null, "fr": null, "es": null },
+          "texto": { "pt-BR": "Perto de quem importa", "en": "Close to who matters", "fr": "Près de ceux qui comptent", "es": "Cerca de quienes importan" },
           "pesos": {
             "clareira": 1
           }
@@ -260,26 +260,26 @@
     },
     {
       "id": "prazer",
-      "dimensao": { "pt-BR": "Prazer", "en": null, "fr": null, "es": null },
-      "texto": { "pt-BR": "Hoje, as coisas de que você gosta…", "en": null, "fr": null, "es": null },
+      "dimensao": { "pt-BR": "Prazer", "en": "Pleasure", "fr": "Plaisir", "es": "Placer" },
+      "texto": { "pt-BR": "Hoje, as coisas de que você gosta…", "en": "Today, the things you enjoy…", "fr": "Aujourd'hui, les choses que tu aimes…", "es": "Hoy, las cosas que te gustan…" },
       "opcoes": [
         {
           "id": "prazer_1",
-          "texto": { "pt-BR": "Até tento, mas não consigo parar para curtir", "en": null, "fr": null, "es": null },
+          "texto": { "pt-BR": "Até tento, mas não consigo parar para curtir", "en": "I even try, but I can't stop to enjoy it", "fr": "J'essaie bien, mais je n'arrive pas à m'arrêter pour en profiter", "es": "Hasta lo intento, pero no logro detenerme a disfrutar" },
           "pesos": {
             "tempestade": 1
           }
         },
         {
           "id": "prazer_2",
-          "texto": { "pt-BR": "Perderam a graça", "en": null, "fr": null, "es": null },
+          "texto": { "pt-BR": "Perderam a graça", "en": "They've lost their charm", "fr": "Elles ont perdu leur charme", "es": "Perdieron la gracia" },
           "pesos": {
             "nevoa": 1
           }
         },
         {
           "id": "prazer_3",
-          "texto": { "pt-BR": "Estão mornas, mas ainda estão lá", "en": null, "fr": null, "es": null },
+          "texto": { "pt-BR": "Estão mornas, mas ainda estão lá", "en": "They feel lukewarm, but they're still there", "fr": "Elles sont tièdes, mais elles sont toujours là", "es": "Están tibias, pero todavía están ahí" },
           "pesos": {
             "nevoa": 0.5,
             "clareira": 0.5
@@ -287,7 +287,7 @@
         },
         {
           "id": "prazer_4",
-          "texto": { "pt-BR": "Ainda me trazem alegria", "en": null, "fr": null, "es": null },
+          "texto": { "pt-BR": "Ainda me trazem alegria", "en": "They still bring me joy", "fr": "Elles m'apportent encore de la joie", "es": "Todavía me traen alegría" },
           "pesos": {
             "clareira": 1
           }

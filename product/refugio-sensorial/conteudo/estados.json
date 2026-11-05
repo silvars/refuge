@@ -1,11 +1,11 @@
 {
-  "versao": "2.0",
+  "versao": "2.1",
   "idiomas": ["pt-BR", "en", "fr", "es"],
   "idioma_origem": "pt-BR",
   "estados": {
     "tempestade": {
-      "nome": { "pt-BR": "Tempestade", "en": null, "fr": null, "es": null },
-      "descricao": { "pt-BR": "Agitação, tensão, sobrecarga", "en": null, "fr": null, "es": null },
+      "nome": { "pt-BR": "Tempestade", "en": "Storm", "fr": "Tempête", "es": "Tormenta" },
+      "descricao": { "pt-BR": "Agitação, tensão, sobrecarga", "en": "Agitation, tension, overload", "fr": "Agitation, tension, surcharge", "es": "Agitación, tensión, sobrecarga" },
       "degrade": [
         "#16253D",
         "#24395A",
@@ -15,7 +15,7 @@
       "cor_estrela": "#6096D6",
       "cor_legenda": "#3D6E9E",
       "tinta_texto": "#FCFCFC",
-      "som": { "pt-BR": "Ondas do mar, ruído rosa, binaural 4 Hz (200/204 Hz)", "en": null, "fr": null, "es": null },
+      "som": { "pt-BR": "Ondas do mar, ruído rosa, binaural 4 Hz (200/204 Hz)", "en": "Ocean waves, pink noise, 4 Hz binaural (200/204 Hz)", "fr": "Vagues de l'océan, bruit rose, binaural 4 Hz (200/204 Hz)", "es": "Olas del mar, ruido rosa, binaural 4 Hz (200/204 Hz)" },
       "forma_tela_principal": {
         "amplitude": 1.6,
         "velocidade": 1.9,
@@ -23,8 +23,8 @@
       }
     },
     "nevoa": {
-      "nome": { "pt-BR": "Névoa", "en": null, "fr": null, "es": null },
-      "descricao": { "pt-BR": "Pouca energia, desânimo, tristeza", "en": null, "fr": null, "es": null },
+      "nome": { "pt-BR": "Névoa", "en": "Mist", "fr": "Brume", "es": "Niebla" },
+      "descricao": { "pt-BR": "Pouca energia, desânimo, tristeza", "en": "Low energy, discouragement, sadness", "fr": "Peu d'énergie, découragement, tristesse", "es": "Poca energía, desánimo, tristeza" },
       "degrade": [
         "#4B3E72",
         "#7D6699",
@@ -34,7 +34,7 @@
       "cor_estrela": "#B28CE4",
       "cor_legenda": "#9B7BC0",
       "tinta_texto": "#FCFCFC",
-      "som": { "pt-BR": "Vento leve e violão dedilhado em tons maiores", "en": null, "fr": null, "es": null },
+      "som": { "pt-BR": "Vento leve e violão dedilhado em tons maiores", "en": "Gentle wind and fingerpicked guitar in major keys", "fr": "Vent léger et guitare égrenée en tons majeurs", "es": "Viento suave y guitarra punteada en tonos mayores" },
       "forma_tela_principal": {
         "amplitude": 0.8,
         "velocidade": 0.55,
@@ -42,8 +42,8 @@
       }
     },
     "clareira": {
-      "nome": { "pt-BR": "Clareira", "en": null, "fr": null, "es": null },
-      "descricao": { "pt-BR": "Equilíbrio, calma, presença", "en": null, "fr": null, "es": null },
+      "nome": { "pt-BR": "Clareira", "en": "Clearing", "fr": "Clairière", "es": "Claro" },
+      "descricao": { "pt-BR": "Equilíbrio, calma, presença", "en": "Balance, calm, presence", "fr": "Équilibre, calme, présence", "es": "Equilibrio, calma, presencia" },
       "degrade": [
         "#F4EDCB",
         "#E1EDCB",
@@ -53,7 +53,7 @@
       "cor_estrela": "#F6CE60",
       "cor_legenda": "#E2B93B",
       "tinta_texto": "#231F20",
-      "som": { "pt-BR": "Pad calmo, folhas e pássaros", "en": null, "fr": null, "es": null },
+      "som": { "pt-BR": "Pad calmo, folhas e pássaros", "en": "Calm pad, leaves and birds", "fr": "Nappe calme, feuilles et oiseaux", "es": "Pad calmado, hojas y pájaros" },
       "forma_tela_principal": {
         "amplitude": 0.45,
         "velocidade": 0.35,
@@ -63,7 +63,7 @@
   },
   "neutro": {
     "fundo": "#0E0E14",
-    "uso": { "pt-BR": "Onboarding antes do primeiro check-in", "en": null, "fr": null, "es": null }
+    "uso": { "pt-BR": "Onboarding antes do primeiro check-in", "en": "Onboarding before the first check-in", "fr": "Intégration avant le premier bilan", "es": "Incorporación antes del primer check-in" }
   },
   "esmaecido": {
     "sobreposicao": "#3A3A44",
@@ -76,6 +76,6 @@
       "#262640",
       "#2E2A45"
     ],
-    "observacao": { "pt-BR": "Fixo, não muda com o clima", "en": null, "fr": null, "es": null }
+    "observacao": { "pt-BR": "Fixo, não muda com o clima", "en": "Fixed, doesn't change with the weather", "fr": "Fixe, ne change pas selon le climat", "es": "Fijo, no cambia con el clima" }
   }
 }

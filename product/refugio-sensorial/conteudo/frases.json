@@ -1,5 +1,5 @@
 {
-  "versao": "2.0",
+  "versao": "2.1",
   "idiomas": ["pt-BR", "en", "fr", "es"],
   "idioma_origem": "pt-BR",
   "campos": {
@@ -32,7 +32,7 @@
       "estados": [
         "tempestade"
       ],
-      "texto": { "pt-BR": "Você não precisa resolver tudo agora. Só esta respiração.", "en": null, "fr": null, "es": null },
+      "texto": { "pt-BR": "Você não precisa resolver tudo agora. Só esta respiração.", "en": "You don't need to solve everything right now. Just this breath.", "fr": "Tu n'as pas besoin de tout résoudre maintenant. Juste cette respiration.", "es": "No necesitas resolver todo ahora. Solo esta respiración." },
       "origem": "Frase autoral",
       "licenca": "propria",
       "revisado_por_profissional": false,
@@ -45,7 +45,7 @@
       "estados": [
         "nevoa"
       ],
-      "texto": { "pt-BR": "Dias cinzentos também passam. Seja gentil com você hoje.", "en": null, "fr": null, "es": null },
+      "texto": { "pt-BR": "Dias cinzentos também passam. Seja gentil com você hoje.", "en": "Gray days pass too. Be gentle with yourself today.", "fr": "Les jours gris aussi passent. Sois doux avec toi-même aujourd'hui.", "es": "Los días grises también pasan. Sé amable contigo hoy." },
       "origem": "Frase autoral",
       "licenca": "propria",
       "revisado_por_profissional": false,
@@ -58,7 +58,7 @@
       "estados": [
         "clareira"
       ],
-      "texto": { "pt-BR": "Guarde este momento. Ele também é seu.", "en": null, "fr": null, "es": null },
+      "texto": { "pt-BR": "Guarde este momento. Ele também é seu.", "en": "Keep this moment. It's yours too.", "fr": "Garde ce moment. Il t'appartient aussi.", "es": "Guarda este momento. También es tuyo." },
       "origem": "Frase autoral",
       "licenca": "propria",
       "revisado_por_profissional": false,
@@ -128,7 +128,7 @@
       "estados": [
         "tempestade"
       ],
-      "texto": { "pt-BR": "Não são as coisas que nos perturbam, mas o que pensamos sobre elas.", "en": null, "fr": null, "es": null },
+      "texto": { "pt-BR": "Não são as coisas que nos perturbam, mas o que pensamos sobre elas.", "en": "Men are disturbed not by the things which happen, but by the opinions about the things.", "fr": "Ce ne sont pas les choses qui troublent les hommes, mais les opinions qu'ils en ont.", "es": "No son las cosas las que perturban a los hombres, sino las opiniones que tienen de ellas." },
       "origem": "Epicteto, Manual",
       "traducao_edicao": "Tradução livre (pt-BR); traduções clássicas de domínio público nos demais idiomas (ver especificação, seção 16.4)",
       "licenca": "propria",
@@ -142,7 +142,7 @@
       "estados": [
         "nevoa"
       ],
-      "texto": { "pt-BR": "Sofremos mais na imaginação do que na realidade.", "en": null, "fr": null, "es": null },
+      "texto": { "pt-BR": "Sofremos mais na imaginação do que na realidade.", "en": "We suffer more often in imagination than in reality.", "fr": "Nous souffrons plus souvent en imagination que dans la réalité.", "es": "Sufrimos más en la imaginación que en la realidad." },
       "origem": "Sêneca, Cartas a Lucílio",
       "traducao_edicao": "Tradução livre (pt-BR); traduções clássicas de domínio público nos demais idiomas (ver especificação, seção 16.4)",
       "licenca": "propria",
@@ -156,7 +156,7 @@
       "estados": [
         "clareira"
       ],
-      "texto": { "pt-BR": "Sábio é quem não sofre pelo que não tem e se alegra com o que tem.", "en": null, "fr": null, "es": null },
+      "texto": { "pt-BR": "Sábio é quem não sofre pelo que não tem e se alegra com o que tem.", "en": "The wise person doesn't suffer for what they lack and rejoices in what they have.", "fr": "Le sage ne souffre pas de ce qui lui manque et se réjouit de ce qu'il a.", "es": "El sabio no sufre por lo que no tiene y se alegra por lo que tiene." },
       "origem": "Epicteto, Fragmentos",
       "traducao_edicao": "Tradução livre (pt-BR); traduções clássicas de domínio público nos demais idiomas (ver especificação, seção 16.4)",
       "licenca": "propria",
@@ -170,7 +170,7 @@
       "estados": [
         "tempestade"
       ],
-      "texto": { "pt-BR": "Uma coisa de cada vez. Você não precisa dar conta de tudo hoje.", "en": null, "fr": null, "es": null },
+      "texto": { "pt-BR": "Uma coisa de cada vez. Você não precisa dar conta de tudo hoje.", "en": "One thing at a time. You don't have to handle everything today.", "fr": "Une chose à la fois. Tu n'as pas à tout gérer aujourd'hui.", "es": "Una cosa a la vez. No tienes que resolver todo hoy." },
       "origem": "Frase autoral",
       "momento": "qualquer",
       "max_caracteres": 110,
@@ -186,7 +186,7 @@
       "estados": [
         "nevoa"
       ],
-      "texto": { "pt-BR": "Dias pesados também contam. Você está fazendo o que dá, e isso basta.", "en": null, "fr": null, "es": null },
+      "texto": { "pt-BR": "Dias pesados também contam. Você está fazendo o que dá, e isso basta.", "en": "Heavy days count too. You're doing what you can, and that's enough.", "fr": "Les jours lourds comptent aussi. Tu fais ce que tu peux, et c'est suffisant.", "es": "Los días pesados también cuentan. Estás haciendo lo que puedes, y eso basta." },
       "origem": "Frase autoral",
       "momento": "manha",
       "max_caracteres": 110,
@@ -202,7 +202,7 @@
       "estados": [
         "clareira"
       ],
-      "texto": { "pt-BR": "Que bom te ver num dia leve. Guarda esse momento.", "en": null, "fr": null, "es": null },
+      "texto": { "pt-BR": "Que bom te ver num dia leve. Guarda esse momento.", "en": "So good to see you on a light day. Hold on to this moment.", "fr": "Ça fait du bien de te voir dans un jour léger. Garde ce moment.", "es": "Qué bueno verte en un día liviano. Guarda este momento." },
       "origem": "Frase autoral",
       "momento": "qualquer",
       "max_caracteres": 110,

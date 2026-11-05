@@ -1,17 +1,17 @@
 {
-  "versao": "2.0",
+  "versao": "2.1",
   "idiomas": ["pt-BR", "en", "fr", "es"],
   "idioma_origem": "pt-BR",
   "regra": "O tipo de pausa é definido pelo estado (clima predominante até a pergunta 3, ou clima do dia no respiro pós-Porto Seguro). Não é escolha do usuário.",
   "pausas": {
     "tempestade": {
-      "nome": { "pt-BR": "Desacelerar", "en": null, "fr": null, "es": null },
-      "titulo": { "pt-BR": "Vamos desacelerar juntos.", "en": null, "fr": null, "es": null },
+      "nome": { "pt-BR": "Desacelerar", "en": "Slow down", "fr": "Ralentir", "es": "Desacelerar" },
+      "titulo": { "pt-BR": "Vamos desacelerar juntos.", "en": "Let's slow down together.", "fr": "Ralentissons ensemble.", "es": "Vamos a desacelerar juntos." },
       "inspira_s": 4,
       "expira_s": 7,
-      "rotulo_inspira": { "pt-BR": "Inspire… 4", "en": null, "fr": null, "es": null },
-      "rotulo_expira": { "pt-BR": "Solte bem devagar… 7", "en": null, "fr": null, "es": null },
-      "apoio": { "pt-BR": "Soltar o ar mais devagar do que puxa pode ajudar a desacelerar. Siga a esfera.", "en": null, "fr": null, "es": null },
+      "rotulo_inspira": { "pt-BR": "Inspire… 4", "en": "Breathe in… 4", "fr": "Inspirez… 4", "es": "Inspira… 4" },
+      "rotulo_expira": { "pt-BR": "Solte bem devagar… 7", "en": "Let go very slowly… 7", "fr": "Expirez tout doucement… 7", "es": "Suelta muy despacio… 7" },
+      "apoio": { "pt-BR": "Soltar o ar mais devagar do que puxa pode ajudar a desacelerar. Siga a esfera.", "en": "Letting the air out slower than you take it in can help you slow down. Follow the sphere.", "fr": "Expirer plus lentement que vous n'inspirez peut aider à ralentir. Suivez la sphère.", "es": "Soltar el aire más despacio de lo que lo tomas puede ayudar a desacelerar. Sigue la esfera." },
       "forma": {
         "amplitude": 0.7,
         "velocidade": 1.1,
@@ -21,13 +21,13 @@
       }
     },
     "nevoa": {
-      "nome": { "pt-BR": "Acolher", "en": null, "fr": null, "es": null },
-      "titulo": { "pt-BR": "Um respiro para se acolher.", "en": null, "fr": null, "es": null },
+      "nome": { "pt-BR": "Acolher", "en": "Comfort", "fr": "Accueillir", "es": "Acoger" },
+      "titulo": { "pt-BR": "Um respiro para se acolher.", "en": "A breath to comfort yourself.", "fr": "Un souffle pour s'accueillir.", "es": "Un respiro para acogerte." },
       "inspira_s": 5,
       "expira_s": 5,
-      "rotulo_inspira": { "pt-BR": "Inspire…", "en": null, "fr": null, "es": null },
-      "rotulo_expira": { "pt-BR": "Solte…", "en": null, "fr": null, "es": null },
-      "apoio": { "pt-BR": "Se quiser, coloque a mão no peito e respire ali, no ritmo da esfera.", "en": null, "fr": null, "es": null },
+      "rotulo_inspira": { "pt-BR": "Inspire…", "en": "Breathe in…", "fr": "Inspirez…", "es": "Inspira…" },
+      "rotulo_expira": { "pt-BR": "Solte…", "en": "Let go…", "fr": "Expirez…", "es": "Suelta…" },
+      "apoio": { "pt-BR": "Se quiser, coloque a mão no peito e respire ali, no ritmo da esfera.", "en": "If you like, place your hand on your chest and breathe there, at the sphere's pace.", "fr": "Si vous voulez, posez la main sur votre poitrine et respirez ainsi, au rythme de la sphère.", "es": "Si quieres, pon la mano en el pecho y respira ahí, al ritmo de la esfera." },
       "forma": {
         "amplitude": 0.45,
         "velocidade": 0.5,
@@ -37,13 +37,13 @@
       }
     },
     "clareira": {
-      "nome": { "pt-BR": "Saborear", "en": null, "fr": null, "es": null },
-      "titulo": { "pt-BR": "Guarde este momento.", "en": null, "fr": null, "es": null },
+      "nome": { "pt-BR": "Saborear", "en": "Savor", "fr": "Savourer", "es": "Saborear" },
+      "titulo": { "pt-BR": "Guarde este momento.", "en": "Hold onto this moment.", "fr": "Gardez ce moment.", "es": "Guarda este momento." },
       "inspira_s": 4,
       "expira_s": 4,
-      "rotulo_inspira": { "pt-BR": "Inspire…", "en": null, "fr": null, "es": null },
-      "rotulo_expira": { "pt-BR": "Solte…", "en": null, "fr": null, "es": null },
-      "apoio": { "pt-BR": "Pense em uma coisa boa de hoje e fique com ela por três respirações.", "en": null, "fr": null, "es": null },
+      "rotulo_inspira": { "pt-BR": "Inspire…", "en": "Breathe in…", "fr": "Inspirez…", "es": "Inspira…" },
+      "rotulo_expira": { "pt-BR": "Solte…", "en": "Let go…", "fr": "Expirez…", "es": "Suelta…" },
+      "apoio": { "pt-BR": "Pense em uma coisa boa de hoje e fique com ela por três respirações.", "en": "Think of one good thing from today and stay with it for three breaths.", "fr": "Pensez à une bonne chose d'aujourd'hui et restez-y pendant trois respirations.", "es": "Piensa en algo bueno de hoy y quédate con eso durante tres respiraciones." },
       "forma": {
         "amplitude": 0.3,
         "velocidade": 0.35,
