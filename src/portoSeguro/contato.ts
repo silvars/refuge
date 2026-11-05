@@ -12,24 +12,30 @@ export interface ContatoEscolhido {
   readonly e164: string;
 }
 
+/** Distingue "usuário cancelou" (sem erro) de "contato sem telefone utilizável" (mostrar aviso). */
+export type ResultadoEscolhaContato =
+  | { tipo: 'cancelado' }
+  | { tipo: 'semTelefoneValido' }
+  | { tipo: 'ok'; contato: ContatoEscolhido };
+
 /** Rótulos (em qualquer um dos 4 idiomas do app) que indicam um número de celular. */
 const ROTULOS_CELULAR = ['mobile', 'celular', 'cell', 'cellulaire', 'portable', 'móvil', 'celular'];
 
 /** Abre o seletor nativo e devolve o primeiro nome + telefone normalizado, preferindo celular. */
-export async function escolherContato(): Promise<ContatoEscolhido | null> {
+export async function escolherContato(): Promise<ResultadoEscolhaContato> {
   const contato = await Contact.presentPicker();
-  if (!contato) return null;
+  if (!contato) return { tipo: 'cancelado' };
 
   const detalhes = await contato.getDetails([ContactField.GIVEN_NAME, ContactField.PHONES]);
   const telefones = detalhes.phones ?? [];
-  if (telefones.length === 0) return null;
+  if (telefones.length === 0) return { tipo: 'semTelefoneValido' };
 
   const celular = telefones.find((t) => ROTULOS_CELULAR.includes((t.label ?? '').toLowerCase()));
   const escolhido = celular ?? telefones[0];
-  if (!escolhido.number) return null;
+  if (!escolhido.number) return { tipo: 'semTelefoneValido' };
 
   const e164 = normalizarTelefone(escolhido.number);
-  if (!e164) return null;
+  if (!e164) return { tipo: 'semTelefoneValido' };
 
-  return { primeiroNome: detalhes.givenName ?? '', e164 };
+  return { tipo: 'ok', contato: { primeiroNome: detalhes.givenName ?? '', e164 } };
 }

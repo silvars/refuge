@@ -54,7 +54,8 @@
     "seuClimaAgora": "Tu clima ahora · {{clima}}",
     "sugerirOutra": "Sugerir otro mensaje",
     "escolherContato": "Elegir un Puerto Seguro",
-    "semNumeroValido": "Ese contacto no tiene un número que podamos usar. ¿Probamos con otro?"
+    "semNumeroValido": "Ese contacto no tiene un número que podamos usar. ¿Probamos con otro?",
+    "falhaAoEnviar": "No pudimos abrir WhatsApp ni los SMS ahora. ¿Intentamos de nuevo?"
   },
   "acolhimento": {
     "titulo": "Diste un paso importante.",

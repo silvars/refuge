@@ -54,7 +54,8 @@
     "seuClimaAgora": "Your weather now · {{clima}}",
     "sugerirOutra": "Suggest another message",
     "escolherContato": "Choose a Safe Harbor",
-    "semNumeroValido": "That contact doesn't have a number we can use. Try another one?"
+    "semNumeroValido": "That contact doesn't have a number we can use. Try another one?",
+    "falhaAoEnviar": "We couldn't open WhatsApp or SMS right now. Try again?"
   },
   "acolhimento": {
     "titulo": "You just took an important step.",

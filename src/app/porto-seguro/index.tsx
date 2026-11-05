@@ -23,7 +23,7 @@ import type { Clima, Pesos } from '@/domain/tipos';
 import { hapticEscolha } from '@/haptics';
 import type { Idioma } from '@/i18n/idioma';
 import { textoLocalizado } from '@/i18n/textoLocalizado';
-import { escolherContato } from '@/portoSeguro/contato';
+import { escolherContato, type ResultadoEscolhaContato } from '@/portoSeguro/contato';
 import { abrirMensagem } from '@/portoSeguro/mensagem';
 import { aplicarNomeNaMensagem, mensagensDoClima, proximaMensagem } from '@/portoSeguro/selecaoMensagem';
 import { useRefugioStore } from '@/store';
@@ -112,13 +112,14 @@ export default function PortoSeguro() {
   }
 
   async function aoEscolherContato() {
-    const contato = await escolherContato().catch(() => null);
-    if (!contato) return;
-    if (!contato.e164) {
+    const resultado = await escolherContato().catch((): ResultadoEscolhaContato => ({ tipo: 'semTelefoneValido' }));
+    if (resultado.tipo === 'cancelado') return;
+    if (resultado.tipo === 'semTelefoneValido') {
       Alert.alert(t('portoSeguro.semNumeroValido'));
       return;
     }
 
+    const { contato } = resultado;
     const editado = mensagem !== textoBaseRef.current;
     const textoFinal = editado ? mensagem : aplicarNomeNaMensagem(mensagem, contato.primeiroNome);
 
@@ -127,6 +128,9 @@ export default function PortoSeguro() {
       nomeContatoRef.current = contato.primeiroNome;
       aguardandoRetornoRef.current = true;
       await abrirMensagem(contato.e164, textoFinal);
+    } catch {
+      aguardandoRetornoRef.current = false;
+      Alert.alert(t('portoSeguro.falhaAoEnviar'));
     } finally {
       setEnviando(false);
     }

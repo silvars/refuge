@@ -54,7 +54,8 @@
     "seuClimaAgora": "Votre climat maintenant · {{clima}}",
     "sugerirOutra": "Suggérer un autre message",
     "escolherContato": "Choisir un Port d'Attache",
-    "semNumeroValido": "Ce contact n'a pas de numéro que nous puissions utiliser. Essayer un autre ?"
+    "semNumeroValido": "Ce contact n'a pas de numéro que nous puissions utiliser. Essayer un autre ?",
+    "falhaAoEnviar": "Impossible d'ouvrir WhatsApp ou les SMS pour le moment. Réessayer ?"
   },
   "acolhimento": {
     "titulo": "Vous venez de faire un pas important.",

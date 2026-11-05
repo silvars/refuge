@@ -54,7 +54,8 @@
     "seuClimaAgora": "Seu clima agora · {{clima}}",
     "sugerirOutra": "Sugerir outra mensagem",
     "escolherContato": "Escolher um Porto Seguro",
-    "semNumeroValido": "Esse contato não tem um número que a gente consiga usar. Tenta outro?"
+    "semNumeroValido": "Esse contato não tem um número que a gente consiga usar. Tenta outro?",
+    "falhaAoEnviar": "Não conseguimos abrir o WhatsApp nem o SMS agora. Tenta de novo?"
   },
   "acolhimento": {
     "titulo": "Você deu um passo importante.",
